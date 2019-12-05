@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Mr_MoneyBag
 {
-    abstract class GameObject
+    class GameObject
     {
         public Gameboard gameboard;
         public int x, y,hp;
@@ -15,6 +15,10 @@ namespace Mr_MoneyBag
         public bool visible;
         public bool seen;
         public bool isblocked;
+        public GameObject(Gameboard gameboard)
+        {
+            this.gameboard = gameboard;
+        }
         virtual public void damaged(int n)
         {
             hp -= n;
@@ -22,7 +26,7 @@ namespace Mr_MoneyBag
         }
         virtual public void dead()
         { 
-            freshboard(x, y, new Space()); 
+            freshboard(x, y, new Space(gameboard)); 
         }
         //更新对象地图
         virtual public void freshboard(int x, int y,GameObject gameobject)
@@ -33,9 +37,11 @@ namespace Mr_MoneyBag
         { return null; }
         virtual public int distance(int x, int y)
         { return Math.Abs(this.x - x) + Math.Abs(this.y - y); }
-    }    
+    }
     class Space : GameObject
     {
+        public Space(Gameboard gameboard) : base(gameboard)
+        {}
         public override Image getimage()
         {
             return Properties.Resources.space;
@@ -43,6 +49,8 @@ namespace Mr_MoneyBag
     }
     class MoveableObject : GameObject
     {
+        public MoveableObject(Gameboard gameboard) : base(gameboard)
+        { }
         public int attack;
         virtual public void moveto(int x, int y)
         {
@@ -74,7 +82,7 @@ namespace Mr_MoneyBag
     }
     class Player : MoveableObject
     {
-        public Player(int money,int x,int y)
+        public Player(Gameboard gameboard,int money,int x,int y): base(gameboard)
         {
             //this.image = Properties.Resources.player;
             this.hp = money;
@@ -129,7 +137,7 @@ namespace Mr_MoneyBag
     class Enemy : MoveableObject
     {
         private string status = "walk";
-        public Enemy(int money, int x, int y,int attack=1)
+        public Enemy(Gameboard gameboard,int money, int x, int y,int attack=1): base(gameboard)
         {
             this.hp = money;
             this.x = x;
@@ -141,7 +149,7 @@ namespace Mr_MoneyBag
     }
     class Shop : GameObject
     {
-        public Shop(int money, int x, int y)
+        public Shop(Gameboard gameboard,int money, int x, int y): base(gameboard)
         {
             this.hp = money;
             this.x = x;
@@ -150,7 +158,7 @@ namespace Mr_MoneyBag
     }
     class Wall : GameObject
     {
-        public Wall(int x, int y,int hp=1 )
+        public Wall(Gameboard gameboard,int x, int y,int hp=1 ): base(gameboard)
         {
             this.hp = hp;
             this.x = x;
@@ -162,10 +170,13 @@ namespace Mr_MoneyBag
         }
     }
     class Gate : Space
-    { }
+    {
+        public Gate(Gameboard gameboard) : base(gameboard)
+        { }
+    }
     class Money : Space
     { 
-        public Money(int money=1)
+        public Money(Gameboard gameboard,int money=1): base(gameboard)
         {
             this.hp = money;
         }

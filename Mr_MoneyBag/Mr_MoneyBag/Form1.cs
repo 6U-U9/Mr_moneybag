@@ -13,7 +13,7 @@ namespace Mr_MoneyBag
     public partial class Form1 : Form
     {
         public const int blocksize = 30;
-        public int x, y;
+        public int x=30, y=18;
         public PictureBox[,] map = new PictureBox[30, 18];
         Gameboard gameboard = new Gameboard();
         private bool is_space_down = false;
@@ -23,10 +23,12 @@ namespace Mr_MoneyBag
                 for (int j = 0; j < y; j++)
                 {
                     map[i, j] = new PictureBox();
+                    ((System.ComponentModel.ISupportInitialize)(map[i,j])).BeginInit();
                     map[i, j].Image = gameboard.status[i, j].getimage();
                     map[i, j].Location = new System.Drawing.Point(blocksize * i, blocksize * j);
                     map[i, j].Size = new System.Drawing.Size(blocksize, blocksize);
                     this.Controls.Add(map[i, j]);
+                    ((System.ComponentModel.ISupportInitialize)(map[i,j])).EndInit();
                 }
             InitializeComponent();
         }
@@ -75,8 +77,16 @@ namespace Mr_MoneyBag
                         gameboard.player.moveright();
                         break;
                 }
+            refresh();
         }
-
+        public void refresh()
+        {
+            for (int i = 0; i < x; i++)
+                for (int j = 0; j < y; j++)
+                {
+                    map[i, j].Image = gameboard.status[i, j].getimage();
+                }
+        }
         protected override bool ProcessDialogKey(Keys keycode)
         {
             switch (keycode)
