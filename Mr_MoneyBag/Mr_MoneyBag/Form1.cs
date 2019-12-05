@@ -35,9 +35,10 @@ namespace Mr_MoneyBag
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
+
             if (e.KeyCode == Keys.Space)
                 is_space_down = true;
-            if(is_space_down==true)
+            if (is_space_down == true)
                 switch (e.KeyCode)
                 {
                     case Keys.W:
@@ -56,7 +57,7 @@ namespace Mr_MoneyBag
                     case Keys.Right:
                         gameboard.player.shootright();
                         break;
-                } 
+                }
             else if (is_space_down == false)
                 switch (e.KeyCode)
                 {

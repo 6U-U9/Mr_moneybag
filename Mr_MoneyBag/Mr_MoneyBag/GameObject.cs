@@ -61,6 +61,7 @@ namespace Mr_MoneyBag
             this.x = x;
             this.y = y;
             freshboard(pastx, pasty, gameboard.status[x, y]);
+            freshboard(x, y, this);
         }
         virtual public void shoot(int dx, int dy)
         {

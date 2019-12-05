@@ -17,8 +17,8 @@ namespace Mr_MoneyBag
         public Gameboard()
         {
             level = 1;
-            genlevel(level); 
             player= new Player(this,3, 10, 10);
+            genlevel(level); 
         }
         public void genlevel(int level)
         {
