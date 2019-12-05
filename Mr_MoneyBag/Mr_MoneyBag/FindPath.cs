@@ -20,12 +20,13 @@ namespace Mr_MoneyBag
         public static void FindShortestPath(MoveableObject obj1, MoveableObject obj2, Gameboard board)
         {
             int size = board.GetSize();
-            Graph graph = new Graph(111);
+            Graph graph = new Graph(size);
+
         }
 
-        static void GenerateAdjMatrix(Gameboard board)
+        static void GetPos(MoveableObject obj)
         {
-
+            return obj.x * 
         }
     }
     sealed class Graph

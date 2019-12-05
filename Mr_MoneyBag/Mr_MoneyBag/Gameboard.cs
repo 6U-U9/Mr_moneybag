@@ -23,9 +23,14 @@ namespace Mr_MoneyBag
         { 
         }
 
-        public int GetSize()
+        public int GetWidth()
         {
-            return width * height + 1;
+            return width;
+        }
+
+        public int GetHeight()
+        {
+            return height;
         }
     }
 }
