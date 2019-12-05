@@ -23,6 +23,7 @@ namespace Mr_MoneyBag
         { 
             freshboard(gameboard, x, y, new Space()); 
         }
+        //更新对象地图
         virtual public void freshboard(Gameboard gameboard, int x, int y,GameObject gameobject)
         {
             gameboard.status[x, y] = gameobject;
