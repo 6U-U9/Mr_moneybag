@@ -17,7 +17,6 @@ namespace Mr_MoneyBag
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
-            //helloff
         }
     }
 }

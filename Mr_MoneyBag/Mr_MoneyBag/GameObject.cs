@@ -14,6 +14,7 @@ namespace Mr_MoneyBag
         public Image[] image;
         public bool visible;
         public bool seen;
+        public bool isblocked;
         virtual public void damaged(int n)
         {
             hp -= n;
@@ -30,6 +31,8 @@ namespace Mr_MoneyBag
         }
         virtual public Image getimage()
         { return null; }
+        virtual public int distance(int x, int y)
+        { return Math.Abs(this.x - x) + Math.Abs(this.y - y); }
     }    
     class Space : GameObject
     { }
