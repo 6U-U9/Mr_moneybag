@@ -53,7 +53,7 @@ namespace Mr_MoneyBag
          * 
          */ 
          
-        public static int GetDistance(MoveableObject obj1, MoveableObject obj2)
+        public static int GetDistance(GameObject obj1, GameObject obj2)
         {
             return Math.Abs(obj1.y - obj2.y) + Math.Abs(obj1.x - obj2.x);
         }
