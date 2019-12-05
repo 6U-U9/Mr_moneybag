@@ -15,6 +15,7 @@ namespace Mr_MoneyBag
         public bool visible;
         public bool seen;
         public bool isblocked;
+        public bool hasimagechange;
         public GameObject(Gameboard gameboard)
         {
             this.gameboard = gameboard;
@@ -29,10 +30,12 @@ namespace Mr_MoneyBag
             freshboard(x, y, new Space(gameboard)); 
         }
         //更新对象地图
-        virtual public void freshboard(int x, int y,GameObject gameobject)
+        virtual public void freshboard(int x, int y, GameObject gameobject)
         {
             gameboard.status[x, y] = gameobject;
+            gameboard.status[x, y].hasimagechange = true;
         }
+
         virtual public Image getimage()
         { return null; }
         virtual public int distance(int x, int y)

@@ -17,6 +17,7 @@ namespace Mr_MoneyBag
         public PictureBox[,] map = new PictureBox[30, 18];
         Gameboard gameboard = new Gameboard();
         private bool is_space_down = false;
+        
         public Form1()
         {
             for (int i = 0; i < x; i++)
@@ -31,8 +32,9 @@ namespace Mr_MoneyBag
                     ((System.ComponentModel.ISupportInitialize)(map[i,j])).EndInit();
                 }
             InitializeComponent();
+            DoubleBuffered = true;
         }
-
+        
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
 
@@ -85,7 +87,12 @@ namespace Mr_MoneyBag
             for (int i = 0; i < x; i++)
                 for (int j = 0; j < y; j++)
                 {
-                    map[i, j].Image = gameboard.status[i, j].getimage();
+                    if (gameboard.status[i, j].hasimagechange)
+                    {
+                        gameboard.status[i, j].hasimagechange = false;
+                        map[i, j].Image = gameboard.status[i, j].getimage();
+                        
+                    }
                 }
         }
         protected override bool ProcessDialogKey(Keys keycode)
