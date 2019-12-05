@@ -13,7 +13,8 @@ namespace Mr_MoneyBag
 
     static class DistanceUtility
     {
-        /* Find the next path from obj1 to other positions, using the provided board
+        /* Find the next step from enemy to player, using the provided board
+         * Provide a GameObject the next step should be
          * Uses the BFS Algorithm
          */ 
         public static GameObject GetNextStep(MoveableObject player, MoveableObject enemy, Gameboard board)
@@ -48,7 +49,7 @@ namespace Mr_MoneyBag
         }
 
 
-        /* Get the vision distance of two object
+        /* Get the vision distance of two objects
          * 
          */ 
          
