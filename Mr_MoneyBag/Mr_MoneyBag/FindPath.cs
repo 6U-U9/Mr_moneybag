@@ -13,26 +13,50 @@ namespace Mr_MoneyBag
 
     static class DistanceUtility
     {
-        /* Find the shortest path from obj1 to obj2, using the provided board
-         * Uses the dijkstra algorithm
-         * 
+        /* Find the next path from obj1 to other positions, using the provided board
+         * Uses the BFS Algorithm
          */ 
-        public static void GetDistance(MoveableObject obj, Gameboard board)
+        public static GameObject GetNextStep(MoveableObject player, MoveableObject enemy, Gameboard board)
         {
             int h = board.GetHeight();
             int w = board.GetWidth();
-            int x = obj1.x;
-            int y = obj2.y;
-            
+            //int x = obj.x;
+            List<GameObject> path = new List<GameObject>();
+            BFS(player.x, player.y, board, enemy.x, enemy.y, 0, path);
+            if(path.Count <= 1)
+            {
+                Console.WriteLine("Cannot Found Any Path from 1 to 2");
+            }
 
 
+            return path[path.Count - 1];
 
         }
 
-        static int GetPos(MoveableObject obj, int w)
+
+
+        static void BFS(int x, int y, Gameboard board, int tx, int ty, int d, List<GameObject> path)
         {
-            return obj.y * w + obj.x;
+            path.Add(board.status[x, y]);
+            if (x == tx && y == ty) return;
+            if (board.status[x, y].isblocked) { path.RemoveAt(path.Count - 1); return;}
+            if (x > 0) BFS(x - 1, y, board, tx, ty, d + 1, path);
+            if (x < board.GetWidth()) BFS(x + 1, y, board, tx, ty, d + 1, path);
+            if (y > 0) BFS(x, y - 1, board, tx, ty, d + 1, path);
+            if (y < board.GetHeight()) BFS(x, y + 1, board, tx, ty, d + 1, path);
+            path.RemoveAt(path.Count - 1);
         }
+
+
+        /* Get the vision distance of two object
+         * 
+         */ 
+         
+        public static int GetDistance(MoveableObject obj1, MoveableObject obj2)
+        {
+            return Math.Abs(obj1.y - obj2.y) + Math.Abs(obj1.x - obj2.x);
+        }
+
     }
 
 
