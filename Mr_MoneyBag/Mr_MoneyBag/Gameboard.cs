@@ -12,15 +12,19 @@ namespace Mr_MoneyBag
         public const int width=99, height=99;
         public int level;
         public int turn = 0;
-        public GameObject[,] status = new Space[height, width]; 
-        public GameObject Player = new Player(3, 50, 50);
+        public GameObject[,] status = new GameObject[height, width]; 
+        public Player player = new Player(3, 50, 50);
         public Gameboard()
         {
             level = 1;
             genlevel(level); 
         }
         public void genlevel(int level)
-        { 
+        {
+            for (int i = 0; i < height; i++)
+                for (int j = 0; j < width; j++)
+                    status[i, j] = new Space();
+            status[50, 50] = player;
         }
 
         public int GetWidth()

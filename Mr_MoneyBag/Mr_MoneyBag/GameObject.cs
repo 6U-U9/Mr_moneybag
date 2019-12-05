@@ -22,10 +22,10 @@ namespace Mr_MoneyBag
         }
         virtual public void dead()
         { 
-            freshboard(gameboard, x, y, new Space()); 
+            freshboard(x, y, new Space()); 
         }
         //更新对象地图
-        virtual public void freshboard(Gameboard gameboard, int x, int y,GameObject gameobject)
+        virtual public void freshboard(int x, int y,GameObject gameobject)
         {
             gameboard.status[x, y] = gameobject;
         }
@@ -35,21 +35,26 @@ namespace Mr_MoneyBag
         { return Math.Abs(this.x - x) + Math.Abs(this.y - y); }
     }    
     class Space : GameObject
-    { }
+    {
+        public override Image getimage()
+        {
+            return Properties.Resources.space;
+        }
+    }
     class MoveableObject : GameObject
     {
         public int attack;
-        virtual public void moveto(Gameboard gameboard, int x, int y)
+        virtual public void moveto(int x, int y)
         {
-            if (!moveable(gameboard,x,y))
+            if (!moveable(x,y))
                 return;
             var pastx = this.x;
             var pasty = this.y;
             this.x = x;
             this.y = y;
-            freshboard(gameboard, pastx, pasty, gameboard.status[x, y]);
+            freshboard(pastx, pasty, gameboard.status[x, y]);
         }
-        virtual public void shoot(Gameboard gameboard, int dx, int dy)
+        virtual public void shoot(int dx, int dy)
         {
             var x = this.x + dx;
             var y = this.y + dy;
@@ -60,7 +65,7 @@ namespace Mr_MoneyBag
             }
             gameboard.status[x, y].damaged(attack);
         }
-        virtual public bool moveable(Gameboard gameboard, int x, int y)
+        virtual public bool moveable(int x, int y)
         {
             if (gameboard.status[x, y] is Space)
                 return true;
@@ -71,18 +76,19 @@ namespace Mr_MoneyBag
     {
         public Player(int money,int x,int y)
         {
+            //this.image = Properties.Resources.player;
             this.hp = money;
             this.x = x;
             this.y = y;
         }
-        public override bool moveable(Gameboard gameboard, int x, int y)
+        public override bool moveable(int x, int y)
         {
             if (gameboard.status[x, y] is Enemy) this.damaged(((Enemy)gameboard.status[x, y]).attack);
-            return base.moveable(gameboard, x, y);
+            return base.moveable(x, y);
         }
-        override public void moveto(Gameboard gameboard, int x, int y)
+        override public void moveto(int x, int y)
         {
-            base.moveto(gameboard, x, y);
+            base.moveto(x, y);
             //判断是否到达Gate
             if (gameboard.status[this.x, this.y] is Gate)
             {
@@ -97,24 +103,28 @@ namespace Mr_MoneyBag
         }
         public void getmoney(int money)
         { this.hp += money; }
-        public void moveup(Gameboard gameboard)
+        public void moveup()
         {
-            moveto(gameboard, this.x, this.y - 1);
+            moveto(this.x, this.y - 1);
         }
-        public void movedown(Gameboard gameboard)
-        { moveto(gameboard, this.x, this.y + 1); }
-        public void moveleft(Gameboard gameboard)
-        { moveto(gameboard, this.x-1, this.y); }
-        public void moveright(Gameboard gameboard)
-        { moveto(gameboard, this.x+1, this.y); }
-        public void shootup(Gameboard gameboard)
-        { shoot(gameboard, 0, -1); }
-        public void shootdown(Gameboard gameboard)
-        { shoot(gameboard, 0, 1); }
-        public void shootleft(Gameboard gameboard)
-        { shoot(gameboard, -1, 0); }
-        public void shootright(Gameboard gameboard)
-        { shoot(gameboard, 1, 0); }
+        public void movedown()
+        { moveto(this.x, this.y + 1); }
+        public void moveleft()
+        { moveto(this.x-1, this.y); }
+        public void moveright()
+        { moveto(this.x+1, this.y); }
+        public void shootup()
+        { shoot(0, -1); }
+        public void shootdown()
+        { shoot(0, 1); }
+        public void shootleft()
+        { shoot(-1, 0); }
+        public void shootright()
+        { shoot(1, 0); }
+        public override Image getimage()
+        {
+            return Properties.Resources.player; 
+        }
     }
     class Enemy : MoveableObject
     {

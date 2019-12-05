@@ -48,6 +48,7 @@
             this.Controls.Add(this.lbllevel);
             this.Name = "Form1";
             this.Text = "Mr. Moneybag";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

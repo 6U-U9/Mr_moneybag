@@ -21,8 +21,8 @@ namespace Mr_MoneyBag
         {
             int h = board.GetHeight();
             int w = board.GetWidth();
-            int x = obj1.x;
-            int y = obj2.y;
+            int x = obj.x;
+            int y = obj.y;
             
 
 
