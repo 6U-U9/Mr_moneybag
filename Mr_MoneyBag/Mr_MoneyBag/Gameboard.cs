@@ -12,7 +12,7 @@ namespace Mr_MoneyBag
         public const int width=99, height=99;
         public int level;
         public int turn = 0;
-        public GameObject[,] status = new Space[height, width];
+        public GameObject[,] status = new Space[height, width]; 
         public GameObject Player = new Player(3, 50, 50);
         public Gameboard()
         {
@@ -21,6 +21,16 @@ namespace Mr_MoneyBag
         }
         public void genlevel(int level)
         { 
+        }
+
+        public int GetWidth()
+        {
+            return width;
+        }
+
+        public int GetHeight()
+        {
+            return height;
         }
     }
 }
