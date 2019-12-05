@@ -22,5 +22,10 @@ namespace Mr_MoneyBag
         public void genlevel(int level)
         { 
         }
+
+        public int GetSize()
+        {
+            return width * height + 1;
+        }
     }
 }
