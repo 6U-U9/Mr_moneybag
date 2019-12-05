@@ -10,7 +10,7 @@ using EdgeList = System.Collections.Generic.List<(int node, double weight)>;
 
 namespace Mr_MoneyBag
 {
-
+     
     static class DistanceUtility
     {
         /* Find the next step from enemy to player, using the provided board
