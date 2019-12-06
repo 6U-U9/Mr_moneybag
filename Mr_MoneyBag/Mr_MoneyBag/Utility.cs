@@ -45,8 +45,8 @@ namespace Mr_MoneyBag
             {
                 Console.WriteLine("Cannot Found Any Path from 1 to 2");
             }
-            Console.WriteLine(path[path.Count - 2].x);
-            Console.WriteLine(path[path.Count - 2].y);
+            //Console.WriteLine(path[path.Count - 2].x);
+            //Console.WriteLine(path[path.Count - 2].y);
 
             return path[path.Count - 2];
 
@@ -60,7 +60,7 @@ namespace Mr_MoneyBag
             if (reach) return;
             path.Add(new Node(x, y));
             vis[x, y] = true;
-            Console.WriteLine("BFS: " + x + "," + y + " d: " + d + " tar: " + tx + "," + ty);
+            //Console.WriteLine("BFS: " + x + "," + y + " d: " + d + " tar: " + tx + "," + ty);
 
             if (x == tx && y == ty) { reach = true; Console.WriteLine("Reached!"); return; }
             if (board.status[x, y].isblocked) { path.RemoveAt(path.Count - 1); return;}

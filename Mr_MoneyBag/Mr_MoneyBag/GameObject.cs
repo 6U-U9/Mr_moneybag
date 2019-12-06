@@ -183,6 +183,8 @@ namespace Mr_MoneyBag
         {
             Node go = DistanceUtility.GetNextStep(gameboard.player, this, gameboard);
             Console.WriteLine("Enemy" + x + "," + y + " to " + go.x + " -next- "+ go.y);
+            this.x = go.x;
+            this.y = go.y;
         }
 
         public override Image getimage()
