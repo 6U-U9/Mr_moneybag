@@ -38,7 +38,7 @@ namespace Mr_MoneyBag
             vis = new bool[h, w];
             reach = false;
             Console.WriteLine("abc");
-            BFS(player.x, player.y, board, enemy.x, enemy.y, 0, path);
+            //BFS(player.x, player.y, board, enemy.x, enemy.y, 0, path);
             Console.WriteLine("abcdd");
             //path.ForEach(Console.WriteLine);
             if (path.Count <= 1)
@@ -54,11 +54,11 @@ namespace Mr_MoneyBag
 
 
 
-        static void BFS(int x, int y, Gameboard board, int tx, int ty, int d, List<GameObject> path)
+        static void BFS(int x, int y, Gameboard board, int tx, int ty, int d, List<Node> path)
         {
             if (vis[x, y]) return;
             if (reach) return;
-            path.Add(board.status[x, y]);
+            path.Add(new Node(x, y));
             vis[x, y] = true;
             Console.WriteLine("BFS: " + x + "," + y + " d: " + d + " tar: " + tx + "," + ty);
 

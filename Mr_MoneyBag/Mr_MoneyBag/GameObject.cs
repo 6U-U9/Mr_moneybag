@@ -187,7 +187,8 @@ namespace Mr_MoneyBag
 
         public override Image getimage()
         {
-            return Properties.Resources.enemy_1;
+            return Properties.Resources.player;
+            
         }
         public override string GetImageName()
         {
