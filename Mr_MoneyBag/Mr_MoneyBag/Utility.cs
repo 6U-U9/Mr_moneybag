@@ -101,6 +101,7 @@ namespace Mr_MoneyBag
             }
         }
 
+
         public static void GenBasicMap(Gameboard board)
         {
 
