@@ -55,7 +55,8 @@ namespace Mr_MoneyBag
                 {
                     int nx = v.x + dir[i, 0];
                     int ny = v.y + dir[i, 1];
-                    if ((nx > 1 && nx < board.GetWidth() - 1 && ny > 1 && ny < board.GetHeight() - 1) && !vis[nx, ny] && !board.status[nx, ny].isblocked) {
+                    if ((nx > 1 && nx < board.GetWidth() - 1 && ny > 1 && ny < board.GetHeight() - 1) && !vis[nx, ny] && !board.status[nx, ny].isblocked 
+                        && !(nx != enemy.x && ny != enemy.y && board.HasEnemy(nx, ny))) {
                         queue.Enqueue(new Node(nx, ny));
                         parent[nx, ny] = v;
                     }
@@ -72,35 +73,14 @@ namespace Mr_MoneyBag
             if (!vis[enemy.x, enemy.y])
             {
                 Console.WriteLine("Cannot Found Any Path!");
+                return new Node(enemy.x, enemy.y); // remain stayed
             }
             //Console.WriteLine(path[path.Count - 2].x);
-            //Console.WriteLine(path[path.Count - 2].y);
 
             return parent[enemy.x, enemy.y];
 
         }
 
-
-
-        static void BFS(int x, int y, Gameboard board, int tx, int ty, int d, List<Node> path)
-        {
-            if (vis[x, y]) return;
-            if (reach) return;
-            path.Add(new Node(x, y));
-            vis[x, y] = true;
-            //Console.WriteLine("BFS: " + x + "," + y + " d: " + d + " tar: " + tx + "," + ty);
-
-            if (x == tx && y == ty) { reach = true; Console.WriteLine("Reached!"); return; }
-            if (board.status[x, y].isblocked) { path.RemoveAt(path.Count - 1); return;}
-
-            
-            if (x > 1) BFS(x - 1, y, board, tx, ty, d + 1, path);
-            if (x < board.GetWidth() - 1) BFS(x + 1, y, board, tx, ty, d + 1, path);
-            if (y > 1) BFS(x, y - 1, board, tx, ty, d + 1, path);
-            if (y < board.GetHeight() - 1) BFS(x, y + 1, board, tx, ty, d + 1, path);
-            if(!reach) path.RemoveAt(path.Count - 1);
-            //vis[x, y] = false;
-        }
 
 
         /* Get the vision distance of two objects
@@ -270,6 +250,7 @@ namespace Mr_MoneyBag
             }
             return true;
         }
+
     }
 
 

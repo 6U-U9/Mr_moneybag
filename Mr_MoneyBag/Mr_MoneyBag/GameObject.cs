@@ -84,23 +84,28 @@ namespace Mr_MoneyBag
         {
             var x = this.x + dx;
             var y = this.y + dy;
-            while (gameboard.status[x, y] is Space)
+            while (gameboard.status[x, y] is Space && !gameboard.HasEnemy(x, y))
             {
                 if (x == gameboard.GetHeight() - 1 || x == 0 || y == gameboard.GetWidth() - 1 || y == 0)
                     break;
                 x = x + dx;
                 y = y + dy;
             }
-            gameboard.status[x, y].damaged(attack);
+            if (gameboard.HasEnemy(x, y))
+                gameboard.GetEnemy(x, y).damaged(attack);
+            else
+                gameboard.status[x, y].damaged(attack);
             Console.WriteLine(x + "," + y + "damaged");
         }
         virtual public bool moveable(int x, int y)
         {
             if (x > gameboard.GetHeight() - 1 || x < 0 || y > gameboard.GetWidth() - 1 || y < 0)
                 return false;
-            if (gameboard.status[x, y].isblocked==false)
-                return true;
-            return false;
+            if (gameboard.status[x, y].isblocked)
+                return false;
+            if (gameboard.HasEnemy(x, y))
+                return false;
+            return true;
         }
     }
     class Player : MoveableObject
@@ -185,15 +190,23 @@ namespace Mr_MoneyBag
         private string status = "walk";
         public Enemy(Gameboard gameboard,int money, int x, int y,int attack=1): base(gameboard,money,x,y)
         {
+            this.hp = money;
             this.attack = attack;
             this.isblocked = true;
         }
         public void move()
         {
+            if (this.distance(gameboard.player.x, gameboard.player.y) > gameboard.rednoticedist) return;
+
             Node go = DistanceUtility.GetNextStep(gameboard.player, this, gameboard);
             Console.WriteLine("Enemy" + x + "," + y + " to " + go.x + " -next- "+ go.y);
             this.x = go.x;
             this.y = go.y;
+        }
+        public override void dead()
+        {
+            base.dead();
+            gameboard.enemies.Remove(this);
         }
 
         public override Image getimage()
