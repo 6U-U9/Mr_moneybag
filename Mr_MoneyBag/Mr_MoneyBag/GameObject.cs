@@ -58,8 +58,12 @@ namespace Mr_MoneyBag
     }
     class MoveableObject : GameObject
     {
-        public MoveableObject(Gameboard gameboard) : base(gameboard)
-        { }
+        public MoveableObject(Gameboard gameboard, int money, int x, int y) : base(gameboard)
+        {
+            this.hp = money;
+            this.x = x;
+            this.y = y;
+        }
         public int attack;
         virtual public void moveto(int x, int y)
         {
@@ -69,7 +73,7 @@ namespace Mr_MoneyBag
             var pasty = this.y;
             this.x = x;
             this.y = y;
-            freshboard(pastx, pasty, gameboard.status[x, y]);
+            freshboard(pastx, pasty, new Space(gameboard));
             freshboard(x, y, this);
         }
         virtual public void shoot(int dx, int dy)
@@ -97,12 +101,11 @@ namespace Mr_MoneyBag
     }
     class Player : MoveableObject
     {
-        public Player(Gameboard gameboard,int money,int x,int y): base(gameboard)
+        public int moneylimit;
+        public Player(Gameboard gameboard,int money,int x,int y,int moneylimit): base(gameboard,money,x,y)
         {
             //this.image = Properties.Resources.player;
-            this.hp = money;
-            this.x = x;
-            this.y = y;
+            this.moneylimit = moneylimit;
         }
         public override bool moveable(int x, int y)
         {
@@ -113,7 +116,10 @@ namespace Mr_MoneyBag
         }
         override public void moveto(int x, int y)
         {
-            base.moveto(x, y);
+            if (!moveable(x, y))
+                return;
+            this.x = x;
+            this.y = y;
             //判断是否到达Gate
             if (gameboard.status[this.x, this.y] is Gate)
             {
@@ -121,17 +127,16 @@ namespace Mr_MoneyBag
                 gameboard.genlevel(gameboard.level);
             }
             //判断是否获得Money
-            if (gameboard.status[this.x, this.y] is Money)
+            if (gameboard.status[this.x, this.y] is Money||this.hp<this.moneylimit)
             {
                 getmoney(((Money)gameboard.status[this.x, this.y]).hp);
+                freshboard(this.x,this.y, new Space(gameboard));
             }
         }
         public void getmoney(int money)
         { this.hp += money; }
         public void moveup()
-        {
-            moveto(this.x - 1, this.y);
-        }
+        {moveto(this.x - 1, this.y); }
         public void movedown()
         { moveto(this.x+ 1, this.y ); }
         public void moveleft()
@@ -158,11 +163,8 @@ namespace Mr_MoneyBag
     class Enemy : MoveableObject
     {
         private string status = "walk";
-        public Enemy(Gameboard gameboard,int money, int x, int y,int attack=1): base(gameboard)
+        public Enemy(Gameboard gameboard,int money, int x, int y,int attack=1): base(gameboard,money,x,y)
         {
-            this.hp = money;
-            this.x = x;
-            this.y = y;
             this.attack = attack;
         }
         public void move()
@@ -180,11 +182,34 @@ namespace Mr_MoneyBag
     }
     class CoinOnFloor_Shop : Shop
     {
-        public CoinOnFloor_Shop(Gameboard gameboard, int money, int x, int y) : base(gameboard,money,x,y)
+        public CoinOnFloor_Shop(Gameboard gameboard, int money, int x, int y,int cost,int gain) : base(gameboard,money,x,y)
         {
-            this.hp = money;
-            this.x = x;
-            this.y = y;
+            this.cost = cost;
+            this.gain = gain;
+        }
+    }
+    class NewRedGen_Shop : Shop
+    {
+        public NewRedGen_Shop(Gameboard gameboard, int money, int x, int y, int cost, int gain) : base(gameboard, money, x, y)
+        {
+            this.cost = cost;
+            this.gain = gain;
+        }
+    }
+    class RedNoticeDist_Shop : Shop
+    {
+        public RedNoticeDist_Shop(Gameboard gameboard, int money, int x, int y, int cost, int gain) : base(gameboard, money, x, y)
+        {
+            this.cost = cost;
+            this.gain = gain;
+        }
+    }
+    class Sight_Shop : Shop
+    {
+        public Sight_Shop(Gameboard gameboard, int money, int x, int y, int cost, int gain) : base(gameboard, money, x, y)
+        {
+            this.cost = cost;
+            this.gain = gain;
         }
     }
     class Wall : GameObject
