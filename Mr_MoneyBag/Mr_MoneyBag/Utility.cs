@@ -76,6 +76,27 @@ namespace Mr_MoneyBag
 
         }
 
+        public static void AddMoney(Gameboard board)
+        {
+            for(int i = 0; i < board.coinsonfloor * 20; i++)
+            {
+                bool success = false;
+                while (!success)
+                {
+                    int x = rnd.Next(0, board.GetHeight());
+                    int y = rnd.Next(0, board.GetWidth());
+
+                    if (board.status[x, y] is Space)
+                    {
+                        board.status[x, y] = new Money(board);
+                        success = true;
+                    }
+
+                }
+                
+            }
+        }
+
         public static void GenBasicMap(Gameboard board)
         {
 
