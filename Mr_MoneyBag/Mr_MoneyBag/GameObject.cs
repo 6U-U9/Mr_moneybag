@@ -181,8 +181,8 @@ namespace Mr_MoneyBag
         }
         public void move()
         {
-            GameObject go = DistanceUtility.GetNextStep(gameboard.player, this, gameboard);
-            Console.WriteLine("Enemy" + x + "," + y + " to " + go.x + " -next- ", go.y);
+            Node go = DistanceUtility.GetNextStep(gameboard.player, this, gameboard);
+            Console.WriteLine("Enemy" + x + "," + y + " to " + go.x + " -next- "+ go.y);
         }
 
         public override Image getimage()

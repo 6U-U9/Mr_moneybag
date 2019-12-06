@@ -29,26 +29,26 @@ namespace Mr_MoneyBag
          */
         static bool reach = false;
         static bool[,] vis;
-        public static GameObject GetNextStep(MoveableObject player, MoveableObject enemy, Gameboard board)
+        public static Node GetNextStep(MoveableObject player, MoveableObject enemy, Gameboard board)
         {
             int h = board.GetHeight();
             int w = board.GetWidth();
             //int x = obj.x;
-            List<GameObject> path = new List<GameObject>();
+            List<Node> path = new List<Node>();
             vis = new bool[h, w];
             reach = false;
             Console.WriteLine("abc");
-            //BFS(player.x, player.y, board, enemy.x, enemy.y, 0, path);
+            BFS(player.x, player.y, board, enemy.x, enemy.y, 0, path);
             Console.WriteLine("abcdd");
             //path.ForEach(Console.WriteLine);
             if (path.Count <= 1)
             {
                 Console.WriteLine("Cannot Found Any Path from 1 to 2");
             }
-            Console.WriteLine(path[path.Count - 1].x);
-            Console.WriteLine(path[path.Count - 1].y);
+            Console.WriteLine(path[path.Count - 2].x);
+            Console.WriteLine(path[path.Count - 2].y);
 
-            return path[path.Count - 1];
+            return path[path.Count - 2];
 
         }
 
