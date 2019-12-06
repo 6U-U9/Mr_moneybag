@@ -13,12 +13,14 @@ namespace Mr_MoneyBag
         public int level;
         public int turn = 0;
         public GameObject[,] status = new GameObject[height, width];
+        
         public Player player;
         public Gameboard()
         {
             level = 1;
             player= new Player(this,3, 10, 10);
-            genlevel(level); 
+            //genlevel(level); 
+            Level.GenRandomLevel(this, level);
         }
         public void genlevel(int level)
         {

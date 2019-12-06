@@ -13,8 +13,9 @@ namespace Mr_MoneyBag
     public partial class Form1 : Form
     {
         public const int blocksize = 30;
-        public int x=30, y=18;
-        public PictureBox[,] map = new PictureBox[30, 18];
+        public static int x = 30, y = 17;
+        public PictureBox[,] map = new PictureBox[x, y];
+        string[,] mapname = new string[x, y];
         Gameboard gameboard = new Gameboard();
         private bool is_space_down = false;
         
@@ -25,12 +26,13 @@ namespace Mr_MoneyBag
                 {
                     map[i, j] = new PictureBox();
                     ((System.ComponentModel.ISupportInitialize)(map[i,j])).BeginInit();
-                    map[i, j].Image = gameboard.status[i, j].getimage();
+                    //map[i, j].Image = gameboard.status[i, j].getimage();
                     map[i, j].Location = new System.Drawing.Point(blocksize * i, blocksize * j);
                     map[i, j].Size = new System.Drawing.Size(blocksize, blocksize);
                     this.Controls.Add(map[i, j]);
                     ((System.ComponentModel.ISupportInitialize)(map[i,j])).EndInit();
                 }
+            refresh();
             InitializeComponent();
             DoubleBuffered = true;
         }
@@ -84,16 +86,39 @@ namespace Mr_MoneyBag
         }
         public void refresh()
         {
-            for (int i = 0; i < x; i++)
-                for (int j = 0; j < y; j++)
+            int x = gameboard.player.x;
+            int y = gameboard.player.y;
+            int x_st = x - Form1.x / 2 + 1;
+            if (x_st < 0) x_st = 0; 
+            int x_ed = x_st + Form1.x;
+            if (x_ed > (gameboard.GetWidth() - 1)) x_ed = gameboard.GetWidth() - 1;
+            int y_st = y - Form1.y / 2;
+            if (y_st < 0) y_st = 0;
+            int y_ed = y_st + Form1.y;
+            if (y_ed > (gameboard.GetHeight() - 1)) x_ed = gameboard.GetHeight() - 1;
+
+            Console.WriteLine(x + " " + y);
+
+            for (int i = x_st; i < x_ed; i++)
+            {
+                for (int j = y_st; j < y_ed; j++)
                 {
-                    if (gameboard.status[i, j].hasimagechange)
+                    int a = i - x_st;
+                    int b = j - y_st;
+                                        
+                    //if (gameboard.status[i, j].hasimagechange)
+                    //{
+                    //gameboard.status[i, j].hasimagechange = false;
+                    string imgname = gameboard.status[i, j].GetImageName();
+                    if (mapname[a, b] != imgname)
                     {
-                        gameboard.status[i, j].hasimagechange = false;
-                        map[i, j].Image = gameboard.status[i, j].getimage();
-                        
+                        map[a, b].Image = gameboard.status[i, j].getimage();
+                        mapname[a, b] = imgname;
                     }
+
+                    //}
                 }
+            }
         }
         protected override bool ProcessDialogKey(Keys keycode)
         {

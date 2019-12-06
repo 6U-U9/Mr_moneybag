@@ -60,6 +60,23 @@ namespace Mr_MoneyBag
 
     }
 
+    static class Level
+    {
+        public static void GenRandomLevel(Gameboard board, int lv)
+        {
+
+            for (int i = 0; i < board.GetHeight(); i++)
+                for (int j = 0; j < board.GetWidth(); j++)
+                {
+                    if ((i + 2 * j) % 4 != 0)
+                        board.status[i, j] = new Space(board);
+                    else
+                        board.status[i, j] = new Wall(board, i, j);
+                }
+            board.status[10, 10] = board.player;
+        }
+    }
+
 
 
 

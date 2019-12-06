@@ -38,6 +38,8 @@ namespace Mr_MoneyBag
 
         virtual public Image getimage()
         { return null; }
+        virtual public String GetImageName()
+        { return null; }
         virtual public int distance(int x, int y)
         { return Math.Abs(this.x - x) + Math.Abs(this.y - y); }
     }
@@ -48,6 +50,10 @@ namespace Mr_MoneyBag
         public override Image getimage()
         {
             return Properties.Resources.space;
+        }
+        public override string GetImageName()
+        {
+            return "space";
         }
     }
     class MoveableObject : GameObject
@@ -137,6 +143,10 @@ namespace Mr_MoneyBag
         {
             return Properties.Resources.player; 
         }
+        public override string GetImageName()
+        {
+            return "player";
+        }
     }
     class Enemy : MoveableObject
     {
@@ -171,6 +181,14 @@ namespace Mr_MoneyBag
         public override void damaged(int n)
         {
             base.damaged(1);
+        }
+        public override Image getimage()
+        {
+            return Properties.Resources.wall;
+        }
+        public override string GetImageName()
+        {
+            return "wall";
         }
     }
     class Gate : Space
