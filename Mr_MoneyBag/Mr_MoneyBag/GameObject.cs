@@ -216,5 +216,10 @@ namespace Mr_MoneyBag
         {
             this.hp = money;
         }
+
+        public override Image getimage()
+        {
+            return Properties.Resources.money;
+        }
     }
 }
