@@ -43,14 +43,13 @@ namespace Mr_MoneyBag
             parent = new Node[h, w];
             var queue = new Queue<Node>();
             queue.Enqueue(st);
-            int cnt = 0;
+            parent[st.x, st.y] = st;
             while (queue.Count > 0)
             {
-                cnt += 1;
                 var v = queue.Dequeue();
-                if (v.x == enemy.x && v.y == enemy.y) break;
                 if (vis[v.x, v.y]) continue;
                 vis[v.x, v.y] = true;
+                if (v.x == enemy.x && v.y == enemy.y) break;
 
                 for(int i = 0; i < 4; i++)
                 {
@@ -62,7 +61,7 @@ namespace Mr_MoneyBag
                     }
                 }
 
-        }
+            }
 
 
             Console.WriteLine("abc");
@@ -70,10 +69,10 @@ namespace Mr_MoneyBag
             //BFS(player.x, player.y, board, enemy.x, enemy.y, 0, path);
             //Console.WriteLine(parent[enemy.x, enemy.y].x + ", " + parent[enemy.x, enemy.y].y);
             //path.ForEach(Console.WriteLine);
-            /*if (path.Count <= 1)
+            if (!vis[enemy.x, enemy.y])
             {
-                Console.WriteLine("Cannot Found Any Path from 1 to 2");
-            }*/
+                Console.WriteLine("Cannot Found Any Path!");
+            }
             //Console.WriteLine(path[path.Count - 2].x);
             //Console.WriteLine(path[path.Count - 2].y);
 
