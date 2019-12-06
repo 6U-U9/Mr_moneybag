@@ -91,11 +91,11 @@ namespace Mr_MoneyBag
             int x_st = x - Form1.x / 2 + 1;
             if (x_st < 0) x_st = 0; 
             int x_ed = x_st + Form1.x;
-            if (x_ed > (gameboard.GetHeight() - 1)) { x_ed = gameboard.GetHeight() - 1; x_st = x_ed - Form1.x; }
+            if (x_ed > (gameboard.GetHeight() )) { x_ed = gameboard.GetHeight() ; x_st = x_ed - Form1.x; }
             int y_st = y - Form1.y / 2;
             if (y_st < 0) y_st = 0;
             int y_ed = y_st + Form1.y;
-            if (y_ed > (gameboard.GetWidth() - 1)) { y_ed = gameboard.GetWidth() - 1; y_st = y_ed - Form1.y; }
+            if (y_ed > (gameboard.GetWidth() )) { y_ed = gameboard.GetWidth() ; y_st = y_ed - Form1.y; }
 
             Console.WriteLine(x + " " + y);
             Console.WriteLine(x_st + " " + x_ed + " | " + y_st + " " + y_ed);

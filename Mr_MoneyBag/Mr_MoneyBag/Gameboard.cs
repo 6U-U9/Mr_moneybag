@@ -9,16 +9,17 @@ namespace Mr_MoneyBag
 {
     class Gameboard
     {
-        public const int width=39, height=99;
+        public const int width=59, height=59;
         public int level;
         public int turn = 0;
         public GameObject[,] status = new GameObject[height, width];
-        
+        public const int initial_x = 20;
+        public const int initial_y = 20;
         public Player player;
         public Gameboard()
         {
             level = 1;
-            player= new Player(this,3, 10, 10);
+            player= new Player(this, 3, initial_x, initial_y);
             //genlevel(level); 
             Level.GenRandomLevel(this, level);
         }

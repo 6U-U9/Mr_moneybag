@@ -64,7 +64,7 @@ namespace Mr_MoneyBag
     {
         static Random rnd = new Random();
         static int[,] dir = new int[,] { {1, 0}, {0, 1}, {-1, 0}, {0, -1} };
-        static int[] order = new int[] { 0, 1, 2, 3 };
+        static int[] parameter = new int[] { 22, 8, 6 };
         public static void GenRandomLevel(Gameboard board, int lv)
         {
             GenBasicMap(board);
@@ -82,14 +82,14 @@ namespace Mr_MoneyBag
             }
 
             bool[,] vis = new bool[board.GetHeight(), board.GetWidth()];
-            GenBasicMapHelper(board, vis, 10, 10);
-            board.status[10, 10] = board.player;
+            GenBasicMapHelper(board, vis, Gameboard.initial_x, Gameboard.initial_y, 0);
+            board.status[Gameboard.initial_x, Gameboard.initial_y] = board.player;
         }
 
-        private static void GenBasicMapHelper(Gameboard board, bool[,] vis, int x, int y)
+        private static void GenBasicMapHelper(Gameboard board, bool[,] vis, int x, int y, int step)
         {
             
-            if (x > board.GetWidth() - 1 || x < 0 || y > board.GetHeight() - 1 || y < 0) return;
+            if (x > board.GetWidth() - 2 || x < 1 || y > board.GetHeight() - 2 || y < 1) return;
             if (CheckConnect(board)) return;
             if (vis[y, x]) return;
             if (board.status[y, x].GetType() == typeof(Space)) return;
@@ -98,12 +98,18 @@ namespace Mr_MoneyBag
             Console.WriteLine(x + " -xy- " + y);
             board.status[y, x] = new Space(board);
             
-            int[] rndorder = order.OrderBy(t => rnd.Next()).ToArray();
+            //int[] rndorder = order.OrderBy(t => rnd.Next()).ToArray();
+            int next = rnd.Next(0, 4);
+            GenBasicMapHelper(board, vis, x + dir[next, 0], y + dir[next, 1], step + 1);
 
-            GenBasicMapHelper(board, vis, x + dir[rndorder[0], 0], y + dir[rndorder[0], 1]);
-            GenBasicMapHelper(board, vis, x + dir[rndorder[1], 0], y + dir[rndorder[1], 1]);
-            /*GenBasicMapHelper(board, vis, x + dir[rndorder[2], 0], y + dir[rndorder[2], 1]);
-            GenBasicMapHelper(board, vis, x + dir[rndorder[3], 0], y + dir[rndorder[3], 1]);*/
+            for(int i = 0; i < parameter.Length; i++)
+            {
+                if (rnd.Next(0, step / parameter[i]) == 0)
+                {
+                    next = rnd.Next(0, 4);
+                    GenBasicMapHelper(board, vis, x + dir[next, 0], y + dir[next, 1], step + 1);
+                }
+            }
         }
 
         private static bool CheckConnect(Gameboard board)
