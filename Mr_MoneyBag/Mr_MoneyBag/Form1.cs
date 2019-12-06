@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,6 +14,7 @@ namespace Mr_MoneyBag
     {
         public const int blocksize = 30;
         public static int y = 30, x = 17;
+        public PictureBox[,] background = new PictureBox[x, y];
         public PictureBox[,] map = new PictureBox[x, y];
         string[,] mapname = new string[x, y];
         Gameboard gameboard = new Gameboard();
@@ -30,7 +31,6 @@ namespace Mr_MoneyBag
                 {
                     map[i, j] = new PictureBox();
                     ((System.ComponentModel.ISupportInitialize)(map[i,j])).BeginInit();
-                    //map[i, j].Image = gameboard.status[i, j].getimage();
                     map[i, j].Location = new System.Drawing.Point(blocksize * j, blocksize * i);
                     map[i, j].Size = new System.Drawing.Size(blocksize, blocksize);
                     this.Controls.Add(map[i, j]);
@@ -138,10 +138,26 @@ namespace Mr_MoneyBag
             }
             //Console.WriteLine(x + " " + y);
             map[x - x_st, y - y_st].Image = gameboard.player.getimage();
-            Console.WriteLine("Money:"+gameboard.player.hp+" Limit"+gameboard.player.moneylimit+" CoinsOnFloor"+gameboard.coinsonfloor+" NewRedGen"+gameboard.newredgen+" RedNoticeDist"+gameboard.rednoticedist+" sight"+gameboard.sight);
+            Console.WriteLine("Money:"+gameboard.player.hp+" Limit"+gameboard.player.moneylimit+" CoinsOnFloor"+gameboard.coinsonfloor+" NewRedGen"+gameboard.newredgen+" RedNoticeDist"+gameboard.rednoticedist+" sight"+gameboard.sight+" damage"+gameboard.player.attack);
 
         }
-
+        private Image GetShowImage(Gameboard gameboard, int x, int y)
+        {
+            if (gameboard.player.x == x && gameboard.player.y == y)
+                return Properties.Resources.player;
+            GameObject gameObject = gameboard.status[x, y];
+            int dist = Math.Abs(x - gameboard.player.x) + Math.Abs(y - gameboard.player.y);
+            if (dist <= gameboard.sight)
+                if ((x+y)%2==1)
+                    return UniteImage(Properties.Resources.back1, gameboard.status[x, y].getimage());
+                else
+                    return UniteImage(Properties.Resources.back0, gameboard.status[x, y].getimage());
+            if (gameObject.seen == true)
+                return UniteImage(Properties.Resources.Seen, gameboard.status[x, y].getimage());
+            if (gameObject.NearlySeen == true)
+                return Properties.Resources.NearlySeen;
+            return Properties.Resources.Unseen;
+        }
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Space)
@@ -172,6 +188,15 @@ namespace Mr_MoneyBag
                 default:
                     return base.ProcessDialogKey(keycode);
             }
+        }
+        public Image UniteImage(Image img1, Image img2,int width=blocksize, int height=blocksize )
+        {
+            System.Drawing.Image img = new System.Drawing.Bitmap(width, height);
+            System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(img);
+            g.Clear(System.Drawing.Color.Transparent);
+            g.DrawImage(img1, 0, 0, img1.Width, img1.Height);
+            g.DrawImage(img2, 0, 0, img2.Width, img2.Height);
+            return img;
         }
     }
 }
