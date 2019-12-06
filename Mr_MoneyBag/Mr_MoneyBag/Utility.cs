@@ -90,7 +90,7 @@ namespace Mr_MoneyBag
                     int x = rnd.Next(0, board.GetHeight());
                     int y = rnd.Next(0, board.GetWidth());
 
-                    if (board.status[x, y] is Space)
+                    if (board.status[x, y] is Space && board.player.x != x && board.player.y != y)
                     {
                         board.status[x, y] = new Money(board);
                         success = true;
