@@ -19,14 +19,12 @@ namespace Mr_MoneyBag
         Gameboard gameboard = new Gameboard();
         private bool is_space_down = false;
         private bool arrow_key_locked = false;
-
+        Label lblmoney = new Label();
         
 
         public Form1()
         {
-            //this.SetStyle(ControlStyles.SupportsTransparentBackColor, true);
-            this.TransparencyKey = this.BackColor;
-            this.SetStyle(ControlStyles.Opaque, true);
+            
             for (int i = 0; i < x; i++)
                 for (int j = 0; j < y; j++)
                 {
@@ -38,10 +36,12 @@ namespace Mr_MoneyBag
                     this.Controls.Add(map[i, j]);
                     ((System.ComponentModel.ISupportInitialize)(map[i,j])).EndInit();
                 }
+            this.Controls.Add(lblmoney);
+            {
 
-            
-            lblmoney.BringToFront();
+                lblmoney.BringToFront();
 
+            }
             refresh();
             InitializeComponent();
             DoubleBuffered = true;
