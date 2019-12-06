@@ -50,7 +50,7 @@ namespace Mr_MoneyBag
         { this.isblocked = false; }
         public override Image getimage()
         {
-            return Properties.Resources.space;
+            return Properties.Resources.Space;
         }
         public override string GetImageName()
         {
