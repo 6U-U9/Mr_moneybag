@@ -16,6 +16,7 @@ namespace Mr_MoneyBag
         public bool seen;
         public bool isblocked=true;
         public bool hasimagechange;
+        public bool NearlySeen;
         public GameObject(Gameboard gameboard)
         {
             this.gameboard = gameboard;
@@ -119,6 +120,9 @@ namespace Mr_MoneyBag
         {
             if (!moveable(x, y))
                 return;
+            gameboard.IncreaseTimer();
+            Console.WriteLine("Player: " + x + ", " + y);
+
             this.x = x;
             this.y = y;
             //判断是否到达Gate
@@ -176,7 +180,19 @@ namespace Mr_MoneyBag
             this.isblocked = true;
         }
         public void move()
-        { }
+        {
+            GameObject go = DistanceUtility.GetNextStep(gameboard.player, this, gameboard);
+            Console.WriteLine("Enemy" + x + "," + y + " to " + go.x + " -next- ", go.y);
+        }
+
+        public override Image getimage()
+        {
+            return Properties.Resources.enemy_1;
+        }
+        public override string GetImageName()
+        {
+            return "enemy1";
+        }
     }
     class Shop : GameObject
     {
