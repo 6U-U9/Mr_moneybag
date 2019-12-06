@@ -128,11 +128,12 @@ namespace Mr_MoneyBag
         {
             if (!moveable(x, y))
                 return;
-            gameboard.IncreaseTimer();
+            
             Console.WriteLine("Player: " + x + ", " + y);
 
             this.x = x;
             this.y = y;
+            
             //判断是否到达Gate
             if (gameboard.status[this.x, this.y] is Gate)
             {
@@ -145,6 +146,8 @@ namespace Mr_MoneyBag
                 getmoney(((Money)gameboard.status[this.x, this.y]).hp);
                 freshboard(this.x,this.y, new Space(gameboard, this.x, this.y,true));
             }
+            gameboard.IncreaseTimer();
+
             foreach (GameObject gameObject in gameboard.status)
             {
                 if (gameObject.distance(this.x, this.y) < gameboard.sight)
@@ -199,9 +202,9 @@ namespace Mr_MoneyBag
             if (this.distance(gameboard.player.x, gameboard.player.y) > gameboard.rednoticedist) return;
 
             Node go = DistanceUtility.GetNextStep(gameboard.player, this, gameboard);
-            Console.WriteLine("Enemy" + x + "," + y + " to " + go.x + " -next- "+ go.y);
             this.x = go.x;
             this.y = go.y;
+            Console.WriteLine("Enemy" + x + "," + y + " to " + go.x + " -next- "+ go.y);
         }
         public override void dead()
         {

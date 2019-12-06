@@ -36,7 +36,6 @@ namespace Mr_MoneyBag
             int h = board.GetHeight();
             int w = board.GetWidth();
             //int x = obj.x;
-            List<Node> path = new List<Node>();
             vis = new bool[h, w];
             reach = false;
             var st = new Node(player.x, player.y);
@@ -44,6 +43,7 @@ namespace Mr_MoneyBag
             var queue = new Queue<Node>();
             queue.Enqueue(st);
             parent[st.x, st.y] = st;
+            Console.WriteLine("Begin BFS for Enemy: " + enemy.x + ", " + enemy.y + ": ");
             while (queue.Count > 0)
             {
                 var v = queue.Dequeue();
@@ -59,10 +59,13 @@ namespace Mr_MoneyBag
                         && !(nx != enemy.x && ny != enemy.y && board.HasEnemy(nx, ny))) {
                         queue.Enqueue(new Node(nx, ny));
                         parent[nx, ny] = v;
+                        Console.WriteLine("Parent of [" + nx + ", " + ny + "] is [" + v.x + ", " + v.y + "]");
                     }
                 }
 
             }
+            Console.WriteLine("BFS for Enemy: " + enemy.x + ", " + enemy.y + " End");
+
 
 
             Console.WriteLine("abc");
@@ -75,7 +78,11 @@ namespace Mr_MoneyBag
                 Console.WriteLine("Cannot Found Any Path!");
                 return new Node(enemy.x, enemy.y); // remain stayed
             }
+
             //Console.WriteLine(path[path.Count - 2].x);
+            if (parent[enemy.x, enemy.y] == st)
+                return new Node(enemy.x, enemy.y);
+
 
             return parent[enemy.x, enemy.y];
 

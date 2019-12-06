@@ -9,15 +9,15 @@ namespace Mr_MoneyBag
 {
     class Gameboard
     {
-        public const int width=79, height=79;
+        public const int width=39, height=39;
         static Random rnd = new Random();
         public int level;
         public int turn = 0;
         public int coinsonfloor = 24, newredgen = 6, rednoticedist = 10, sight = 6, InitPlayerMoneyLimit = 5;
         public int[] shop_amount = new int[] { 2, 2, 2, 2, 2, 2 }; // coinonfloor, newredgen, rednoticedist, sight, damage, moneylimit, 
         public GameObject[,] status = new GameObject[height, width];
-        public const int initial_x = 40;
-        public const int initial_y = 40;
+        public const int initial_x = 20;
+        public const int initial_y = 20;
         public Player player;
         public int timer = 0;
         public List<Enemy> enemies = new List<Enemy>();
