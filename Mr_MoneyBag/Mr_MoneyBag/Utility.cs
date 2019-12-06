@@ -95,7 +95,7 @@ namespace Mr_MoneyBag
             if (board.status[y, x].GetType() == typeof(Space)) return;
 
             vis[y, x] = true;
-            Console.WriteLine(x + " -xy- " + y);
+            //Console.WriteLine(x + " -xy- " + y);
             board.status[y, x] = new Space(board);
             
             //int[] rndorder = order.OrderBy(t => rnd.Next()).ToArray();
