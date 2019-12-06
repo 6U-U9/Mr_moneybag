@@ -127,7 +127,7 @@ namespace Mr_MoneyBag
                 gameboard.genlevel(gameboard.level);
             }
             //判断是否获得Money
-            if (gameboard.status[this.x, this.y] is Money||this.hp<this.moneylimit)
+            if (gameboard.status[this.x, this.y] is Money&&this.hp<this.moneylimit)
             {
                 getmoney(((Money)gameboard.status[this.x, this.y]).hp);
                 freshboard(this.x,this.y, new Space(gameboard));
