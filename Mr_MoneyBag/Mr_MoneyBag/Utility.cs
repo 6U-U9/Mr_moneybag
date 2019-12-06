@@ -68,6 +68,7 @@ namespace Mr_MoneyBag
         public static void GenRandomLevel(Gameboard board, int lv)
         {
             GenBasicMap(board);
+            AddMoney(board);
             
         }
 
@@ -78,7 +79,7 @@ namespace Mr_MoneyBag
 
         public static void AddMoney(Gameboard board)
         {
-            for(int i = 0; i < board.coinsonfloor * 20; i++)
+            for(int i = 0; i < board.coinsonfloor; i++)
             {
                 bool success = false;
                 while (!success)

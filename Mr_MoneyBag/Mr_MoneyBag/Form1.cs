@@ -110,6 +110,8 @@ namespace Mr_MoneyBag
                     //Console.WriteLine(i + " ij " + j);
                                         
                     string imgname = gameboard.status[i, j].GetImageName();
+                    Console.WriteLine(imgname);
+
                     if (mapname[a, b] != imgname)
                     {
                         map[a, b].Image = gameboard.status[i, j].getimage();
