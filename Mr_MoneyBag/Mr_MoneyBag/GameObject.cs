@@ -123,22 +123,22 @@ namespace Mr_MoneyBag
         { this.hp += money; }
         public void moveup()
         {
-            moveto(this.x, this.y - 1);
+            moveto(this.x - 1, this.y);
         }
         public void movedown()
-        { moveto(this.x, this.y + 1); }
+        { moveto(this.x+ 1, this.y ); }
         public void moveleft()
-        { moveto(this.x-1, this.y); }
+        { moveto(this.x, this.y-1); }
         public void moveright()
-        { moveto(this.x+1, this.y); }
+        { moveto(this.x, this.y+1); }
         public void shootup()
-        { shoot(0, -1); }
-        public void shootdown()
-        { shoot(0, 1); }
-        public void shootleft()
         { shoot(-1, 0); }
-        public void shootright()
+        public void shootdown()
         { shoot(1, 0); }
+        public void shootleft()
+        { shoot(0, -1); }
+        public void shootright()
+        { shoot(0, 1); }
         public override Image getimage()
         {
             return Properties.Resources.player; 

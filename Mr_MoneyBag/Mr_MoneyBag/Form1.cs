@@ -13,16 +13,16 @@ namespace Mr_MoneyBag
     public partial class Form1 : Form
     {
         public const int blocksize = 30;
-        public static int x = 30, y = 17;
-        public PictureBox[,] map = new PictureBox[y, x];
-        string[,] mapname = new string[y, x];
+        public static int y = 30, x = 17;
+        public PictureBox[,] map = new PictureBox[x, y];
+        string[,] mapname = new string[x, y];
         Gameboard gameboard = new Gameboard();
         private bool is_space_down = false;
         
         public Form1()
         {
-            for (int i = 0; i < y; i++)
-                for (int j = 0; j < x; j++)
+            for (int i = 0; i < x; i++)
+                for (int j = 0; j < y; j++)
                 {
                     map[i, j] = new PictureBox();
                     ((System.ComponentModel.ISupportInitialize)(map[i,j])).BeginInit();
@@ -88,7 +88,7 @@ namespace Mr_MoneyBag
         {
             int x = gameboard.player.x;
             int y = gameboard.player.y;
-            int x_st = x - Form1.x / 2 + 1;
+            int x_st = x - Form1.x / 2;
             if (x_st < 0) x_st = 0; 
             int x_ed = x_st + Form1.x;
             if (x_ed > (gameboard.GetHeight() )) { x_ed = gameboard.GetHeight() ; x_st = x_ed - Form1.x; }
@@ -100,19 +100,19 @@ namespace Mr_MoneyBag
             Console.WriteLine(x + " " + y);
             //Console.WriteLine(x_st + " " + x_ed + " | " + y_st + " " + y_ed);
 
-            for (int i = y_st; i < y_ed; i++)
+            for (int i = x_st; i < x_ed; i++)
             {
-                for (int j = x_st; j < x_ed; j++)
+                for (int j = y_st; j < y_ed; j++)
                 {
-                    int a = i - y_st;
-                    int b = j - x_st;
+                    int a = i - x_st;
+                    int b = j - y_st;
                     //Console.WriteLine(a + " ab " + b);
                     //Console.WriteLine(i + " ij " + j);
                                         
-                    string imgname = gameboard.status[j, i].GetImageName();
+                    string imgname = gameboard.status[i, j].GetImageName();
                     if (mapname[a, b] != imgname)
                     {
-                        map[a, b].Image = gameboard.status[j, i].getimage();
+                        map[a, b].Image = gameboard.status[i, j].getimage();
                         mapname[a, b] = imgname;
                     }
 
