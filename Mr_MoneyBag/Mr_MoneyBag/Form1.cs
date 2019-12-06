@@ -14,20 +14,20 @@ namespace Mr_MoneyBag
     {
         public const int blocksize = 30;
         public static int x = 30, y = 17;
-        public PictureBox[,] map = new PictureBox[x, y];
-        string[,] mapname = new string[x, y];
+        public PictureBox[,] map = new PictureBox[y, x];
+        string[,] mapname = new string[y, x];
         Gameboard gameboard = new Gameboard();
         private bool is_space_down = false;
         
         public Form1()
         {
-            for (int i = 0; i < x; i++)
-                for (int j = 0; j < y; j++)
+            for (int i = 0; i < y; i++)
+                for (int j = 0; j < x; j++)
                 {
                     map[i, j] = new PictureBox();
                     ((System.ComponentModel.ISupportInitialize)(map[i,j])).BeginInit();
                     //map[i, j].Image = gameboard.status[i, j].getimage();
-                    map[i, j].Location = new System.Drawing.Point(blocksize * i, blocksize * j);
+                    map[i, j].Location = new System.Drawing.Point(blocksize * j, blocksize * i);
                     map[i, j].Size = new System.Drawing.Size(blocksize, blocksize);
                     this.Controls.Add(map[i, j]);
                     ((System.ComponentModel.ISupportInitialize)(map[i,j])).EndInit();
@@ -91,32 +91,31 @@ namespace Mr_MoneyBag
             int x_st = x - Form1.x / 2 + 1;
             if (x_st < 0) x_st = 0; 
             int x_ed = x_st + Form1.x;
-            if (x_ed > (gameboard.GetWidth() - 1)) x_ed = gameboard.GetWidth() - 1;
+            if (x_ed > (gameboard.GetHeight() - 1)) { x_ed = gameboard.GetHeight() - 1; x_st = x_ed - Form1.x; }
             int y_st = y - Form1.y / 2;
             if (y_st < 0) y_st = 0;
             int y_ed = y_st + Form1.y;
-            if (y_ed > (gameboard.GetHeight() - 1)) x_ed = gameboard.GetHeight() - 1;
+            if (y_ed > (gameboard.GetWidth() - 1)) { y_ed = gameboard.GetWidth() - 1; y_st = y_ed - Form1.y; }
 
             Console.WriteLine(x + " " + y);
+            Console.WriteLine(x_st + " " + x_ed + " | " + y_st + " " + y_ed);
 
-            for (int i = x_st; i < x_ed; i++)
+            for (int i = y_st; i < y_ed; i++)
             {
-                for (int j = y_st; j < y_ed; j++)
+                for (int j = x_st; j < x_ed; j++)
                 {
-                    int a = i - x_st;
-                    int b = j - y_st;
+                    int a = i - y_st;
+                    int b = j - x_st;
+                    //Console.WriteLine(a + " ab " + b);
+                    //Console.WriteLine(i + " ij " + j);
                                         
-                    //if (gameboard.status[i, j].hasimagechange)
-                    //{
-                    //gameboard.status[i, j].hasimagechange = false;
-                    string imgname = gameboard.status[i, j].GetImageName();
+                    string imgname = gameboard.status[j, i].GetImageName();
                     if (mapname[a, b] != imgname)
                     {
-                        map[a, b].Image = gameboard.status[i, j].getimage();
+                        map[a, b].Image = gameboard.status[j, i].getimage();
                         mapname[a, b] = imgname;
                     }
 
-                    //}
                 }
             }
         }

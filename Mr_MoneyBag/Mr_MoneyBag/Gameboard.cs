@@ -9,7 +9,7 @@ namespace Mr_MoneyBag
 {
     class Gameboard
     {
-        public const int width=99, height=99;
+        public const int width=39, height=99;
         public int level;
         public int turn = 0;
         public GameObject[,] status = new GameObject[height, width];

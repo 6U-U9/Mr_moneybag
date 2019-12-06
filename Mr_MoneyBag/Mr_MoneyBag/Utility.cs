@@ -62,18 +62,64 @@ namespace Mr_MoneyBag
 
     static class Level
     {
+        static Random rnd = new Random();
+        static int[,] dir = new int[,] { {1, 0}, {0, 1}, {-1, 0}, {0, -1} };
+        static int[] order = new int[] { 0, 1, 2, 3 };
         public static void GenRandomLevel(Gameboard board, int lv)
+        {
+            GenBasicMap(board);
+            
+        }
+        public static void GenBasicMap(Gameboard board)
         {
 
             for (int i = 0; i < board.GetHeight(); i++)
+            {
                 for (int j = 0; j < board.GetWidth(); j++)
                 {
-                    if ((i + 2 * j) % 4 != 0)
-                        board.status[i, j] = new Space(board);
-                    else
-                        board.status[i, j] = new Wall(board, i, j);
+                    board.status[i, j] = new Wall(board, i, j);
                 }
+            }
+
+            bool[,] vis = new bool[board.GetHeight(), board.GetWidth()];
+            GenBasicMapHelper(board, vis, 10, 10);
             board.status[10, 10] = board.player;
+        }
+
+        private static void GenBasicMapHelper(Gameboard board, bool[,] vis, int x, int y)
+        {
+            
+            if (x > board.GetWidth() - 1 || x < 0 || y > board.GetHeight() - 1 || y < 0) return;
+            if (CheckConnect(board)) return;
+            if (vis[y, x]) return;
+            if (board.status[y, x].GetType() == typeof(Space)) return;
+
+            vis[y, x] = true;
+            Console.WriteLine(x + " -xy- " + y);
+            board.status[y, x] = new Space(board);
+            
+            int[] rndorder = order.OrderBy(t => rnd.Next()).ToArray();
+
+            GenBasicMapHelper(board, vis, x + dir[rndorder[0], 0], y + dir[rndorder[0], 1]);
+            GenBasicMapHelper(board, vis, x + dir[rndorder[1], 0], y + dir[rndorder[1], 1]);
+            /*GenBasicMapHelper(board, vis, x + dir[rndorder[2], 0], y + dir[rndorder[2], 1]);
+            GenBasicMapHelper(board, vis, x + dir[rndorder[3], 0], y + dir[rndorder[3], 1]);*/
+        }
+
+        private static bool CheckConnect(Gameboard board)
+        {
+            
+            for (int i = 0; i < board.GetHeight(); i+=2)
+            {
+                for (int j = 0; j < board.GetWidth(); j+=2)
+                {
+                    if ( (board.status[i, j] == null || board.status[i, j].GetType() == typeof(Wall)))
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
     }
 
