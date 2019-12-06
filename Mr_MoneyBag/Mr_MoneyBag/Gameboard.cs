@@ -9,12 +9,12 @@ namespace Mr_MoneyBag
 {
     class Gameboard
     {
-        public const int width=59, height=59;
+        public const int width=79, height=79;
         public int level;
         public int turn = 0;
         public GameObject[,] status = new GameObject[height, width];
-        public const int initial_x = 20;
-        public const int initial_y = 20;
+        public const int initial_x = 50;
+        public const int initial_y = 50;
         public Player player;
         public Gameboard()
         {

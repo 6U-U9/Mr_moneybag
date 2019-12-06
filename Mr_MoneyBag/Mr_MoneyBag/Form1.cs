@@ -97,7 +97,7 @@ namespace Mr_MoneyBag
             int y_ed = y_st + Form1.y;
             if (y_ed > (gameboard.GetWidth() )) { y_ed = gameboard.GetWidth() ; y_st = y_ed - Form1.y; }
 
-            //Console.WriteLine(x + " " + y);
+            Console.WriteLine(x + " " + y);
             //Console.WriteLine(x_st + " " + x_ed + " | " + y_st + " " + y_ed);
 
             for (int i = y_st; i < y_ed; i++)
