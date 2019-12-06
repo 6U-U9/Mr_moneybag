@@ -14,7 +14,7 @@ namespace Mr_MoneyBag
         public Image[] image;
         public bool visible;
         public bool seen;
-        public bool isblocked;
+        public bool isblocked=true;
         public bool hasimagechange;
         public GameObject(Gameboard gameboard)
         {
@@ -46,7 +46,7 @@ namespace Mr_MoneyBag
     class Space : GameObject
     {
         public Space(Gameboard gameboard) : base(gameboard)
-        {}
+        { this.isblocked = false; }
         public override Image getimage()
         {
             return Properties.Resources.space;
@@ -78,14 +78,19 @@ namespace Mr_MoneyBag
             var y = this.y + dy;
             while (gameboard.status[x, y] is Space)
             {
-                x = this.x + dx;
-                y = this.y + dy;
+                if (x == gameboard.GetHeight() - 1 || x == 0 || y == gameboard.GetWidth() - 1 || y == 0)
+                    break;
+                x = x + dx;
+                y = y + dy;
             }
             gameboard.status[x, y].damaged(attack);
+            Console.WriteLine(x + "," + y + "damaged");
         }
         virtual public bool moveable(int x, int y)
         {
-            if (gameboard.status[x, y] is Space)
+            if (x > gameboard.GetHeight() - 1 || x < 0 || y > gameboard.GetWidth() - 1 || y < 0)
+                return false;
+            if (gameboard.status[x, y].isblocked==false)
                 return true;
             return false;
         }
@@ -101,6 +106,8 @@ namespace Mr_MoneyBag
         }
         public override bool moveable(int x, int y)
         {
+            if (x > gameboard.GetHeight() - 1 || x < 0 || y > gameboard.GetWidth() - 1 || y < 0)
+                return false;
             if (gameboard.status[x, y] is Enemy) this.damaged(((Enemy)gameboard.status[x, y]).attack);
             return base.moveable(x, y);
         }
@@ -190,6 +197,13 @@ namespace Mr_MoneyBag
         {
             return "wall";
         }
+    }
+    class UnbreakableWall : Wall
+    {
+        public UnbreakableWall(Gameboard gameboard, int x, int y, int hp = 1) : base(gameboard,x,y,hp)
+        { }
+        public override void damaged(int n)
+        { }
     }
     class Gate : Space
     {

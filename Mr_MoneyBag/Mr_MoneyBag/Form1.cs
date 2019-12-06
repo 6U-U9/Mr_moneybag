@@ -119,6 +119,13 @@ namespace Mr_MoneyBag
                 }
             }
         }
+
+        private void Form1_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Space)
+                is_space_down = false;
+        }
+
         protected override bool ProcessDialogKey(Keys keycode)
         {
             switch (keycode)
