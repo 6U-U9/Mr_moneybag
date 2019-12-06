@@ -139,13 +139,13 @@ namespace Mr_MoneyBag
         public void moveright()
         { moveto(this.x, this.y+1); }
         public void shootup()
-        { shoot(-1, 0); }
+        { if (hp > 0) { this.hp--; shoot(-1, 0); } }
         public void shootdown()
-        { shoot(1, 0); }
+        { if (hp > 0) { this.hp--; shoot(1, 0); } }
         public void shootleft()
-        { shoot(0, -1); }
+        {if (hp > 0) { this.hp--; shoot(0, -1); } }
         public void shootright()
-        { shoot(0, 1); }
+        {if (hp > 0) { this.hp--; shoot(0, 1); } }
         public override Image getimage()
         {
             return Properties.Resources.player; 
