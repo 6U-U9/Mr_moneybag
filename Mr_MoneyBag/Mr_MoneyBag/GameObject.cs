@@ -102,10 +102,11 @@ namespace Mr_MoneyBag
     class Player : MoveableObject
     {
         public int moneylimit;
-        public Player(Gameboard gameboard,int money,int x,int y,int moneylimit): base(gameboard,money,x,y)
+        public Player(Gameboard gameboard,int money,int x,int y,int moneylimit,int attack=1): base(gameboard,money,x,y)
         {
             //this.image = Properties.Resources.player;
             this.moneylimit = moneylimit;
+            this.attack = attack;
         }
         public override bool moveable(int x, int y)
         {
@@ -191,6 +192,11 @@ namespace Mr_MoneyBag
         public override Image getimage()
         {
             return Properties.Resources.shop_heart;
+        }
+        public override void damaged(int n)
+        {
+            //Console.WriteLine("shop get money remain "+hp);
+            base.damaged(1);
         }
     }
     class CoinOnFloor_Shop : Shop

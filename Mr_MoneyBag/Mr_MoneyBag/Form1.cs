@@ -127,7 +127,7 @@ namespace Mr_MoneyBag
                     //Console.WriteLine(i + " ij " + j);
                                         
                     string imgname = gameboard.status[i, j].GetImageName();
-                    Console.WriteLine(imgname);
+                    //Console.WriteLine(imgname);
 
                     if (mapname[a, b] != imgname || (Math.Abs((x - x_st) - a) <= 1 || Math.Abs((y - y_st) - b) <= 1))
                     {
@@ -138,7 +138,7 @@ namespace Mr_MoneyBag
             }
             Console.WriteLine(x + " " + y);
             map[x - x_st, y - y_st].Image = gameboard.player.getimage();
-
+            Console.WriteLine("Money:"+gameboard.player.hp+" Limit"+gameboard.player.moneylimit+" CoinsOnFloor"+gameboard.coinsonfloor+" NewRedGen"+gameboard.newredgen+" RedNoticeDist"+gameboard.rednoticedist+" sight"+gameboard.sight);
 
         }
 
