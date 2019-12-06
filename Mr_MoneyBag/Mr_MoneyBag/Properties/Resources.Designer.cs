@@ -63,9 +63,29 @@ namespace Mr_MoneyBag.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        public static System.Drawing.Bitmap enemy_0 {
+        public static System.Drawing.Bitmap enemy_1 {
             get {
-                object obj = ResourceManager.GetObject("enemy_0", resourceCulture);
+                object obj = ResourceManager.GetObject("enemy_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap enemy_2 {
+            get {
+                object obj = ResourceManager.GetObject("enemy_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap enemy_3 {
+            get {
+                object obj = ResourceManager.GetObject("enemy_3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -77,6 +77,11 @@ namespace Mr_MoneyBag
             
         }
 
+        public static void SpawnEnemy(Gameboard board, int lv)
+        {
+
+        }
+
         public static void AddShop(Gameboard board, int lv)
         {
             for (int i = 0; i < board.shop_amount.Length; i++)

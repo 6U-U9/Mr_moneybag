@@ -93,6 +93,8 @@
     <None Include="Resources\player.JPG" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\enemy_1.JPG" />
+    <None Include="Resources\enemy_2.JPG" />
     <Content Include="Resources\money.jpg" />
     <None Include="Resources\shop_newredgen.JPG" />
     <None Include="Resources\shop_coinonfloor.JPG" />
