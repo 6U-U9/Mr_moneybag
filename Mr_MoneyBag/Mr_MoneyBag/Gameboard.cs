@@ -13,7 +13,7 @@ namespace Mr_MoneyBag
         static Random rnd = new Random();
         public int level;
         public int turn = 0;
-        public int coinsonfloor = 24, newredgen = 5, rednoticedist = 8, sight = 5, InitPlayerMoneyLimit = 5;
+        public int coinsonfloor = 24, newredgen = 6, rednoticedist = 8, sight = 5, InitPlayerMoneyLimit = 5;
         public int[] shop_amount = new int[] { 2, 2, 2, 2, 2, 2 }; // coinonfloor, newredgen, rednoticedist, sight, damage, moneylimit, 
         public GameObject[,] status = new GameObject[height, width];
         public const int initial_x = 40;
@@ -55,6 +55,7 @@ namespace Mr_MoneyBag
                 timer = 0;
                 SpawnEnemy();
             }
+            if(timer % 2 == 0)
             foreach (Enemy enemy in enemies)
             {
                 enemy.move();
