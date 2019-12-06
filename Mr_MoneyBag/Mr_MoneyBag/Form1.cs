@@ -128,30 +128,30 @@ namespace Mr_MoneyBag
                                         
                     string imgname = gameboard.status[i, j].GetImageName();
                     //Console.WriteLine(imgname);
-
+                    /*
                     if (mapname[a, b] != imgname || (Math.Abs((x - x_st) - a) <= 1 || Math.Abs((y - y_st) - b) <= 1))
                     {
                         map[a, b].Image = gameboard.status[i, j].getimage();
                         mapname[a, b] = imgname;
-                    }
+                    }*/
+                    map[a, b].Image = GetShowImage(gameboard, i, j);
                 }
             }
             //Console.WriteLine(x + " " + y);
-            map[x - x_st, y - y_st].Image = gameboard.player.getimage();
             Console.WriteLine("Money:"+gameboard.player.hp+" Limit"+gameboard.player.moneylimit+" CoinsOnFloor"+gameboard.coinsonfloor+" NewRedGen"+gameboard.newredgen+" RedNoticeDist"+gameboard.rednoticedist+" sight"+gameboard.sight+" damage"+gameboard.player.attack);
 
         }
         private Image GetShowImage(Gameboard gameboard, int x, int y)
         {
             if (gameboard.player.x == x && gameboard.player.y == y)
-                return Properties.Resources.player;
+            return Properties.Resources.player;
             GameObject gameObject = gameboard.status[x, y];
             int dist = Math.Abs(x - gameboard.player.x) + Math.Abs(y - gameboard.player.y);
             if (dist <= gameboard.sight)
                 if ((x+y)%2==1)
                     return UniteImage(Properties.Resources.back1, gameboard.status[x, y].getimage());
                 else
-                    return UniteImage(Properties.Resources.back0, gameboard.status[x, y].getimage());
+                     return UniteImage(Properties.Resources.back0, gameboard.status[x, y].getimage());
             if (gameObject.seen == true)
                 return UniteImage(Properties.Resources.Seen, gameboard.status[x, y].getimage());
             if (gameObject.NearlySeen == true)
