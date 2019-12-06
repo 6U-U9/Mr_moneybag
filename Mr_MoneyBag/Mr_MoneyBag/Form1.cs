@@ -47,7 +47,7 @@ namespace Mr_MoneyBag
 
             if (e.KeyCode == Keys.Space)
                 is_space_down = true;
-            if (!arrow_key_locked)
+            if (!arrow_key_locked) 
             {
                 if (is_space_down == true)
                     switch (e.KeyCode)
