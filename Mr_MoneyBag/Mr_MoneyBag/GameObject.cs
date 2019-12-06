@@ -15,9 +15,11 @@ namespace Mr_MoneyBag
         public bool seen;
         public bool isblocked=true;
         public bool NearlySeen;
-        public GameObject(Gameboard gameboard)
+        public GameObject(Gameboard gameboard,int x,int y)
         {
             this.gameboard = gameboard;
+            this.x = x;
+            this.y = y;
         }
         virtual public void damaged(int n)
         {
@@ -27,9 +29,9 @@ namespace Mr_MoneyBag
         virtual public void dead()
         { 
             if(this.distance(gameboard.player.x,gameboard.player.y)<gameboard.sight)
-                freshboard(x, y, new Space(gameboard,true,true)); 
+                freshboard(x, y, new Space(gameboard,x,y,true,true)); 
             else
-                freshboard(x, y, new Space(gameboard));
+                freshboard(x, y, new Space(gameboard,x,y));
         }
         //更新对象地图
         virtual public void freshboard(int x, int y, GameObject gameobject)
@@ -46,7 +48,7 @@ namespace Mr_MoneyBag
     }
     class Space : GameObject
     {
-        public Space(Gameboard gameboard, bool seen=false, bool NearlySeen=false) : base(gameboard)
+        public Space(Gameboard gameboard, int x, int y,bool seen=false, bool NearlySeen=false) : base(gameboard,x,y)
         { this.isblocked = false;
             this.seen = seen;
             this.NearlySeen = NearlySeen;
@@ -62,11 +64,9 @@ namespace Mr_MoneyBag
     }
     class MoveableObject : GameObject
     {
-        public MoveableObject(Gameboard gameboard, int money, int x, int y) : base(gameboard)
+        public MoveableObject(Gameboard gameboard, int money, int x, int y) : base(gameboard,x,y)
         {
             this.hp = money;
-            this.x = x;
-            this.y = y;
         }
         public int attack;
         virtual public void moveto(int x, int y)
@@ -77,7 +77,7 @@ namespace Mr_MoneyBag
             var pasty = this.y;
             this.x = x;
             this.y = y;
-            freshboard(pastx, pasty, new Space(gameboard));
+            freshboard(pastx, pasty, new Space(gameboard,pastx,pasty));
             freshboard(x, y, this);
         }
         virtual public void shoot(int dx, int dy)
@@ -138,7 +138,7 @@ namespace Mr_MoneyBag
             if (gameboard.status[this.x, this.y] is Money&&this.hp<this.moneylimit)
             {
                 getmoney(((Money)gameboard.status[this.x, this.y]).hp);
-                freshboard(this.x,this.y, new Space(gameboard,true));
+                freshboard(this.x,this.y, new Space(gameboard, this.x, this.y,true));
             }
             foreach (GameObject gameObject in gameboard.status)
             {
@@ -209,7 +209,7 @@ namespace Mr_MoneyBag
     class Shop : GameObject
     {
         public int gain;
-        public Shop(Gameboard gameboard,int money, int x, int y): base(gameboard)
+        public Shop(Gameboard gameboard,int money, int x, int y): base(gameboard,x,y)
         {
             this.hp = money;
             this.x = x;
@@ -349,11 +349,9 @@ namespace Mr_MoneyBag
     }
     class Wall : GameObject
     {
-        public Wall(Gameboard gameboard,int x, int y,int hp=1 ): base(gameboard)
+        public Wall(Gameboard gameboard,int x, int y,int hp=1 ): base(gameboard,x,y)
         {
             this.hp = hp;
-            this.x = x;
-            this.y = y;
             this.isblocked = true;
         }
         public override void damaged(int n)
@@ -378,12 +376,12 @@ namespace Mr_MoneyBag
     }
     class Gate : Space
     {
-        public Gate(Gameboard gameboard) : base(gameboard)
+        public Gate(Gameboard gameboard,int x,int y) : base(gameboard,x,y)
         { }
     }
     class Money : Space
     { 
-        public Money(Gameboard gameboard,int money=1): base(gameboard)
+        public Money(Gameboard gameboard,int x,int y,int money=1): base(gameboard,x,y)
         {
             this.hp = money;
         }

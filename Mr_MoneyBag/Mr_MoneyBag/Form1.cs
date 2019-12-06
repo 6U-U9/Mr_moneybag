@@ -167,8 +167,8 @@ namespace Mr_MoneyBag
                     return UniteImage(Properties.Resources.back0, gameboard.status[x, y].getimage());
                 }
             }
-
-
+            if (gameObject is Space)
+                Console.WriteLine(gameObject.seen);
             if (gameObject.seen == true)
                 return UniteImage(Properties.Resources.Seen, gameboard.status[x, y].getimage());
             if (gameObject.NearlySeen == true)

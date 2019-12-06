@@ -33,7 +33,7 @@ namespace Mr_MoneyBag
         {
             for (int i = 0; i < height; i++)
                 for (int j = 0; j < width; j++)
-                    status[i, j] = new Space(this);
+                    status[i, j] = new Space(this,i,j);
             status[10, 10] = player;
         }
 

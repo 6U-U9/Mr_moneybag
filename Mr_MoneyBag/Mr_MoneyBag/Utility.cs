@@ -192,7 +192,7 @@ namespace Mr_MoneyBag
 
                     if (board.status[x, y] is Space && board.player.x != x && board.player.y != y)
                     {
-                        board.status[x, y] = new Money(board);
+                        board.status[x, y] = new Money(board,x,y);
                         success = true;
                     }
 
@@ -232,7 +232,7 @@ namespace Mr_MoneyBag
 
             vis[y, x] = true;
             //Console.WriteLine(x + " -xy- " + y);
-            board.status[y, x] = new Space(board);
+            board.status[y, x] = new Space(board,y,x);
             
             //int[] rndorder = order.OrderBy(t => rnd.Next()).ToArray();
             //int next = rnd.Next(0, 4);
