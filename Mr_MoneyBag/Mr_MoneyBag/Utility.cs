@@ -114,7 +114,7 @@ namespace Mr_MoneyBag
 
             bool[,] vis = new bool[board.GetHeight(), board.GetWidth()];
             GenBasicMapHelper(board, vis, Gameboard.initial_x, Gameboard.initial_y, 0);
-            board.status[Gameboard.initial_x, Gameboard.initial_y] = board.player;
+            //board.status[Gameboard.initial_x, Gameboard.initial_y] = board.player;
         }
 
 

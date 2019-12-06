@@ -99,7 +99,7 @@ namespace Mr_MoneyBag
 
             Console.WriteLine(x + " " + y);
             //Console.WriteLine(x_st + " " + x_ed + " | " + y_st + " " + y_ed);
-
+            
             for (int i = x_st; i < x_ed; i++)
             {
                 for (int j = y_st; j < y_ed; j++)
@@ -120,6 +120,9 @@ namespace Mr_MoneyBag
 
                 }
             }
+            Console.WriteLine(x + " " + y);
+            map[x - x_st, y - y_st].Image = gameboard.player.getimage();
+
         }
 
         private void Form1_KeyUp(object sender, KeyEventArgs e)
