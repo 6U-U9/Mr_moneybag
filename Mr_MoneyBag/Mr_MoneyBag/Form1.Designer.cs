@@ -34,6 +34,7 @@
             // lbllevel
             // 
             this.lbllevel.AutoSize = true;
+            this.lbllevel.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.lbllevel.Location = new System.Drawing.Point(833, 461);
             this.lbllevel.Name = "lbllevel";
             this.lbllevel.Size = new System.Drawing.Size(17, 12);
