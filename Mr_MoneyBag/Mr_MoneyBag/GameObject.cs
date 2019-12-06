@@ -170,7 +170,17 @@ namespace Mr_MoneyBag
     }
     class Shop : GameObject
     {
+        public int cost, gain;
         public Shop(Gameboard gameboard,int money, int x, int y): base(gameboard)
+        {
+            this.hp = money;
+            this.x = x;
+            this.y = y;
+        }
+    }
+    class CoinOnFloor_Shop : Shop
+    {
+        public CoinOnFloor_Shop(Gameboard gameboard, int money, int x, int y) : base(gameboard,money,x,y)
         {
             this.hp = money;
             this.x = x;
@@ -220,6 +230,10 @@ namespace Mr_MoneyBag
         public override Image getimage()
         {
             return Properties.Resources.money;
+        }
+        public override string GetImageName()
+        {
+            return "money";
         }
     }
 }

@@ -41,10 +41,5 @@ namespace Mr_MoneyBag
         {
             return height;
         }
-        public Shop GenShop(ref int target)
-        { 
-
-            return null; 
-        }
     }
 }
