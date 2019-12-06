@@ -145,13 +145,30 @@ namespace Mr_MoneyBag
         {
             if (gameboard.player.x == x && gameboard.player.y == y)
             return Properties.Resources.player;
+            
             GameObject gameObject = gameboard.status[x, y];
-            int dist = Math.Abs(x - gameboard.player.x) + Math.Abs(y - gameboard.player.y);
-            if (dist <= gameboard.sight)
-                if ((x+y)%2==1)
+            int dist = Math.Abs(x - gameboard.player.x) * Math.Abs(x - gameboard.player.x) + Math.Abs(y - gameboard.player.y) * Math.Abs(y - gameboard.player.y);
+            if (dist <= gameboard.sight * gameboard.sight)
+            {
+                if ((x + y) % 2 == 1)
+                {
+                    foreach (Enemy enemy in gameboard.enemies)
+                    {
+                        if (enemy.x == x && enemy.y == y) return UniteImage(Properties.Resources.back1, Properties.Resources.enemy_1);
+                    }
                     return UniteImage(Properties.Resources.back1, gameboard.status[x, y].getimage());
+                }
                 else
-                     return UniteImage(Properties.Resources.back0, gameboard.status[x, y].getimage());
+                {
+                    foreach (Enemy enemy in gameboard.enemies)
+                    {
+                        if (enemy.x == x && enemy.y == y) return UniteImage(Properties.Resources.back1, Properties.Resources.enemy_1);
+                    }
+                    return UniteImage(Properties.Resources.back0, gameboard.status[x, y].getimage());
+                }
+            }
+
+
             if (gameObject.seen == true)
                 return UniteImage(Properties.Resources.Seen, gameboard.status[x, y].getimage());
             if (gameObject.NearlySeen == true)

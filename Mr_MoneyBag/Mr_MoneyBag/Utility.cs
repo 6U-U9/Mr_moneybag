@@ -29,6 +29,8 @@ namespace Mr_MoneyBag
          */
         static bool reach = false;
         static bool[,] vis;
+        static Node[,] parent;
+        static int[,] dir = new int[,] { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 } };
         public static Node GetNextStep(MoveableObject player, MoveableObject enemy, Gameboard board)
         {
             int h = board.GetHeight();
@@ -37,18 +39,45 @@ namespace Mr_MoneyBag
             List<Node> path = new List<Node>();
             vis = new bool[h, w];
             reach = false;
+            var st = new Node(player.x, player.y);
+            parent = new Node[h, w];
+            var queue = new Queue<Node>();
+            queue.Enqueue(st);
+            int cnt = 0;
+            while (queue.Count > 0)
+            {
+                cnt += 1;
+                var v = queue.Dequeue();
+                if (v.x == enemy.x && v.y == enemy.y) break;
+                if (vis[v.x, v.y]) continue;
+                vis[v.x, v.y] = true;
+
+                for(int i = 0; i < 4; i++)
+                {
+                    int nx = v.x + dir[i, 0];
+                    int ny = v.y + dir[i, 1];
+                    if ((nx > 1 && nx < board.GetWidth() - 1 && ny > 1 && ny < board.GetHeight() - 1) && !vis[nx, ny] && !board.status[nx, ny].isblocked) {
+                        queue.Enqueue(new Node(nx, ny));
+                        parent[nx, ny] = v;
+                    }
+                }
+
+        }
+
+
             Console.WriteLine("abc");
-            BFS(player.x, player.y, board, enemy.x, enemy.y, 0, path);
-            Console.WriteLine("abcdd");
+
+            //BFS(player.x, player.y, board, enemy.x, enemy.y, 0, path);
+            //Console.WriteLine(parent[enemy.x, enemy.y].x + ", " + parent[enemy.x, enemy.y].y);
             //path.ForEach(Console.WriteLine);
-            if (path.Count <= 1)
+            /*if (path.Count <= 1)
             {
                 Console.WriteLine("Cannot Found Any Path from 1 to 2");
-            }
+            }*/
             //Console.WriteLine(path[path.Count - 2].x);
             //Console.WriteLine(path[path.Count - 2].y);
 
-            return path[path.Count - 2];
+            return parent[enemy.x, enemy.y];
 
         }
 
