@@ -83,7 +83,10 @@ namespace Mr_MoneyBag
             {
                 for (int j = 0; j < board.GetWidth(); j++)
                 {
-                    board.status[i, j] = new Wall(board, i, j);
+                    if (i == 0 || j == 0 || i == board.GetHeight() - 1 || j == board.GetWidth() - 1)
+                        board.status[i, j] = new UnbreakableWall(board, i, j);
+                    else
+                        board.status[i, j] = new Wall(board, i, j);
                 }
             }
 
@@ -133,7 +136,7 @@ namespace Mr_MoneyBag
             {
                 for (int j = 0; j < board.GetWidth(); j+=2)
                 {
-                    if ( (board.status[i, j] == null || board.status[i, j].GetType() == typeof(Wall)))
+                    if ( (board.status[i, j] == null || board.status[i, j] is Wall))
                     {
                         return false;
                     }
