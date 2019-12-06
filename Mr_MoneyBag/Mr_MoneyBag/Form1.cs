@@ -147,8 +147,8 @@ namespace Mr_MoneyBag
             return Properties.Resources.player;
             
             GameObject gameObject = gameboard.status[x, y];
-            int dist = Math.Abs(x - gameboard.player.x) * Math.Abs(x - gameboard.player.x) + Math.Abs(y - gameboard.player.y) * Math.Abs(y - gameboard.player.y);
-            if (dist <= gameboard.sight * gameboard.sight)
+            double dist = gameObject.distance(gameboard.player.x,gameboard.player.y);
+            if (dist <= gameboard.sight)
             {
                 if ((x + y) % 2 == 1)
                 {

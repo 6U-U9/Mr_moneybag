@@ -93,6 +93,7 @@
     <None Include="Resources\player.JPG" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Wall.png" />
     <None Include="Resources\Space.png" />
     <None Include="Resources\Unseen.png" />
     <None Include="Resources\enemy_1.JPG" />

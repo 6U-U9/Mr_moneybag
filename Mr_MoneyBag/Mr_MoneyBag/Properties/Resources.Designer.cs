@@ -233,19 +233,9 @@ namespace Mr_MoneyBag.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        public static System.Drawing.Bitmap wall {
+        public static System.Drawing.Bitmap Wall {
             get {
-                object obj = ResourceManager.GetObject("wall", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        public static System.Drawing.Bitmap wall1 {
-            get {
-                object obj = ResourceManager.GetObject("wall1", resourceCulture);
+                object obj = ResourceManager.GetObject("Wall", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

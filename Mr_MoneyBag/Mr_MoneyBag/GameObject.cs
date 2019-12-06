@@ -362,7 +362,7 @@ namespace Mr_MoneyBag
         }
         public override Image getimage()
         {
-            return Properties.Resources.wall;
+            return Properties.Resources.Wall;
         }
         public override string GetImageName()
         {
