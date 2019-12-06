@@ -24,7 +24,7 @@ namespace Mr_MoneyBag
 
         public Gameboard()
         {
-            level = 1;
+            level = 3;
             player= new Player(this, 300, initial_x, initial_y, InitPlayerMoneyLimit);
             //genlevel(level); 
             Level.GenRandomLevel(this, level);
@@ -64,7 +64,7 @@ namespace Mr_MoneyBag
 
         public void SpawnEnemy()
         {
-            if (enemies.Count >= 3) return;
+            //if (enemies.Count >= 3) return;
             bool success = false;
             while (!success)
             {
@@ -84,7 +84,7 @@ namespace Mr_MoneyBag
                 if (duplicate) continue;
                 if (status[x, y] is Space && player.x != x && player.y != y)
                 {
-                    enemies.Add(new Enemy(this, 1, x, y));
+                    enemies.Add(new Enemy(this, rnd.Next(0, level + 1), x, y));
                     success = true;
                     Console.WriteLine("Enemy Spawn at " + x + ", " + y);
                 }

@@ -66,13 +66,6 @@ namespace Mr_MoneyBag
             }
             //Console.WriteLine("BFS for Enemy: " + enemy.x + ", " + enemy.y + " End");
 
-
-
-            Console.WriteLine("abc");
-
-            //BFS(player.x, player.y, board, enemy.x, enemy.y, 0, path);
-            //Console.WriteLine(parent[enemy.x, enemy.y].x + ", " + parent[enemy.x, enemy.y].y);
-            //path.ForEach(Console.WriteLine);
             if (!vis[enemy.x, enemy.y])
             {
                 Console.WriteLine("Cannot Found Any Path!");

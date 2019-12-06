@@ -233,12 +233,30 @@ namespace Mr_MoneyBag
 
         public override Image getimage()
         {
+            switch(hp)
+            {
+                case 1:
+                    return Properties.Resources.enemy_1;
+                case 2:
+                    return Properties.Resources.enemy_2;
+                case 3:
+                    return Properties.Resources.enemy_3;
+            }
             return Properties.Resources.enemy_1;
-            
+
         }
         public override string GetImageName()
         {
-            return "enemy1";
+            switch (hp)
+            {
+                case 1:
+                    return "enemy_1";
+                case 2:
+                    return "enemy_2";
+                case 3:
+                    return "enemy_3";
+            }
+            return "enemy_1";
         }
     }
     class Shop : GameObject

@@ -154,7 +154,7 @@ namespace Mr_MoneyBag
                 {
                     foreach (Enemy enemy in gameboard.enemies)
                     {
-                        if (enemy.x == x && enemy.y == y) return UniteImage(Properties.Resources.back1, Properties.Resources.enemy_1);
+                        if (enemy.x == x && enemy.y == y) return UniteImage(Properties.Resources.back1, enemy.getimage());
                     }
                     return UniteImage(Properties.Resources.back1, gameboard.status[x, y].getimage());
                 }
@@ -162,7 +162,7 @@ namespace Mr_MoneyBag
                 {
                     foreach (Enemy enemy in gameboard.enemies)
                     {
-                        if (enemy.x == x && enemy.y == y) return UniteImage(Properties.Resources.back1, Properties.Resources.enemy_1);
+                        if (enemy.x == x && enemy.y == y) return UniteImage(Properties.Resources.back1, enemy.getimage());
                     }
                     return UniteImage(Properties.Resources.back0, gameboard.status[x, y].getimage());
                 }
