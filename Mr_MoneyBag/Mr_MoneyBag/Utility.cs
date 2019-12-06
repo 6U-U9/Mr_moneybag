@@ -64,12 +64,43 @@ namespace Mr_MoneyBag
     {
         static Random rnd = new Random();
         static int[,] dir = new int[,] { {1, 0}, {0, 1}, {-1, 0}, {0, -1} };
-        static int[] parameter = new int[] { 22, 8, 6 };
+        static int[,] parameter = new int[,] { { 4, 0}, { 5, 0}, { 255, 1}, { 505, 1} };
         public static void GenRandomLevel(Gameboard board, int lv)
         {
+            Console.WriteLine("-0-");
             GenBasicMap(board);
+            Console.WriteLine("-1-");
+            AddMoney(board);
+            Console.WriteLine("-2-");
             
         }
+
+        public static void AddShop(Gameboard board)
+        {
+
+        }
+
+        public static void AddMoney(Gameboard board)
+        {
+            for(int i = 0; i < board.coinsonfloor; i++)
+            {
+                bool success = false;
+                while (!success)
+                {
+                    int x = rnd.Next(0, board.GetHeight());
+                    int y = rnd.Next(0, board.GetWidth());
+
+                    if (board.status[x, y] is Space)
+                    {
+                        board.status[x, y] = new Money(board);
+                        success = true;
+                    }
+
+                }
+                
+            }
+        }
+
         public static void GenBasicMap(Gameboard board)
         {
 
@@ -77,14 +108,18 @@ namespace Mr_MoneyBag
             {
                 for (int j = 0; j < board.GetWidth(); j++)
                 {
-                    board.status[i, j] = new Wall(board, i, j);
+                    if (i == 0 || j == 0 || i == board.GetHeight() - 1 || j == board.GetWidth() - 1)
+                        board.status[i, j] = new UnbreakableWall(board, i, j);
+                    else
+                        board.status[i, j] = new Wall(board, i, j);
                 }
             }
 
             bool[,] vis = new bool[board.GetHeight(), board.GetWidth()];
             GenBasicMapHelper(board, vis, Gameboard.initial_x, Gameboard.initial_y, 0);
-            board.status[Gameboard.initial_x, Gameboard.initial_y] = board.player;
+            //board.status[Gameboard.initial_x, Gameboard.initial_y] = board.player;
         }
+
 
         private static void GenBasicMapHelper(Gameboard board, bool[,] vis, int x, int y, int step)
         {
@@ -95,18 +130,25 @@ namespace Mr_MoneyBag
             if (board.status[y, x].GetType() == typeof(Space)) return;
 
             vis[y, x] = true;
-            Console.WriteLine(x + " -xy- " + y);
+            //Console.WriteLine(x + " -xy- " + y);
             board.status[y, x] = new Space(board);
             
             //int[] rndorder = order.OrderBy(t => rnd.Next()).ToArray();
-            int next = rnd.Next(0, 4);
-            GenBasicMapHelper(board, vis, x + dir[next, 0], y + dir[next, 1], step + 1);
-
-            for(int i = 0; i < parameter.Length; i++)
+            //int next = rnd.Next(0, 4);
+            //GenBasicMapHelper(board, vis, x + dir[next, 0], y + dir[next, 1], step + 1);
+            int prev = -1;
+            for (int i = 0; i < 4; i++)
             {
-                if (rnd.Next(0, step / parameter[i]) == 0)
+
+                if (rnd.Next(0, (step / parameter[i,0]) + parameter[i,1]) == 0)
                 {
-                    next = rnd.Next(0, 4);
+                    int next = rnd.Next(0, 4);
+                    if (i == 0) prev = next;
+                    else if (next == prev)
+                    {
+                        while(next == prev)
+                            next = rnd.Next(0, 4);
+                    }
                     GenBasicMapHelper(board, vis, x + dir[next, 0], y + dir[next, 1], step + 1);
                 }
             }
@@ -119,7 +161,7 @@ namespace Mr_MoneyBag
             {
                 for (int j = 0; j < board.GetWidth(); j+=2)
                 {
-                    if ( (board.status[i, j] == null || board.status[i, j].GetType() == typeof(Wall)))
+                    if ( (board.status[i, j] == null || board.status[i, j] is Wall))
                     {
                         return false;
                     }

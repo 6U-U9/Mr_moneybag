@@ -14,7 +14,7 @@ namespace Mr_MoneyBag
         public Image[] image;
         public bool visible;
         public bool seen;
-        public bool isblocked;
+        public bool isblocked=true;
         public bool hasimagechange;
         public GameObject(Gameboard gameboard)
         {
@@ -46,7 +46,7 @@ namespace Mr_MoneyBag
     class Space : GameObject
     {
         public Space(Gameboard gameboard) : base(gameboard)
-        {}
+        { this.isblocked = false; }
         public override Image getimage()
         {
             return Properties.Resources.space;
@@ -58,8 +58,12 @@ namespace Mr_MoneyBag
     }
     class MoveableObject : GameObject
     {
-        public MoveableObject(Gameboard gameboard) : base(gameboard)
-        { }
+        public MoveableObject(Gameboard gameboard, int money, int x, int y) : base(gameboard)
+        {
+            this.hp = money;
+            this.x = x;
+            this.y = y;
+        }
         public int attack;
         virtual public void moveto(int x, int y)
         {
@@ -69,7 +73,7 @@ namespace Mr_MoneyBag
             var pasty = this.y;
             this.x = x;
             this.y = y;
-            freshboard(pastx, pasty, gameboard.status[x, y]);
+            freshboard(pastx, pasty, new Space(gameboard));
             freshboard(x, y, this);
         }
         virtual public void shoot(int dx, int dy)
@@ -78,35 +82,44 @@ namespace Mr_MoneyBag
             var y = this.y + dy;
             while (gameboard.status[x, y] is Space)
             {
-                x = this.x + dx;
-                y = this.y + dy;
+                if (x == gameboard.GetHeight() - 1 || x == 0 || y == gameboard.GetWidth() - 1 || y == 0)
+                    break;
+                x = x + dx;
+                y = y + dy;
             }
             gameboard.status[x, y].damaged(attack);
+            Console.WriteLine(x + "," + y + "damaged");
         }
         virtual public bool moveable(int x, int y)
         {
-            if (gameboard.status[x, y] is Space)
+            if (x > gameboard.GetHeight() - 1 || x < 0 || y > gameboard.GetWidth() - 1 || y < 0)
+                return false;
+            if (gameboard.status[x, y].isblocked==false)
                 return true;
             return false;
         }
     }
     class Player : MoveableObject
     {
-        public Player(Gameboard gameboard,int money,int x,int y): base(gameboard)
+        public int moneylimit;
+        public Player(Gameboard gameboard,int money,int x,int y,int moneylimit): base(gameboard,money,x,y)
         {
             //this.image = Properties.Resources.player;
-            this.hp = money;
-            this.x = x;
-            this.y = y;
+            this.moneylimit = moneylimit;
         }
         public override bool moveable(int x, int y)
         {
+            if (x > gameboard.GetHeight() - 1 || x < 0 || y > gameboard.GetWidth() - 1 || y < 0)
+                return false;
             if (gameboard.status[x, y] is Enemy) this.damaged(((Enemy)gameboard.status[x, y]).attack);
             return base.moveable(x, y);
         }
         override public void moveto(int x, int y)
         {
-            base.moveto(x, y);
+            if (!moveable(x, y))
+                return;
+            this.x = x;
+            this.y = y;
             //判断是否到达Gate
             if (gameboard.status[this.x, this.y] is Gate)
             {
@@ -114,31 +127,36 @@ namespace Mr_MoneyBag
                 gameboard.genlevel(gameboard.level);
             }
             //判断是否获得Money
-            if (gameboard.status[this.x, this.y] is Money)
+            if (gameboard.status[this.x, this.y] is Money&&this.hp<this.moneylimit)
             {
                 getmoney(((Money)gameboard.status[this.x, this.y]).hp);
+                freshboard(this.x,this.y, new Space(gameboard));
             }
+            //Console.WriteLine(this.hp);
+        }
+        public override void damaged(int n)
+        {
+            hp -= n;
+            if (hp < 0) dead();
         }
         public void getmoney(int money)
         { this.hp += money; }
         public void moveup()
-        {
-            moveto(this.x, this.y - 1);
-        }
+        {moveto(this.x - 1, this.y); }
         public void movedown()
-        { moveto(this.x, this.y + 1); }
+        { moveto(this.x+ 1, this.y ); }
         public void moveleft()
-        { moveto(this.x-1, this.y); }
+        { moveto(this.x, this.y-1); }
         public void moveright()
-        { moveto(this.x+1, this.y); }
+        { moveto(this.x, this.y+1); }
         public void shootup()
-        { shoot(0, -1); }
+        { if (hp > 0) { this.hp--; shoot(-1, 0); } }
         public void shootdown()
-        { shoot(0, 1); }
+        { if (hp > 0) { this.hp--; shoot(1, 0); } }
         public void shootleft()
-        { shoot(-1, 0); }
+        {if (hp > 0) { this.hp--; shoot(0, -1); } }
         public void shootright()
-        { shoot(1, 0); }
+        {if (hp > 0) { this.hp--; shoot(0, 1); } }
         public override Image getimage()
         {
             return Properties.Resources.player; 
@@ -151,11 +169,8 @@ namespace Mr_MoneyBag
     class Enemy : MoveableObject
     {
         private string status = "walk";
-        public Enemy(Gameboard gameboard,int money, int x, int y,int attack=1): base(gameboard)
+        public Enemy(Gameboard gameboard,int money, int x, int y,int attack=1): base(gameboard,money,x,y)
         {
-            this.hp = money;
-            this.x = x;
-            this.y = y;
             this.attack = attack;
         }
         public void move()
@@ -163,11 +178,44 @@ namespace Mr_MoneyBag
     }
     class Shop : GameObject
     {
+        public int cost, gain;
         public Shop(Gameboard gameboard,int money, int x, int y): base(gameboard)
         {
             this.hp = money;
             this.x = x;
             this.y = y;
+        }
+    }
+    class CoinOnFloor_Shop : Shop
+    {
+        public CoinOnFloor_Shop(Gameboard gameboard, int money, int x, int y,int cost,int gain) : base(gameboard,money,x,y)
+        {
+            this.cost = cost;
+            this.gain = gain;
+        }
+    }
+    class NewRedGen_Shop : Shop
+    {
+        public NewRedGen_Shop(Gameboard gameboard, int money, int x, int y, int cost, int gain) : base(gameboard, money, x, y)
+        {
+            this.cost = cost;
+            this.gain = gain;
+        }
+    }
+    class RedNoticeDist_Shop : Shop
+    {
+        public RedNoticeDist_Shop(Gameboard gameboard, int money, int x, int y, int cost, int gain) : base(gameboard, money, x, y)
+        {
+            this.cost = cost;
+            this.gain = gain;
+        }
+    }
+    class Sight_Shop : Shop
+    {
+        public Sight_Shop(Gameboard gameboard, int money, int x, int y, int cost, int gain) : base(gameboard, money, x, y)
+        {
+            this.cost = cost;
+            this.gain = gain;
         }
     }
     class Wall : GameObject
@@ -191,6 +239,13 @@ namespace Mr_MoneyBag
             return "wall";
         }
     }
+    class UnbreakableWall : Wall
+    {
+        public UnbreakableWall(Gameboard gameboard, int x, int y, int hp = 1) : base(gameboard,x,y,hp)
+        { }
+        public override void damaged(int n)
+        { }
+    }
     class Gate : Space
     {
         public Gate(Gameboard gameboard) : base(gameboard)
@@ -201,6 +256,15 @@ namespace Mr_MoneyBag
         public Money(Gameboard gameboard,int money=1): base(gameboard)
         {
             this.hp = money;
+        }
+
+        public override Image getimage()
+        {
+            return Properties.Resources.money;
+        }
+        public override string GetImageName()
+        {
+            return "money";
         }
     }
 }
