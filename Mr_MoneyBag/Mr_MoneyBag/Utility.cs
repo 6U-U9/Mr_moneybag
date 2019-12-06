@@ -11,24 +11,42 @@ using EdgeList = System.Collections.Generic.List<(int node, double weight)>;
 namespace Mr_MoneyBag
 {
      
+    public class Node
+    {
+        public int x, y;
+        public Node(int x, int y)
+        {
+            this.x = x;
+            this.y = y;
+        }
+    }
+
     static class DistanceUtility
     {
         /* Find the next step from enemy to player, using the provided board
          * Provide a GameObject the next step should be
          * Uses the BFS Algorithm
-         */ 
+         */
+        static bool reach = false;
+        static bool[,] vis;
         public static GameObject GetNextStep(MoveableObject player, MoveableObject enemy, Gameboard board)
         {
             int h = board.GetHeight();
             int w = board.GetWidth();
             //int x = obj.x;
             List<GameObject> path = new List<GameObject>();
-            BFS(player.x, player.y, board, enemy.x, enemy.y, 0, path);
-            if(path.Count <= 1)
+            vis = new bool[h, w];
+            reach = false;
+            Console.WriteLine("abc");
+            //BFS(player.x, player.y, board, enemy.x, enemy.y, 0, path);
+            Console.WriteLine("abcdd");
+            //path.ForEach(Console.WriteLine);
+            if (path.Count <= 1)
             {
                 Console.WriteLine("Cannot Found Any Path from 1 to 2");
             }
-
+            Console.WriteLine(path[path.Count - 1].x);
+            Console.WriteLine(path[path.Count - 1].y);
 
             return path[path.Count - 1];
 
@@ -36,16 +54,24 @@ namespace Mr_MoneyBag
 
 
 
-        static void BFS(int x, int y, Gameboard board, int tx, int ty, int d, List<GameObject> path)
+        static void BFS(int x, int y, Gameboard board, int tx, int ty, int d, List<Node> path)
         {
-            path.Add(board.status[x, y]);
-            if (x == tx && y == ty) return;
+            if (vis[x, y]) return;
+            if (reach) return;
+            path.Add(new Node(x, y));
+            vis[x, y] = true;
+            Console.WriteLine("BFS: " + x + "," + y + " d: " + d + " tar: " + tx + "," + ty);
+
+            if (x == tx && y == ty) { reach = true; Console.WriteLine("Reached!"); return; }
             if (board.status[x, y].isblocked) { path.RemoveAt(path.Count - 1); return;}
-            if (x > 0) BFS(x - 1, y, board, tx, ty, d + 1, path);
-            if (x < board.GetWidth()) BFS(x + 1, y, board, tx, ty, d + 1, path);
-            if (y > 0) BFS(x, y - 1, board, tx, ty, d + 1, path);
-            if (y < board.GetHeight()) BFS(x, y + 1, board, tx, ty, d + 1, path);
-            path.RemoveAt(path.Count - 1);
+
+            
+            if (x > 1) BFS(x - 1, y, board, tx, ty, d + 1, path);
+            if (x < board.GetWidth() - 1) BFS(x + 1, y, board, tx, ty, d + 1, path);
+            if (y > 1) BFS(x, y - 1, board, tx, ty, d + 1, path);
+            if (y < board.GetHeight() - 1) BFS(x, y + 1, board, tx, ty, d + 1, path);
+            if(!reach) path.RemoveAt(path.Count - 1);
+            //vis[x, y] = false;
         }
 
 
@@ -77,10 +103,6 @@ namespace Mr_MoneyBag
             
         }
 
-        public static void SpawnEnemy(Gameboard board, int lv)
-        {
-
-        }
 
         public static void AddShop(Gameboard board, int lv)
         {
