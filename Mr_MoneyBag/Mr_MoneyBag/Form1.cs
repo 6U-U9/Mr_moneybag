@@ -19,7 +19,7 @@ namespace Mr_MoneyBag
         Gameboard gameboard = new Gameboard();
         private bool is_space_down = false;
         private bool arrow_key_locked = false;
-
+        
         
 
         public Form1()
@@ -36,6 +36,7 @@ namespace Mr_MoneyBag
                     this.Controls.Add(map[i, j]);
                     ((System.ComponentModel.ISupportInitialize)(map[i,j])).EndInit();
                 }
+            
             refresh();
             InitializeComponent();
             DoubleBuffered = true;
