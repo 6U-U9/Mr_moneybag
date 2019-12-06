@@ -64,7 +64,7 @@ namespace Mr_MoneyBag
     {
         static Random rnd = new Random();
         static int[,] dir = new int[,] { {1, 0}, {0, 1}, {-1, 0}, {0, -1} };
-        static int[] parameter = new int[] { 22, 8, 6 };
+        static int[] parameter = new int[] { 6, 1, 25 };
         public static void GenRandomLevel(Gameboard board, int lv)
         {
             GenBasicMap(board);
@@ -101,12 +101,19 @@ namespace Mr_MoneyBag
             //int[] rndorder = order.OrderBy(t => rnd.Next()).ToArray();
             int next = rnd.Next(0, 4);
             GenBasicMapHelper(board, vis, x + dir[next, 0], y + dir[next, 1], step + 1);
-
-            for(int i = 0; i < parameter.Length; i++)
+            int prev = -1;
+            for (int i = 0; i < parameter.Length; i++)
             {
+
                 if (rnd.Next(0, step / parameter[i]) == 0)
                 {
                     next = rnd.Next(0, 4);
+                    if (i == 0) prev = next;
+                    else if (next == prev)
+                    {
+                        while(next == prev)
+                            next = rnd.Next(0, 4);
+                    }
                     GenBasicMapHelper(board, vis, x + dir[next, 0], y + dir[next, 1], step + 1);
                 }
             }
