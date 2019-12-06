@@ -12,10 +12,8 @@ namespace Mr_MoneyBag
         public Gameboard gameboard;
         public int x, y,hp;
         public Image[] image;
-        public bool visible;
         public bool seen;
         public bool isblocked=true;
-        public bool hasimagechange;
         public bool NearlySeen;
         public GameObject(Gameboard gameboard)
         {
@@ -28,26 +26,31 @@ namespace Mr_MoneyBag
         }
         virtual public void dead()
         { 
-            freshboard(x, y, new Space(gameboard)); 
+            if(this.distance(gameboard.player.x,gameboard.player.y)<gameboard.sight)
+                freshboard(x, y, new Space(gameboard,true,true)); 
+            else
+                freshboard(x, y, new Space(gameboard));
         }
         //更新对象地图
         virtual public void freshboard(int x, int y, GameObject gameobject)
         {
             gameboard.status[x, y] = gameobject;
-            gameboard.status[x, y].hasimagechange = true;
         }
 
         virtual public Image getimage()
         { return null; }
         virtual public String GetImageName()
         { return null; }
-        virtual public int distance(int x, int y)
-        { return Math.Abs(this.x - x) + Math.Abs(this.y - y); }
+        virtual public double distance(int x, int y)
+        { return Math.Sqrt((this.x - x)*(this.x - x) + (this.y - y)*(this.y - y)); }
     }
     class Space : GameObject
     {
-        public Space(Gameboard gameboard) : base(gameboard)
-        { this.isblocked = false; }
+        public Space(Gameboard gameboard, bool seen=false, bool NearlySeen=false) : base(gameboard)
+        { this.isblocked = false;
+            this.seen = seen;
+            this.NearlySeen = NearlySeen;
+        }
         public override Image getimage()
         {
             return Properties.Resources.Space;
@@ -135,9 +138,15 @@ namespace Mr_MoneyBag
             if (gameboard.status[this.x, this.y] is Money&&this.hp<this.moneylimit)
             {
                 getmoney(((Money)gameboard.status[this.x, this.y]).hp);
-                freshboard(this.x,this.y, new Space(gameboard));
+                freshboard(this.x,this.y, new Space(gameboard,true));
             }
-            //Console.WriteLine(this.hp);
+            foreach (GameObject gameObject in gameboard.status)
+            {
+                if (gameObject.distance(this.x, this.y) < gameboard.sight)
+                    gameObject.seen = true;
+                else if (gameObject.distance(this.x, this.y) < gameboard.sight + 1)
+                    gameObject.NearlySeen = true;
+            }
         }
         public override void damaged(int n)
         {
