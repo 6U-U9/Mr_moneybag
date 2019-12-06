@@ -141,7 +141,7 @@ namespace Mr_MoneyBag
             Console.WriteLine("Money:"+gameboard.player.hp+" Limit"+gameboard.player.moneylimit+" CoinsOnFloor"+gameboard.coinsonfloor+" NewRedGen"+gameboard.newredgen+" RedNoticeDist"+gameboard.rednoticedist+" sight"+gameboard.sight+" damage"+gameboard.player.attack);
 
         }
-        /*private Image GetShowImage(Gameboard gameboard, int x, int y)
+        private Image GetShowImage(Gameboard gameboard, int x, int y)
         {
             if (gameboard.player.x == x && gameboard.player.y == y)
                 return Properties.Resources.player;
@@ -157,7 +157,7 @@ namespace Mr_MoneyBag
             if (gameObject.NearlySeen == true)
                 return Properties.Resources.NearlySeen;
             return Properties.Resources.Unseen;
-        }*/
+        }
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Space)
