@@ -132,6 +132,12 @@ namespace Mr_MoneyBag
                 getmoney(((Money)gameboard.status[this.x, this.y]).hp);
                 freshboard(this.x,this.y, new Space(gameboard));
             }
+            //Console.WriteLine(this.hp);
+        }
+        public override void damaged(int n)
+        {
+            hp -= n;
+            if (hp < 0) dead();
         }
         public void getmoney(int money)
         { this.hp += money; }

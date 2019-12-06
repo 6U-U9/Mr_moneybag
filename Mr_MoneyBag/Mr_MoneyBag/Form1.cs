@@ -18,6 +18,7 @@ namespace Mr_MoneyBag
         string[,] mapname = new string[x, y];
         Gameboard gameboard = new Gameboard();
         private bool is_space_down = false;
+        private bool arrow_key_locked = false;
         
         public Form1()
         {
@@ -42,46 +43,58 @@ namespace Mr_MoneyBag
 
             if (e.KeyCode == Keys.Space)
                 is_space_down = true;
-            if (is_space_down == true)
-                switch (e.KeyCode)
-                {
-                    case Keys.W:
-                    case Keys.Up:
-                        gameboard.player.shootup();
-                        break;
-                    case Keys.A:
-                    case Keys.Left:
-                        gameboard.player.shootleft();
-                        break;
-                    case Keys.S:
-                    case Keys.Down:
-                        gameboard.player.shootdown();
-                        break;
-                    case Keys.D:
-                    case Keys.Right:
-                        gameboard.player.shootright();
-                        break;
-                }
-            else if (is_space_down == false)
-                switch (e.KeyCode)
-                {
-                    case Keys.W:
-                    case Keys.Up:
-                        gameboard.player.moveup();
-                        break;
-                    case Keys.A:
-                    case Keys.Left:
-                        gameboard.player.moveleft();
-                        break;
-                    case Keys.S:
-                    case Keys.Down:
-                        gameboard.player.movedown();
-                        break;
-                    case Keys.D:
-                    case Keys.Right:
-                        gameboard.player.moveright();
-                        break;
-                }
+            if (!arrow_key_locked)
+            {
+                if (is_space_down == true)
+                    switch (e.KeyCode)
+                    {
+                        case Keys.W:
+                        case Keys.Up:
+                            gameboard.player.shootup();
+                            arrow_key_locked = true;
+                            break;
+                        case Keys.A:
+                        case Keys.Left:
+                            gameboard.player.shootleft();
+                            arrow_key_locked = true;
+                            break;
+                        case Keys.S:
+                        case Keys.Down:
+                            gameboard.player.shootdown();
+                            arrow_key_locked = true;
+                            break;
+                        case Keys.D:
+                        case Keys.Right:
+                            gameboard.player.shootright();
+                            arrow_key_locked = true;
+                            break;
+                    }
+                else if (is_space_down == false)
+                    switch (e.KeyCode)
+                    {
+                        case Keys.W:
+                        case Keys.Up:
+                            gameboard.player.moveup();
+                            arrow_key_locked = true;
+                            break;
+                        case Keys.A:
+                        case Keys.Left:
+                            gameboard.player.moveleft();
+                            arrow_key_locked = true;
+                            break;
+                        case Keys.S:
+                        case Keys.Down:
+                            gameboard.player.movedown();
+                            arrow_key_locked = true;
+                            break;
+                        case Keys.D:
+                        case Keys.Right:
+                            gameboard.player.moveright();
+                            arrow_key_locked = true;
+                            break;
+                    }
+                
+            }
             refresh();
         }
         public void refresh()
@@ -129,6 +142,17 @@ namespace Mr_MoneyBag
         {
             if (e.KeyCode == Keys.Space)
                 is_space_down = false;
+            switch (e.KeyCode)
+            {
+                case Keys.Up:
+                case Keys.Down:
+                case Keys.Left:
+                case Keys.Right:
+                    arrow_key_locked=false;
+                    break;
+                default:
+                    return;
+            }
         }
 
         protected override bool ProcessDialogKey(Keys keycode)
