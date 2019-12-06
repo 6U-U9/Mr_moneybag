@@ -114,7 +114,7 @@ namespace Mr_MoneyBag
             int y_ed = y_st + Form1.y;
             if (y_ed > (gameboard.GetWidth() )) { y_ed = gameboard.GetWidth() ; y_st = y_ed - Form1.y; }
 
-            Console.WriteLine(x + " " + y);
+            //Console.WriteLine(x + " " + y);
             //Console.WriteLine(x_st + " " + x_ed + " | " + y_st + " " + y_ed);
             
             for (int i = x_st; i < x_ed; i++)
@@ -127,7 +127,7 @@ namespace Mr_MoneyBag
                     //Console.WriteLine(i + " ij " + j);
                                         
                     string imgname = gameboard.status[i, j].GetImageName();
-                    Console.WriteLine(imgname);
+                    //Console.WriteLine(imgname);
 
                     if (mapname[a, b] != imgname || (Math.Abs((x - x_st) - a) <= 1 || Math.Abs((y - y_st) - b) <= 1))
                     {
@@ -136,7 +136,7 @@ namespace Mr_MoneyBag
                     }
                 }
             }
-            Console.WriteLine(x + " " + y);
+            //Console.WriteLine(x + " " + y);
             map[x - x_st, y - y_st].Image = gameboard.player.getimage();
 
 
