@@ -98,6 +98,7 @@
     <None Include="Resources\enemy_2.JPG" />
     <None Include="Resources\back0.png" />
     <None Include="Resources\back1.png" />
+    <None Include="Resources\enemy_3.JPG" />
     <Content Include="Resources\money.jpg" />
     <None Include="Resources\shop_newredgen.JPG" />
     <None Include="Resources\shop_coinonfloor.JPG" />
