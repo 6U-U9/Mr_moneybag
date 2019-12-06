@@ -43,7 +43,7 @@ namespace Mr_MoneyBag
             var queue = new Queue<Node>();
             queue.Enqueue(st);
             parent[st.x, st.y] = st;
-            Console.WriteLine("Begin BFS for Enemy: " + enemy.x + ", " + enemy.y + ": ");
+            //Console.WriteLine("Begin BFS for Enemy: " + enemy.x + ", " + enemy.y + ": ");
             while (queue.Count > 0)
             {
                 var v = queue.Dequeue();
@@ -55,16 +55,16 @@ namespace Mr_MoneyBag
                 {
                     int nx = v.x + dir[i, 0];
                     int ny = v.y + dir[i, 1];
-                    if ((nx > 1 && nx < board.GetWidth() - 1 && ny > 1 && ny < board.GetHeight() - 1) && !vis[nx, ny] && !board.status[nx, ny].isblocked 
-                        && !(nx != enemy.x && ny != enemy.y && board.HasEnemy(nx, ny))) {
+                    if ((nx > 0 && nx < board.GetWidth() - 1 && ny > 0 && ny < board.GetHeight() - 1) && !vis[nx, ny] && !board.status[nx, ny].isblocked 
+                        && !((nx != enemy.x || ny != enemy.y) && board.HasEnemy(nx, ny))) {
                         queue.Enqueue(new Node(nx, ny));
                         parent[nx, ny] = v;
-                        Console.WriteLine("Parent of [" + nx + ", " + ny + "] is [" + v.x + ", " + v.y + "]");
+                        //Console.WriteLine("Parent of [" + nx + ", " + ny + "] is [" + v.x + ", " + v.y + "] board has enemy: " + board.HasEnemy(nx, ny));
                     }
                 }
 
             }
-            Console.WriteLine("BFS for Enemy: " + enemy.x + ", " + enemy.y + " End");
+            //Console.WriteLine("BFS for Enemy: " + enemy.x + ", " + enemy.y + " End");
 
 
 

@@ -191,6 +191,7 @@ namespace Mr_MoneyBag
     class Enemy : MoveableObject
     {
         private string status = "walk";
+        static int[,] dir = new int[,] { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 } };
         public Enemy(Gameboard gameboard,int money, int x, int y,int attack=1): base(gameboard,money,x,y)
         {
             this.hp = money;
@@ -200,12 +201,30 @@ namespace Mr_MoneyBag
         public void move()
         {
             if (this.distance(gameboard.player.x, gameboard.player.y) > gameboard.rednoticedist) return;
+            TryAttack();
 
             Node go = DistanceUtility.GetNextStep(gameboard.player, this, gameboard);
+            Console.WriteLine("Enemy" + x + "," + y + " to " + go.x + " -next- " + go.y);
             this.x = go.x;
             this.y = go.y;
-            Console.WriteLine("Enemy" + x + "," + y + " to " + go.x + " -next- "+ go.y);
+
         }
+
+        public void TryAttack()
+        {
+            for(int i = 0; i < 4; i++)
+            {
+                int nx = x + dir[i, 0];
+                int ny = y + dir[i, 1];
+                if ((nx > 0 && nx < gameboard.GetWidth() - 1 && ny > 0 && ny < gameboard.GetHeight() - 1) 
+                    && gameboard.player.x == nx && gameboard.player.y == ny)
+                {
+                    gameboard.player.damaged(attack);
+                    Console.WriteLine("Attacked Player");
+                }
+            }
+        }
+
         public override void dead()
         {
             base.dead();

@@ -13,7 +13,7 @@ namespace Mr_MoneyBag
         static Random rnd = new Random();
         public int level;
         public int turn = 0;
-        public int coinsonfloor = 24, newredgen = 6, rednoticedist = 10, sight = 6, InitPlayerMoneyLimit = 5;
+        public int coinsonfloor = 24, newredgen = 6, rednoticedist = 20, sight = 6, InitPlayerMoneyLimit = 5;
         public int[] shop_amount = new int[] { 2, 2, 2, 2, 2, 2 }; // coinonfloor, newredgen, rednoticedist, sight, damage, moneylimit, 
         public GameObject[,] status = new GameObject[height, width];
         public const int initial_x = 20;
@@ -25,7 +25,7 @@ namespace Mr_MoneyBag
         public Gameboard()
         {
             level = 1;
-            player= new Player(this, 3, initial_x, initial_y, InitPlayerMoneyLimit);
+            player= new Player(this, 300, initial_x, initial_y, InitPlayerMoneyLimit);
             //genlevel(level); 
             Level.GenRandomLevel(this, level);
         }
@@ -64,7 +64,7 @@ namespace Mr_MoneyBag
 
         public void SpawnEnemy()
         {
-            //if (enemies.Count >= 1) return;
+            if (enemies.Count >= 3) return;
             bool success = false;
             while (!success)
             {

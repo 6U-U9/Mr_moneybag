@@ -138,7 +138,7 @@ namespace Mr_MoneyBag
                 }
             }
             //Console.WriteLine(x + " " + y);
-            Console.WriteLine("Money:"+gameboard.player.hp+" Limit"+gameboard.player.moneylimit+" CoinsOnFloor"+gameboard.coinsonfloor+" NewRedGen"+gameboard.newredgen+" RedNoticeDist"+gameboard.rednoticedist+" sight"+gameboard.sight+" damage"+gameboard.player.attack);
+            Console.WriteLine("Money: "+gameboard.player.hp+" Limit "+gameboard.player.moneylimit+" CoinsOnFloor "+gameboard.coinsonfloor+" NewRedGen "+gameboard.newredgen+" RedNoticeDist "+gameboard.rednoticedist+" sight "+gameboard.sight+" damage "+gameboard.player.attack);
 
         }
         private Image GetShowImage(Gameboard gameboard, int x, int y)
