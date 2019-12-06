@@ -14,8 +14,8 @@ namespace Mr_MoneyBag
         public int turn = 0;
         public int coinsonfloor=24,newredgen=20,rednoticedist=8,sight=3,InitPlayerMoneyLimit=5;
         public GameObject[,] status = new GameObject[height, width];
-        public const int initial_x = 50;
-        public const int initial_y = 50;
+        public const int initial_x = 40;
+        public const int initial_y = 40;
         public Player player;
         public Gameboard()
         {

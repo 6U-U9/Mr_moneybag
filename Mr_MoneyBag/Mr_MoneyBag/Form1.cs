@@ -125,12 +125,11 @@ namespace Mr_MoneyBag
                     string imgname = gameboard.status[i, j].GetImageName();
                     Console.WriteLine(imgname);
 
-                    if (mapname[a, b] != imgname)
+                    if (mapname[a, b] != imgname || (Math.Abs((x - x_st) - a) <= 1 || Math.Abs((y - y_st) - b) <= 1))
                     {
                         map[a, b].Image = gameboard.status[i, j].getimage();
                         mapname[a, b] = imgname;
                     }
-
                 }
             }
             Console.WriteLine(x + " " + y);

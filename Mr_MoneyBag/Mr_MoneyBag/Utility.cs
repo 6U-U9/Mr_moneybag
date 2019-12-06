@@ -67,8 +67,11 @@ namespace Mr_MoneyBag
         static int[,] parameter = new int[,] { { 4, 0}, { 5, 0}, { 255, 1}, { 505, 1} };
         public static void GenRandomLevel(Gameboard board, int lv)
         {
+            Console.WriteLine("-0-");
             GenBasicMap(board);
+            Console.WriteLine("-1-");
             AddMoney(board);
+            Console.WriteLine("-2-");
             
         }
 
