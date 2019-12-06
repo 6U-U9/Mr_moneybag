@@ -19,9 +19,12 @@ namespace Mr_MoneyBag
         Gameboard gameboard = new Gameboard();
         private bool is_space_down = false;
         private bool arrow_key_locked = false;
+        Label lblmoney = new Label();
         
+
         public Form1()
         {
+            
             for (int i = 0; i < x; i++)
                 for (int j = 0; j < y; j++)
                 {
@@ -33,6 +36,19 @@ namespace Mr_MoneyBag
                     this.Controls.Add(map[i, j]);
                     ((System.ComponentModel.ISupportInitialize)(map[i,j])).EndInit();
                 }
+            lblmoney.Location = new Point(430, 407);
+            lblmoney.Size = new Size(250, 20);
+            lblmoney.Font = new Font("Microsoft Sans Serif", 10, FontStyle.Regular);
+
+            lblmoney.ForeColor = Color.Maroon;
+            
+            lblmoney.Text = "You must do something!";
+            this.Controls.Add(lblmoney);
+            {
+
+                lblmoney.BringToFront();
+
+            }
             refresh();
             InitializeComponent();
             DoubleBuffered = true;
@@ -134,6 +150,7 @@ namespace Mr_MoneyBag
             }
             Console.WriteLine(x + " " + y);
             map[x - x_st, y - y_st].Image = gameboard.player.getimage();
+
 
         }
 

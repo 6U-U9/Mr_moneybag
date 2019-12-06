@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.lbllevel = new System.Windows.Forms.Label();
+            this.moneycount = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lbllevel
@@ -40,12 +41,24 @@
             this.lbllevel.TabIndex = 0;
             this.lbllevel.Text = "01";
             // 
+            // moneycount
+            // 
+            this.moneycount.AutoSize = true;
+            this.moneycount.Font = new System.Drawing.Font("宋体", 20F);
+            this.moneycount.ForeColor = System.Drawing.Color.Yellow;
+            this.moneycount.Location = new System.Drawing.Point(370, 227);
+            this.moneycount.Name = "moneycount";
+            this.moneycount.Size = new System.Drawing.Size(96, 27);
+            this.moneycount.TabIndex = 1;
+            this.moneycount.Text = "label1";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(884, 501);
+            this.Controls.Add(this.moneycount);
             this.Controls.Add(this.lbllevel);
             this.Name = "Form1";
             this.Text = "Mr. Moneybag";
@@ -59,6 +72,7 @@
         #endregion
 
         private System.Windows.Forms.Label lbllevel;
+        private System.Windows.Forms.Label moneycount;
     }
 }
 
