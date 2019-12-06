@@ -36,13 +36,6 @@ namespace Mr_MoneyBag
                     this.Controls.Add(map[i, j]);
                     ((System.ComponentModel.ISupportInitialize)(map[i,j])).EndInit();
                 }
-            lblmoney.Location = new Point(430, 407);
-            lblmoney.Size = new Size(250, 20);
-            lblmoney.Font = new Font("Microsoft Sans Serif", 10, FontStyle.Regular);
-
-            lblmoney.ForeColor = Color.Maroon;
-            
-            lblmoney.Text = "You must do something!";
             this.Controls.Add(lblmoney);
             {
 
