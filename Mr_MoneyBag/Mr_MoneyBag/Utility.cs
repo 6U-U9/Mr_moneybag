@@ -70,6 +70,12 @@ namespace Mr_MoneyBag
             GenBasicMap(board);
             
         }
+
+        public static void AddShop(Gameboard board)
+        {
+
+        }
+
         public static void GenBasicMap(Gameboard board)
         {
 
@@ -85,6 +91,7 @@ namespace Mr_MoneyBag
             GenBasicMapHelper(board, vis, Gameboard.initial_x, Gameboard.initial_y, 0);
             board.status[Gameboard.initial_x, Gameboard.initial_y] = board.player;
         }
+
 
         private static void GenBasicMapHelper(Gameboard board, bool[,] vis, int x, int y, int step)
         {
