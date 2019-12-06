@@ -40,5 +40,7 @@ namespace Mr_MoneyBag
         {
             return height;
         }
+        public Shop GenShop()
+        { }
     }
 }
