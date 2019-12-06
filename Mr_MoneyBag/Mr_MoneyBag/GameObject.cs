@@ -178,7 +178,7 @@ namespace Mr_MoneyBag
     }
     class Shop : GameObject
     {
-        public int cost, gain;
+        public int gain;
         public Shop(Gameboard gameboard,int money, int x, int y): base(gameboard)
         {
             this.hp = money;
@@ -188,34 +188,122 @@ namespace Mr_MoneyBag
     }
     class CoinOnFloor_Shop : Shop
     {
-        public CoinOnFloor_Shop(Gameboard gameboard, int money, int x, int y,int cost,int gain) : base(gameboard,money,x,y)
+        public CoinOnFloor_Shop(Gameboard gameboard, int money, int x, int y,int gain=6) : base(gameboard,money,x,y)
         {
-            this.cost = cost;
             this.gain = gain;
+        }
+        public override void dead()
+        {
+            gameboard.coinsonfloor += gain;
+            base.dead();
+        }
+        public override Image getimage()
+        {
+            return base.getimage();
+        }
+        public override string GetImageName()
+        {
+            return "CoinOnFloor_Shop";
         }
     }
     class NewRedGen_Shop : Shop
     {
-        public NewRedGen_Shop(Gameboard gameboard, int money, int x, int y, int cost, int gain) : base(gameboard, money, x, y)
+        public NewRedGen_Shop(Gameboard gameboard, int money, int x, int y,int gain=10) : base(gameboard, money, x, y)
         {
-            this.cost = cost;
             this.gain = gain;
+        }
+        public override void dead()
+        {
+            gameboard.newredgen += gain;
+            base.dead();
+        }
+        public override Image getimage()
+        {
+            return base.getimage();
+        }
+        public override string GetImageName()
+        {
+            return "NewRedGen_Shop";
         }
     }
     class RedNoticeDist_Shop : Shop
     {
-        public RedNoticeDist_Shop(Gameboard gameboard, int money, int x, int y, int cost, int gain) : base(gameboard, money, x, y)
+        public RedNoticeDist_Shop(Gameboard gameboard, int money, int x, int y,int gain=1) : base(gameboard, money, x, y)
         {
-            this.cost = cost;
             this.gain = gain;
+        }
+        public override void dead()
+        {
+            gameboard.rednoticedist += gain;
+            base.dead();
+        }
+        public override Image getimage()
+        {
+            return base.getimage();
+        }
+        public override string GetImageName()
+        {
+            return "RedNoticeDist_Shop";
         }
     }
     class Sight_Shop : Shop
     {
-        public Sight_Shop(Gameboard gameboard, int money, int x, int y, int cost, int gain) : base(gameboard, money, x, y)
+        public Sight_Shop(Gameboard gameboard, int money, int x, int y,int gain=1) : base(gameboard, money, x, y)
         {
-            this.cost = cost;
             this.gain = gain;
+        }
+        public override void dead()
+        {
+            gameboard.sight += gain;
+            base.dead();
+        }
+        public override Image getimage()
+        {
+            return base.getimage();
+        }
+        public override string GetImageName()
+        {
+            return "Sight_Shop";
+        }
+    }
+    class Damage_Shop : Shop
+    {
+        public Damage_Shop(Gameboard gameboard, int money, int x, int y, int gain=1) : base(gameboard, money, x, y)
+        {
+            this.gain = gain;
+        }
+        public override void dead()
+        {
+            gameboard.player.attack+= gain;
+            base.dead();
+        }
+        public override Image getimage()
+        {
+            return base.getimage();
+        }
+        public override string GetImageName()
+        {
+            return "Damage_Shop";
+        }
+    }
+    class MoneyLimit_Shop : Shop
+    {
+        public MoneyLimit_Shop(Gameboard gameboard, int money, int x, int y, int gain=2) : base(gameboard, money, x, y)
+        {
+            this.gain = gain;
+        }
+        public override void dead()
+        {
+            gameboard.player.moneylimit += gain;
+            base.dead();
+        }
+        public override Image getimage()
+        {
+            return base.getimage();
+        }
+        public override string GetImageName()
+        {
+            return "MoneyLimit_Shop";
         }
     }
     class Wall : GameObject
