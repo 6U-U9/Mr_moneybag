@@ -12,6 +12,7 @@ namespace Mr_MoneyBag
         public const int width=79, height=79;
         public int level;
         public int turn = 0;
+        public int coinsonfloor;
         public GameObject[,] status = new GameObject[height, width];
         public const int initial_x = 50;
         public const int initial_y = 50;
@@ -41,6 +42,6 @@ namespace Mr_MoneyBag
             return height;
         }
         public Shop GenShop()
-        { }
+        { return null; }
     }
 }
