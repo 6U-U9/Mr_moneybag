@@ -172,6 +172,7 @@ namespace Mr_MoneyBag
         public Enemy(Gameboard gameboard,int money, int x, int y,int attack=1): base(gameboard,money,x,y)
         {
             this.attack = attack;
+            this.isblocked = true;
         }
         public void move()
         { }
@@ -184,6 +185,12 @@ namespace Mr_MoneyBag
             this.hp = money;
             this.x = x;
             this.y = y;
+            this.isblocked = true;
+        }
+
+        public override Image getimage()
+        {
+            return Properties.Resources.shop_heart;
         }
     }
     class CoinOnFloor_Shop : Shop
@@ -199,7 +206,7 @@ namespace Mr_MoneyBag
         }
         public override Image getimage()
         {
-            return base.getimage();
+            return Properties.Resources.shop_coinonfloor;
         }
         public override string GetImageName()
         {
@@ -219,7 +226,7 @@ namespace Mr_MoneyBag
         }
         public override Image getimage()
         {
-            return base.getimage();
+            return Properties.Resources.shop_newredgen;
         }
         public override string GetImageName()
         {
@@ -239,7 +246,7 @@ namespace Mr_MoneyBag
         }
         public override Image getimage()
         {
-            return base.getimage();
+            return Properties.Resources.shop_rednoticedist;
         }
         public override string GetImageName()
         {
@@ -259,7 +266,7 @@ namespace Mr_MoneyBag
         }
         public override Image getimage()
         {
-            return base.getimage();
+            return Properties.Resources.shop_sight;
         }
         public override string GetImageName()
         {
@@ -279,7 +286,7 @@ namespace Mr_MoneyBag
         }
         public override Image getimage()
         {
-            return base.getimage();
+            return Properties.Resources.shop_damage;
         }
         public override string GetImageName()
         {
@@ -299,7 +306,7 @@ namespace Mr_MoneyBag
         }
         public override Image getimage()
         {
-            return base.getimage();
+            return Properties.Resources.shop_heart;
         }
         public override string GetImageName()
         {
@@ -313,6 +320,7 @@ namespace Mr_MoneyBag
             this.hp = hp;
             this.x = x;
             this.y = y;
+            this.isblocked = true;
         }
         public override void damaged(int n)
         {

@@ -72,12 +72,57 @@ namespace Mr_MoneyBag
             Console.WriteLine("-1-");
             AddMoney(board);
             Console.WriteLine("-2-");
+            AddShop(board, lv);
+            Console.WriteLine("-3-");
             
         }
 
-        public static void AddShop(Gameboard board)
+        public static void AddShop(Gameboard board, int lv)
         {
+            for (int i = 0; i < board.shop_amount.Length; i++)
+            {
+                for (int j = 0; j < board.shop_amount[i]; j++)
+                {
+                    bool success = false;
+                    while (!success)
+                    {
+                        int x = rnd.Next(1, board.GetHeight() - 1);
+                        int y = rnd.Next(1, board.GetWidth() - 1);
 
+                        if (board.status[x, y] is Space && board.player.x != x && board.player.y != y && 
+                            !(board.status[x - 1, y].isblocked && board.status[x + 1, y].isblocked) &&
+                            !(board.status[x, y - 1].isblocked && board.status[x, y + 1].isblocked)
+                            )
+                        {
+                            switch (i)
+                            {
+                                case 0:
+                                    board.status[x, y] = new CoinOnFloor_Shop(board, rnd.Next(1, 6), x, y);
+                                    break;
+                                case 1:
+                                    board.status[x, y] = new NewRedGen_Shop(board, rnd.Next(1, 6), x, y);
+                                    break;
+                                case 2:
+                                    board.status[x, y] = new RedNoticeDist_Shop(board, rnd.Next(1, 6), x, y);
+                                    break;
+                                case 3:
+                                    board.status[x, y] = new Sight_Shop(board, rnd.Next(1, 6), x, y);
+                                    break;
+                                case 4:
+                                    board.status[x, y] = new Damage_Shop(board, rnd.Next(1, 6), x, y);
+                                    break;
+                                case 5:
+                                    board.status[x, y] = new MoneyLimit_Shop(board, rnd.Next(1, 6), x, y);
+                                    break;
+
+                            }
+                            success = true;
+                        }
+
+                    }
+                }
+
+            }
         }
 
         public static void AddMoney(Gameboard board)
