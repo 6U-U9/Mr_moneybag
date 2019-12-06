@@ -114,7 +114,7 @@ namespace Mr_MoneyBag
             int y_ed = y_st + Form1.y;
             if (y_ed > (gameboard.GetWidth() )) { y_ed = gameboard.GetWidth() ; y_st = y_ed - Form1.y; }
 
-            Console.WriteLine(x + " " + y);
+            //Console.WriteLine(x + " " + y);
             //Console.WriteLine(x_st + " " + x_ed + " | " + y_st + " " + y_ed);
             
             for (int i = x_st; i < x_ed; i++)
@@ -136,7 +136,7 @@ namespace Mr_MoneyBag
                     }
                 }
             }
-            Console.WriteLine(x + " " + y);
+            //Console.WriteLine(x + " " + y);
             map[x - x_st, y - y_st].Image = gameboard.player.getimage();
             Console.WriteLine("Money:"+gameboard.player.hp+" Limit"+gameboard.player.moneylimit+" CoinsOnFloor"+gameboard.coinsonfloor+" NewRedGen"+gameboard.newredgen+" RedNoticeDist"+gameboard.rednoticedist+" sight"+gameboard.sight);
 
