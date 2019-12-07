@@ -18,6 +18,7 @@ namespace Mr_MoneyBag
 
         static Random rnd = new Random();
         public int level;
+        public double shopnoticedist = 2.1;
         public int turn = 0;
         public int coinsonfloor = 24, newredgen = 10, rednoticedist = 20,  InitPlayerMoneyLimit = 5;
         public int shootrange = 3;
@@ -74,6 +75,51 @@ namespace Mr_MoneyBag
                 enemy.move();
             }
             Console.WriteLine("Money: " + player.hp + " Limit " + player.moneylimit + " CoinsOnFloor " + coinsonfloor + " NewRedGen " + newredgen + " RedNoticeDist " + rednoticedist + " sight " + sight + " damage " + player.attack);
+
+            // check shops and notice
+            DisplayShopNotice(player.x, player.y);
+        }
+
+        public void DisplayShopNotice(int x, int y) // check the status around x and y and notice the nearest shop
+        {
+            int xst = x - (int)shopnoticedist;
+            if (xst < 0) xst = 0;
+            int xed = x + (int)shopnoticedist;
+            if (xed > height - 1) xed = height - 1;
+            int yst = y - (int)shopnoticedist;
+            if (yst < 0) yst = 0;
+            int yed = y + (int)shopnoticedist;
+            if (yed > width - 1) yed = width - 1;
+
+            double mindist = shopnoticedist;
+            int minx = 0, miny = 0;
+
+            for (int i = xst; i <= xed; i++)
+            {
+                for (int j = yst; j <= yed; j++)
+                {
+                    if (!(status[i, j] is Shop)) continue;
+                    double temp = status[i, j].distance(x, y);
+                    if (temp < mindist)
+                    {
+                        Console.WriteLine("d: " + temp + " from " + i + "," + j + " to " + x + "," + y);
+                        mindist = temp;
+                        minx = i; miny = j;
+                    }
+                }
+            }
+            //Console.WriteLine("aaa");
+            if (mindist >= shopnoticedist) return;
+            //Console.WriteLine("bbb");
+
+            try
+            {
+                ((Shop)(status[minx, miny])).notice();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("{0} Cannot convert to shop!", e);
+            }
 
         }
 

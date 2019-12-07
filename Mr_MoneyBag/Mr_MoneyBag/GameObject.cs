@@ -271,6 +271,7 @@ namespace Mr_MoneyBag
     class Shop : GameObject
     {
         public int gain;
+        
         public Shop(Gameboard gameboard,int money, int x, int y): base(gameboard,x,y)
         {
             this.hp = money;
@@ -287,6 +288,11 @@ namespace Mr_MoneyBag
         {
             //Console.WriteLine("shop get money remain "+hp);
             base.damaged(1);
+        }
+
+        virtual public void notice() // notice the player if they are in range
+        {
+            Console.WriteLine("Shop here at" + x + ", " + y);
         }
     }
     class CoinOnFloor_Shop : Shop
@@ -308,6 +314,10 @@ namespace Mr_MoneyBag
         {
             return "CoinOnFloor_Shop";
         }
+        public override void notice()
+        {
+            Console.WriteLine("Give me " + hp + " money to gain " + gain + " more coins on each floor");
+        }
     }
     class NewRedGen_Shop : Shop
     {
@@ -328,6 +338,11 @@ namespace Mr_MoneyBag
         {
             return "NewRedGen_Shop";
         }
+
+        public override void notice()
+        {
+            Console.WriteLine("Give me " + hp + " money to delay enemy spawn time by " + gain + " steps");
+        }
     }
     class RedNoticeDist_Shop : Shop
     {
@@ -337,7 +352,7 @@ namespace Mr_MoneyBag
         }
         public override void dead()
         {
-            gameboard.rednoticedist += gain;
+            gameboard.rednoticedist -= gain;
             base.dead();
         }
         public override Image getimage()
@@ -347,6 +362,10 @@ namespace Mr_MoneyBag
         public override string GetImageName()
         {
             return "RedNoticeDist_Shop";
+        }
+        public override void notice()
+        {
+            Console.WriteLine("Give me " + hp + " money to reduce enemy notice distance by " + gain + " block");
         }
     }
     class Sight_Shop : Shop
@@ -368,6 +387,10 @@ namespace Mr_MoneyBag
         {
             return "Sight_Shop";
         }
+        public override void notice()
+        {
+            Console.WriteLine("Give me " + hp + " money to increase your sight by " + gain + " block");
+        }
     }
     class Damage_Shop : Shop
     {
@@ -388,6 +411,10 @@ namespace Mr_MoneyBag
         {
             return "Damage_Shop";
         }
+        public override void notice()
+        {
+            Console.WriteLine("Give me " + hp + " money to increase your damage by " + gain + "");
+        }
     }
     class MoneyLimit_Shop : Shop
     {
@@ -407,6 +434,10 @@ namespace Mr_MoneyBag
         public override string GetImageName()
         {
             return "MoneyLimit_Shop";
+        }
+        public override void notice()
+        {
+            Console.WriteLine("Give me " + hp + " money to increase money limit by " + gain + "");
         }
     }
     class Wall : GameObject
