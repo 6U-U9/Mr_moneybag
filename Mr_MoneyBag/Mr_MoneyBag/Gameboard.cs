@@ -19,7 +19,7 @@ namespace Mr_MoneyBag
         static Random rnd = new Random();
         public int level;
         public int turn = 0;
-        public int coinsonfloor = 24, newredgen = 20, rednoticedist = 20,  InitPlayerMoneyLimit = 5;
+        public int coinsonfloor = 24, newredgen = 10, rednoticedist = 20,  InitPlayerMoneyLimit = 5;
         public int shootrange = 3;
         public double sight = 5.9;
         public int[] shop_amount = new int[] { 2, 2, 2, 2, 2, 2 }; // coinonfloor, newredgen, rednoticedist, sight, damage, moneylimit, 
@@ -80,6 +80,7 @@ namespace Mr_MoneyBag
         public void SpawnEnemy()
         {
             //if (enemies.Count >= 3) return;
+            
             bool success = false;
             while (!success)
             {
@@ -105,7 +106,7 @@ namespace Mr_MoneyBag
                 }
                 
             }
-            
+            DisplayEnemy();
         }
 
         public bool HasEnemy(int x, int y)
@@ -130,6 +131,17 @@ namespace Mr_MoneyBag
                 }
             }
             return null;
+        }
+
+        public void DisplayEnemy()
+        {
+            Console.Write("Current Enemies: ");
+            foreach (Enemy enemy in enemies)
+            {
+                Console.Write("(" + enemy.x + ", " + enemy.y + ") ");
+                
+            }
+            Console.WriteLine();
         }
     }
 }

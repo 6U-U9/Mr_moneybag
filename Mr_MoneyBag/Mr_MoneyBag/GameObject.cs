@@ -164,9 +164,10 @@ namespace Mr_MoneyBag
 
         public override void dead()
         {
-            Console.WriteLine("Player Dead!");
+            
             base.dead();
             gameboard.restart();
+            Console.WriteLine("Player Dead! New Game!");
 
         }
         public void getmoney(int money)
@@ -212,7 +213,7 @@ namespace Mr_MoneyBag
             TryAttack();
 
             Node go = DistanceUtility.GetNextStep(gameboard.player, this, gameboard);
-            Console.WriteLine("Enemy" + x + "," + y + " to " + go.x + " -next- " + go.y);
+            Console.WriteLine("Enemy at [" + x + "," + y + "] to " + go.x + "," + go.y);
             this.x = go.x;
             this.y = go.y;
 
@@ -228,7 +229,7 @@ namespace Mr_MoneyBag
                     && gameboard.player.x == nx && gameboard.player.y == ny)
                 {
                     gameboard.player.damaged(attack);
-                    Console.WriteLine("Attacked Player");
+                    Console.WriteLine("Enemy at [" + x + "," + y + "] Attacked Player");
                 }
             }
         }

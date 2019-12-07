@@ -235,7 +235,7 @@ namespace Mr_MoneyBag
         private void timerFresh_Tick(object sender, EventArgs e)
         {
             refresh();
-            Console.WriteLine("Tick");
+            //Console.WriteLine("Tick");
         }
 
         public Image UniteImage(Image img1, Image img2,int width=blocksize, int height=blocksize )
