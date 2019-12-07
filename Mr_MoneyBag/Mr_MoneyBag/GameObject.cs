@@ -161,6 +161,12 @@ namespace Mr_MoneyBag
             hp -= n;
             if (hp < 0) dead();
         }
+
+        public override void dead()
+        {
+            base.dead();
+
+        }
         public void getmoney(int money)
         { this.hp += money; }
         public void moveup()
