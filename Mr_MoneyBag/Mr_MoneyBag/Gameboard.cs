@@ -10,10 +10,17 @@ namespace Mr_MoneyBag
     class Gameboard
     {
         public const int width=39, height=39;
+        readonly int default_cof = 24, default_nrg = 20, default_rnd = 20;
+        readonly int default_sr = 3;
+        readonly double default_st = 5.9;
+        readonly int[] default_sa = { 2, 2, 2, 2, 2, 2 }; // coinonfloor, newredgen, rednoticedist, sight, damage, moneylimit, 
+
+
         static Random rnd = new Random();
         public int level;
         public int turn = 0;
-        public int coinsonfloor = 24, newredgen = 6, rednoticedist = 20,  InitPlayerMoneyLimit = 5;
+        public int coinsonfloor = 24, newredgen = 20, rednoticedist = 20,  InitPlayerMoneyLimit = 5;
+        public int shootrange = 3;
         public double sight = 5.9;
         public int[] shop_amount = new int[] { 2, 2, 2, 2, 2, 2 }; // coinonfloor, newredgen, rednoticedist, sight, damage, moneylimit, 
         public GameObject[,] status = new GameObject[height, width];
@@ -26,16 +33,21 @@ namespace Mr_MoneyBag
         public Gameboard()
         {
             level = 3;
-            player= new Player(this, 300, initial_x, initial_y, InitPlayerMoneyLimit);
-            //genlevel(level); 
+            player= new Player(this, InitPlayerMoneyLimit, initial_x, initial_y, InitPlayerMoneyLimit);
+            
             Level.GenRandomLevel(this, level);
         }
-        public void genlevel(int level)
+        public void restart()
         {
-            for (int i = 0; i < height; i++)
-                for (int j = 0; j < width; j++)
-                    status[i, j] = new Space(this,i,j);
-            status[10, 10] = player;
+            level = 3;
+            player = new Player(this, InitPlayerMoneyLimit, initial_x, initial_y, InitPlayerMoneyLimit);
+            coinsonfloor = default_cof; newredgen = default_nrg; rednoticedist = default_rnd; shootrange = default_sr;
+            sight = default_st;
+            default_sa.CopyTo(shop_amount, 0);
+            enemies = new List<Enemy>();
+            timer = 0;
+            status = new GameObject[height, width];
+            Level.GenRandomLevel(this, level);
         }
 
         public int GetWidth()
@@ -61,6 +73,8 @@ namespace Mr_MoneyBag
             {
                 enemy.move();
             }
+            Console.WriteLine("Money: " + player.hp + " Limit " + player.moneylimit + " CoinsOnFloor " + coinsonfloor + " NewRedGen " + newredgen + " RedNoticeDist " + rednoticedist + " sight " + sight + " damage " + player.attack);
+
         }
 
         public void SpawnEnemy()
