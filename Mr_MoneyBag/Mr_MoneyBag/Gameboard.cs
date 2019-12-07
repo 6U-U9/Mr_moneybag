@@ -13,7 +13,8 @@ namespace Mr_MoneyBag
         static Random rnd = new Random();
         public int level;
         public int turn = 0;
-        public int coinsonfloor = 24, newredgen = 6, rednoticedist = 20, sight = 6, InitPlayerMoneyLimit = 5;
+        public int coinsonfloor = 24, newredgen = 6, rednoticedist = 20,  InitPlayerMoneyLimit = 5;
+        public double sight = 5.9;
         public int[] shop_amount = new int[] { 2, 2, 2, 2, 2, 2 }; // coinonfloor, newredgen, rednoticedist, sight, damage, moneylimit, 
         public GameObject[,] status = new GameObject[height, width];
         public const int initial_x = 20;

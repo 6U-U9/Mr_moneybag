@@ -28,10 +28,7 @@ namespace Mr_MoneyBag
         }
         virtual public void dead()
         { 
-            if(this.distance(gameboard.player.x,gameboard.player.y)<gameboard.sight)
-                freshboard(x, y, new Space(gameboard,x,y,true,true)); 
-            else
-                freshboard(x, y, new Space(gameboard,x,y));
+            freshboard(x, y, new Space(gameboard,x,y,this.seen,this.NearlySeen));
         }
         //更新对象地图
         virtual public void freshboard(int x, int y, GameObject gameobject)

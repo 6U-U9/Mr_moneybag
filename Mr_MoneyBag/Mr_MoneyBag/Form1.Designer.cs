@@ -28,7 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.lbllevel = new System.Windows.Forms.Label();
+            this.timerFresh = new System.Windows.Forms.Timer(this.components);
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // lbllevel
@@ -41,18 +45,33 @@
             this.lbllevel.TabIndex = 0;
             this.lbllevel.Text = "01";
             // 
+            // timerFresh
+            // 
+            this.timerFresh.Interval = 1000;
+            this.timerFresh.Tick += new System.EventHandler(this.timerFresh_Tick);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(275, 125);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(354, 141);
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Navy;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(884, 501);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.lbllevel);
             this.Name = "Form1";
             this.Text = "Mr. Moneybag";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyUp);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -61,6 +80,8 @@
         #endregion
 
         private System.Windows.Forms.Label lbllevel;
+        private System.Windows.Forms.Timer timerFresh;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 
