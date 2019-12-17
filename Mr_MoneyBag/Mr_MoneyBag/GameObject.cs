@@ -230,7 +230,6 @@ namespace Mr_MoneyBag
 
         public override void dead()
         {
-            base.dead();
             gameboard.enemies.Remove(this);
         }
 

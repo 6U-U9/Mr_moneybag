@@ -51,9 +51,8 @@ namespace Mr_MoneyBag
         public void IncreaseTimer()
         {
             timer += 1;
-            if (timer == newredgen)
+            if (timer % newredgen==0)
             {
-                timer = 0;
                 SpawnEnemy();
             }
             if(timer % 2 == 0)
