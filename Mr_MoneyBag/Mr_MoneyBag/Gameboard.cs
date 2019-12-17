@@ -10,10 +10,18 @@ namespace Mr_MoneyBag
     class Gameboard
     {
         public const int width=39, height=39;
+        readonly int default_cof = 24, default_nrg = 20, default_rnd = 20;
+        readonly int default_sr = 3;
+        readonly double default_st = 5.9;
+        readonly int[] default_sa = { 2, 2, 2, 2, 2, 2 }; // coinonfloor, newredgen, rednoticedist, sight, damage, moneylimit, 
+
+
         static Random rnd = new Random();
         public int level;
+        public double shopnoticedist = 2.1;
         public int turn = 0;
-        public int coinsonfloor = 24, newredgen = 6, rednoticedist = 20,  InitPlayerMoneyLimit = 5;
+        public int coinsonfloor = 24, newredgen = 10, rednoticedist = 20,  InitPlayerMoneyLimit = 5;
+        public int shootrange = 3;
         public double sight = 5.9;
         public int[] shop_amount = new int[] { 2, 2, 2, 2, 2, 2 }; // coinonfloor, newredgen, rednoticedist, sight, damage, moneylimit, 
         public GameObject[,] status = new GameObject[height, width];
@@ -26,16 +34,21 @@ namespace Mr_MoneyBag
         public Gameboard()
         {
             level = 3;
-            player= new Player(this, 300, initial_x, initial_y, InitPlayerMoneyLimit);
-            //genlevel(level); 
+            player= new Player(this, InitPlayerMoneyLimit, initial_x, initial_y, InitPlayerMoneyLimit);
+            
             Level.GenRandomLevel(this, level);
         }
-        public void genlevel(int level)
+        public void restart()
         {
-            for (int i = 0; i < height; i++)
-                for (int j = 0; j < width; j++)
-                    status[i, j] = new Space(this,i,j);
-            status[10, 10] = player;
+            level = 3;
+            player = new Player(this, InitPlayerMoneyLimit, initial_x, initial_y, InitPlayerMoneyLimit);
+            coinsonfloor = default_cof; newredgen = default_nrg; rednoticedist = default_rnd; shootrange = default_sr;
+            sight = default_st;
+            default_sa.CopyTo(shop_amount, 0);
+            enemies = new List<Enemy>();
+            timer = 0;
+            status = new GameObject[height, width];
+            Level.GenRandomLevel(this, level);
         }
 
         public int GetWidth()
@@ -60,11 +73,59 @@ namespace Mr_MoneyBag
             {
                 enemy.move();
             }
+            Console.WriteLine("Money: " + player.hp + " Limit " + player.moneylimit + " CoinsOnFloor " + coinsonfloor + " NewRedGen " + newredgen + " RedNoticeDist " + rednoticedist + " sight " + sight + " damage " + player.attack);
+
+            // check shops and notice
+            DisplayShopNotice(player.x, player.y);
+        }
+
+        public void DisplayShopNotice(int x, int y) // check the status around x and y and notice the nearest shop
+        {
+            int xst = x - (int)shopnoticedist;
+            if (xst < 0) xst = 0;
+            int xed = x + (int)shopnoticedist;
+            if (xed > height - 1) xed = height - 1;
+            int yst = y - (int)shopnoticedist;
+            if (yst < 0) yst = 0;
+            int yed = y + (int)shopnoticedist;
+            if (yed > width - 1) yed = width - 1;
+
+            double mindist = shopnoticedist;
+            int minx = 0, miny = 0;
+
+            for (int i = xst; i <= xed; i++)
+            {
+                for (int j = yst; j <= yed; j++)
+                {
+                    if (!(status[i, j] is Shop)) continue;
+                    double temp = status[i, j].distance(x, y);
+                    if (temp < mindist)
+                    {
+                        Console.WriteLine("d: " + temp + " from " + i + "," + j + " to " + x + "," + y);
+                        mindist = temp;
+                        minx = i; miny = j;
+                    }
+                }
+            }
+            //Console.WriteLine("aaa");
+            if (mindist >= shopnoticedist) return;
+            //Console.WriteLine("bbb");
+
+            try
+            {
+                ((Shop)(status[minx, miny])).notice();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("{0} Cannot convert to shop!", e);
+            }
+
         }
 
         public void SpawnEnemy()
         {
             //if (enemies.Count >= 3) return;
+            
             bool success = false;
             while (!success)
             {
@@ -90,7 +151,7 @@ namespace Mr_MoneyBag
                 }
                 
             }
-            
+            DisplayEnemy();
         }
 
         public bool HasEnemy(int x, int y)
@@ -115,6 +176,17 @@ namespace Mr_MoneyBag
                 }
             }
             return null;
+        }
+
+        public void DisplayEnemy()
+        {
+            Console.Write("Current Enemies: ");
+            foreach (Enemy enemy in enemies)
+            {
+                Console.Write("(" + enemy.x + ", " + enemy.y + ") ");
+                
+            }
+            Console.WriteLine();
         }
     }
 }

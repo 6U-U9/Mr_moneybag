@@ -68,7 +68,7 @@ namespace Mr_MoneyBag
         public int attack;
         virtual public void moveto(int x, int y)
         {
-            if (!moveable(x,y))
+            if (moveable(x,y) <= 0)
                 return;
             var pastx = this.x;
             var pasty = this.y;
@@ -79,14 +79,16 @@ namespace Mr_MoneyBag
         }
         virtual public void shoot(int dx, int dy)
         {
+            int cnt = 1;
             var x = this.x + dx;
             var y = this.y + dy;
-            while (gameboard.status[x, y] is Space && !gameboard.HasEnemy(x, y))
+            while (gameboard.status[x, y] is Space && !gameboard.HasEnemy(x, y) && cnt <= gameboard.shootrange)
             {
                 if (x == gameboard.GetHeight() - 1 || x == 0 || y == gameboard.GetWidth() - 1 || y == 0)
                     break;
                 x = x + dx;
                 y = y + dy;
+                cnt += 1;
             }
             if (gameboard.HasEnemy(x, y))
                 gameboard.GetEnemy(x, y).damaged(attack);
@@ -94,15 +96,15 @@ namespace Mr_MoneyBag
                 gameboard.status[x, y].damaged(attack);
             Console.WriteLine(x + "," + y + "damaged");
         }
-        virtual public bool moveable(int x, int y)
+        virtual public int moveable(int x, int y)
         {
             if (x > gameboard.GetHeight() - 1 || x < 0 || y > gameboard.GetWidth() - 1 || y < 0)
-                return false;
+                return 0;
             if (gameboard.status[x, y].isblocked)
-                return false;
+                return 0;
             if (gameboard.HasEnemy(x, y))
-                return false;
-            return true;
+                return -1;
+            return 1;
         }
     }
     class Player : MoveableObject
@@ -114,17 +116,18 @@ namespace Mr_MoneyBag
             this.moneylimit = moneylimit;
             this.attack = attack;
         }
-        public override bool moveable(int x, int y)
+        /*public override int moveable(int x, int y)
         {
             if (x > gameboard.GetHeight() - 1 || x < 0 || y > gameboard.GetWidth() - 1 || y < 0)
                 return false;
             if (gameboard.status[x, y] is Enemy) this.damaged(((Enemy)gameboard.status[x, y]).attack);
             return base.moveable(x, y);
-        }
+        }*/
         override public void moveto(int x, int y)
         {
-            if (!moveable(x, y))
-                return;
+            int canmove = moveable(x, y);
+            if (canmove == 0) return;
+            if (canmove == -1) { gameboard.IncreaseTimer(); return; }
             
             Console.WriteLine("Player: " + x + ", " + y);
 
@@ -135,7 +138,7 @@ namespace Mr_MoneyBag
             if (gameboard.status[this.x, this.y] is Gate)
             {
                 gameboard.level += 1;
-                gameboard.genlevel(gameboard.level);
+                Level.GenRandomLevel(gameboard, gameboard.level);
             }
             //判断是否获得Money
             if (gameboard.status[this.x, this.y] is Money&&this.hp<this.moneylimit)
@@ -161,7 +164,10 @@ namespace Mr_MoneyBag
 
         public override void dead()
         {
+            
             base.dead();
+            gameboard.restart();
+            Console.WriteLine("Player Dead! New Game!");
 
         }
         public void getmoney(int money)
@@ -207,7 +213,7 @@ namespace Mr_MoneyBag
             TryAttack();
 
             Node go = DistanceUtility.GetNextStep(gameboard.player, this, gameboard);
-            Console.WriteLine("Enemy" + x + "," + y + " to " + go.x + " -next- " + go.y);
+            Console.WriteLine("Enemy at [" + x + "," + y + "] to " + go.x + "," + go.y);
             this.x = go.x;
             this.y = go.y;
 
@@ -223,7 +229,7 @@ namespace Mr_MoneyBag
                     && gameboard.player.x == nx && gameboard.player.y == ny)
                 {
                     gameboard.player.damaged(attack);
-                    Console.WriteLine("Attacked Player");
+                    Console.WriteLine("Enemy at [" + x + "," + y + "] Attacked Player");
                 }
             }
         }
@@ -264,6 +270,7 @@ namespace Mr_MoneyBag
     class Shop : GameObject
     {
         public int gain;
+        
         public Shop(Gameboard gameboard,int money, int x, int y): base(gameboard,x,y)
         {
             this.hp = money;
@@ -280,6 +287,11 @@ namespace Mr_MoneyBag
         {
             //Console.WriteLine("shop get money remain "+hp);
             base.damaged(1);
+        }
+
+        virtual public void notice() // notice the player if they are in range
+        {
+            Console.WriteLine("Shop here at" + x + ", " + y);
         }
     }
     class CoinOnFloor_Shop : Shop
@@ -301,6 +313,10 @@ namespace Mr_MoneyBag
         {
             return "CoinOnFloor_Shop";
         }
+        public override void notice()
+        {
+            Console.WriteLine("Give me " + hp + " money to gain " + gain + " more coins on each floor");
+        }
     }
     class NewRedGen_Shop : Shop
     {
@@ -321,6 +337,11 @@ namespace Mr_MoneyBag
         {
             return "NewRedGen_Shop";
         }
+
+        public override void notice()
+        {
+            Console.WriteLine("Give me " + hp + " money to delay enemy spawn time by " + gain + " steps");
+        }
     }
     class RedNoticeDist_Shop : Shop
     {
@@ -330,7 +351,7 @@ namespace Mr_MoneyBag
         }
         public override void dead()
         {
-            gameboard.rednoticedist += gain;
+            gameboard.rednoticedist -= gain;
             base.dead();
         }
         public override Image getimage()
@@ -340,6 +361,10 @@ namespace Mr_MoneyBag
         public override string GetImageName()
         {
             return "RedNoticeDist_Shop";
+        }
+        public override void notice()
+        {
+            Console.WriteLine("Give me " + hp + " money to reduce enemy notice distance by " + gain + " block");
         }
     }
     class Sight_Shop : Shop
@@ -361,6 +386,10 @@ namespace Mr_MoneyBag
         {
             return "Sight_Shop";
         }
+        public override void notice()
+        {
+            Console.WriteLine("Give me " + hp + " money to increase your sight by " + gain + " block");
+        }
     }
     class Damage_Shop : Shop
     {
@@ -381,6 +410,10 @@ namespace Mr_MoneyBag
         {
             return "Damage_Shop";
         }
+        public override void notice()
+        {
+            Console.WriteLine("Give me " + hp + " money to increase your damage by " + gain + "");
+        }
     }
     class MoneyLimit_Shop : Shop
     {
@@ -400,6 +433,10 @@ namespace Mr_MoneyBag
         public override string GetImageName()
         {
             return "MoneyLimit_Shop";
+        }
+        public override void notice()
+        {
+            Console.WriteLine("Give me " + hp + " money to increase money limit by " + gain + "");
         }
     }
     class Wall : GameObject
