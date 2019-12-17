@@ -20,7 +20,7 @@ namespace Mr_MoneyBag
         public int level;
         public double shopnoticedist = 2.1;
         public int turn = 0;
-        public int coinsonfloor = 24, newredgen = 10, rednoticedist = 20,  InitPlayerMoneyLimit = 5;
+        public int coinsonfloor = 24, newredgen = 10, rednoticedist = 20,  InitPlayerMoneyLimit = 5000;
         public int shootrange = 3;
         public double sight = 5.9;
         public int[] shop_amount = new int[] { 2, 2, 2, 2, 2, 2 }; // coinonfloor, newredgen, rednoticedist, sight, damage, moneylimit, 

@@ -14,7 +14,7 @@ namespace Mr_MoneyBag
     {
         public const int blocksize = 32;
         public static int y = 30, x = 17;
-        public const double animespeed = 0.2; //动画运动速度
+        public const double animespeed = 0.4; //动画运动速度
         //public PictureBox[,] background = new PictureBox[x, y];
         public PictureBox map = new PictureBox();
         string[,] mapname = new string[x, y];
@@ -39,7 +39,7 @@ namespace Mr_MoneyBag
             DoubleBuffered = true;
             InitNumbers();
             RefreshBoard();
-            timerFresh.Interval = 50;
+            timerFresh.Interval = 10;
             timerFresh.Start();
         }
         private ValueTuple<double, double> GetXYst()
@@ -139,15 +139,28 @@ namespace Mr_MoneyBag
         {
             double x_st, y_st;
             (x_st, y_st) = GetXYst();
+            //Console.WriteLine(x_st+" "+y_st);
             Image image;
             if (Math.Abs(x_st - x_lastposition) > animespeed / 2)
-                x_lastposition += Math.Sign(x_st - x_lastposition) * animespeed;
+            {
+                if (x_st - x_lastposition > 0)
+                    x_lastposition = Math.Min(x_lastposition + animespeed, x_st);
+                if (x_st - x_lastposition < 0)
+                    x_lastposition = Math.Max(x_lastposition - animespeed, x_st);
+            }
             else
                 x_lastposition = x_st;
+
             if (Math.Abs(y_st - y_lastposition) > animespeed / 2)
-                y_lastposition += Math.Sign(y_st - y_lastposition) * animespeed;
+            {
+                if (y_st - y_lastposition > 0)
+                    y_lastposition = Math.Min(y_lastposition + animespeed, y_st);
+                if (y_st - y_lastposition < 0)
+                    y_lastposition = Math.Max(y_lastposition - animespeed, y_st);
+            }
             else
                 y_lastposition = y_st;
+            
 
             image = GetFullImage(gameboard, x_lastposition, y_lastposition, Form1.x, Form1.y);
             map.Image = image;
@@ -213,13 +226,13 @@ namespace Mr_MoneyBag
             System.Drawing.Image img = new System.Drawing.Bitmap(y_len * blocksize, x_len * blocksize);
             System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(img);
             int x, y;
-            x = (int)Math.Floor(x_st);
-            y = (int)Math.Floor(y_st);
+            x = Math.Max((int)Math.Floor(x_st),0);
+            y = Math.Max((int)Math.Floor(y_st),0);
             if (x_st > x)
                 x_len++;
             if (y_st > y)
-                y_len++;            
-
+                y_len++;
+            Console.WriteLine(x_st + "  " + x + "  " + y_st + "  " + y);
             System.Drawing.Image whole_img = new System.Drawing.Bitmap(y_len * blocksize, x_len * blocksize);
             System.Drawing.Graphics whole_g = System.Drawing.Graphics.FromImage(whole_img);
             for (int i = x; i < x + x_len; i++)
