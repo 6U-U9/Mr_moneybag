@@ -12,9 +12,9 @@ namespace Mr_MoneyBag
 {
     public partial class Form1 : Form
     {
-        public const int blocksize = 30;
+        public const int blocksize = 32;
         public static int y = 30, x = 17;
-        public const int pixelspeed = 5; //每次刷新移动的像素数
+        public const double animespeed = 0.2; //动画运动速度
         //public PictureBox[,] background = new PictureBox[x, y];
         public PictureBox map = new PictureBox();
         string[,] mapname = new string[x, y];
@@ -22,7 +22,7 @@ namespace Mr_MoneyBag
         Gameboard gameboard = new Gameboard();
         private bool is_space_down = false;
         private bool arrow_key_locked = false;
-        private int x_lastposition, y_lastposition;//new 判断盘面是否发生移动
+        private double x_lastposition, y_lastposition;//记录动画中盘面位置
 
 
         public Form1()
@@ -42,7 +42,7 @@ namespace Mr_MoneyBag
             timerFresh.Interval = 50;
             timerFresh.Start();
         }
-        private ValueTuple<int, int> GetXYst()
+        private ValueTuple<double, double> GetXYst()
         {
             int x = gameboard.player.x;
             int y = gameboard.player.y;
@@ -137,18 +137,19 @@ namespace Mr_MoneyBag
         }
         public void RefreshBoard()
         {
-            int x = gameboard.player.x;
-            int y = gameboard.player.y;
-            int x_st = x - Form1.x / 2;
-            if (x_st < 0) x_st = 0;
-            int x_ed = x_st + Form1.x;
-            if (x_ed > (gameboard.GetHeight())) { x_ed = gameboard.GetHeight(); x_st = x_ed - Form1.x; }
-            int y_st = y - Form1.y / 2;
-            if (y_st < 0) y_st = 0;
-            int y_ed = y_st + Form1.y;
-            if (y_ed > (gameboard.GetWidth())) { y_ed = gameboard.GetWidth(); y_st = y_ed - Form1.y; }
+            double x_st, y_st;
+            (x_st, y_st) = GetXYst();
+            Image image;
+            if (Math.Abs(x_st - x_lastposition) > animespeed / 2)
+                x_lastposition += Math.Sign(x_st - x_lastposition) * animespeed;
+            else
+                x_lastposition = x_st;
+            if (Math.Abs(y_st - y_lastposition) > animespeed / 2)
+                y_lastposition += Math.Sign(y_st - y_lastposition) * animespeed;
+            else
+                y_lastposition = y_st;
 
-            Image image = GetFullImage(gameboard, x_st, y_st, Form1.x, Form1.y);
+            image = GetFullImage(gameboard, x_lastposition, y_lastposition, Form1.x, Form1.y);
             map.Image = image;
 
         }
@@ -207,15 +208,26 @@ namespace Mr_MoneyBag
                 return Properties.Resources.NearlySeen;
             return Properties.Resources.Unseen;
         }
-        private Image GetFullImage(Gameboard gameboard, int x_st, int y_st, int x_len, int y_len)
+        private Image GetFullImage(Gameboard gameboard, double x_st, double y_st, int x_len, int y_len)
         {
             System.Drawing.Image img = new System.Drawing.Bitmap(y_len * blocksize, x_len * blocksize);
             System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(img);
-            for (int i = x_st; i < x_st + x_len; i++)
-                for (int j = y_st; j < y_st + y_len; j++)
+            int x, y;
+            x = (int)Math.Floor(x_st);
+            y = (int)Math.Floor(y_st);
+            if (x_st > x)
+                x_len++;
+            if (y_st > y)
+                y_len++;            
+
+            System.Drawing.Image whole_img = new System.Drawing.Bitmap(y_len * blocksize, x_len * blocksize);
+            System.Drawing.Graphics whole_g = System.Drawing.Graphics.FromImage(whole_img);
+            for (int i = x; i < x + x_len; i++)
+                for (int j = y; j < y + y_len; j++)
                 {
-                    g.DrawImage(GetShowImage(gameboard, i, j), blocksize * (j - y_st), blocksize * (i - x_st), blocksize, blocksize);
+                    whole_g.DrawImage(GetShowImage(gameboard, i, j), blocksize * (j - y), blocksize * (i - x), blocksize, blocksize);
                 }
+            g.DrawImage(whole_img, (int)(-(y_st - y) * blocksize), (int)(-(x_st - x) * blocksize));
             return img;
         }
 
