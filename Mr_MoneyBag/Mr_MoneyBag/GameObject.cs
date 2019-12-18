@@ -5,7 +5,7 @@ namespace Mr_MoneyBag
 {
     class GameObject
     {
-        public Gameboard gameboard;
+        public GameBoard gameboard;
         public int x, y,hp;
         public Image[] image;
         public bool seen;
@@ -13,7 +13,7 @@ namespace Mr_MoneyBag
         public bool NearlySeen;
         public int imageindex=0;
 
-        public GameObject(Gameboard gameboard,int x,int y)
+        public GameObject(GameBoard gameboard,int x,int y)
         {
             this.gameboard = gameboard;
             this.x = x;
@@ -47,7 +47,7 @@ namespace Mr_MoneyBag
     }
     class Space : GameObject
     {
-        public Space(Gameboard gameboard, int x, int y,bool seen=false, bool NearlySeen=false) : base(gameboard,x,y)
+        public Space(GameBoard gameboard, int x, int y,bool seen=false, bool NearlySeen=false) : base(gameboard,x,y)
         {   this.isblocked = false;
             this.seen = seen;
             this.NearlySeen = NearlySeen;
@@ -60,7 +60,7 @@ namespace Mr_MoneyBag
         public bool is_moving=false;
         public double x_drawposition, y_drawposition;
         public int attack;
-        public MoveableObject(Gameboard gameboard, int money, int x, int y) : base(gameboard,x,y)
+        public MoveableObject(GameBoard gameboard, int money, int x, int y) : base(gameboard,x,y)
         {
             this.hp = money;
             this.image = new Image[] { Properties.Resources.Space };
@@ -82,7 +82,8 @@ namespace Mr_MoneyBag
         }
         virtual public void shoot(int dx, int dy)
         {
-            int cnt = 1;
+            gameboard.bullets.Add(new Bullet(gameboard,this.attack,this.x,this.y,dx,dy));
+            /*int cnt = 1;
             var x = this.x + dx;
             var y = this.y + dy;
             while (gameboard.status[x, y] is Space && !gameboard.HasEnemy(x, y) && cnt <= gameboard.shootrange)
@@ -101,7 +102,7 @@ namespace Mr_MoneyBag
             else
                 doDamage = false;
             if (doDamage)
-                Console.WriteLine(x + "," + y + "damaged");
+                Console.WriteLine(x + "," + y + "damaged");*/
             is_moving = true;
         }
         virtual public int moveable(int x, int y)
@@ -159,7 +160,7 @@ namespace Mr_MoneyBag
     class Player : MoveableObject
     {
         public int moneylimit;
-        public Player(Gameboard gameboard,int money,int x,int y,int moneylimit,int attack=1): base(gameboard,money,x,y)
+        public Player(GameBoard gameboard,int money,int x,int y,int moneylimit,int attack=1): base(gameboard,money,x,y)
         {
             this.image = new Image[] { Properties.Resources.Player001 };
             this.movingimage = new Image[] { Properties.Resources.Player001, Properties.Resources.Player002, Properties.Resources.Player003 };
@@ -246,7 +247,7 @@ namespace Mr_MoneyBag
     {
         private bool is_attacking = false;
         static int[,] dir = new int[,] { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 } };
-        public Enemy(Gameboard gameboard,int money, int x, int y,int attack=1): base(gameboard,money,x,y)
+        public Enemy(GameBoard gameboard,int money, int x, int y,int attack=1): base(gameboard,money,x,y)
         {
             this.hp = money;
             this.attack = attack;
@@ -371,8 +372,9 @@ namespace Mr_MoneyBag
         public override void damaged(int n)
         {
             hp -= n;
-            if (hp < 0) dead();
+            if (hp <= 0) dead();
             else GetImageList();
+            Console.WriteLine("receive damage");
         }
         public override void dead()
         {
@@ -384,7 +386,7 @@ namespace Mr_MoneyBag
     {
         public int gain;
         
-        public Shop(Gameboard gameboard,int money, int x, int y): base(gameboard,x,y)
+        public Shop(GameBoard gameboard,int money, int x, int y): base(gameboard,x,y)
         {
             this.hp = money;
             this.x = x;
@@ -405,7 +407,7 @@ namespace Mr_MoneyBag
     }
     class CoinOnFloor_Shop : Shop
     {
-        public CoinOnFloor_Shop(Gameboard gameboard, int money, int x, int y,int gain=6) : base(gameboard,money,x,y)
+        public CoinOnFloor_Shop(GameBoard gameboard, int money, int x, int y,int gain=6) : base(gameboard,money,x,y)
         {
             this.gain = gain;
             this.image = new Image[] { Properties.Resources.Shop_CoinOnFloor};
@@ -422,7 +424,7 @@ namespace Mr_MoneyBag
     }
     class NewRedGen_Shop : Shop
     {
-        public NewRedGen_Shop(Gameboard gameboard, int money, int x, int y,int gain=10) : base(gameboard, money, x, y)
+        public NewRedGen_Shop(GameBoard gameboard, int money, int x, int y,int gain=10) : base(gameboard, money, x, y)
         {
             this.gain = gain;
             this.image = new Image[] { Properties.Resources.Shop_Time };
@@ -440,7 +442,7 @@ namespace Mr_MoneyBag
     }
     class RedNoticeDist_Shop : Shop
     {
-        public RedNoticeDist_Shop(Gameboard gameboard, int money, int x, int y,int gain=1) : base(gameboard, money, x, y)
+        public RedNoticeDist_Shop(GameBoard gameboard, int money, int x, int y,int gain=1) : base(gameboard, money, x, y)
         {
             this.gain = gain;
             this.image = new Image[] { Properties.Resources.Shop_NoticeDistance };
@@ -458,7 +460,7 @@ namespace Mr_MoneyBag
     }
     class Sight_Shop : Shop
     {
-        public Sight_Shop(Gameboard gameboard, int money, int x, int y,int gain=1) : base(gameboard, money, x, y)
+        public Sight_Shop(GameBoard gameboard, int money, int x, int y,int gain=1) : base(gameboard, money, x, y)
         {
             this.gain = gain;
             this.image = new Image[] { Properties.Resources.Shop_Sight };
@@ -476,7 +478,7 @@ namespace Mr_MoneyBag
     }
     class Damage_Shop : Shop
     {
-        public Damage_Shop(Gameboard gameboard, int money, int x, int y, int gain=1) : base(gameboard, money, x, y)
+        public Damage_Shop(GameBoard gameboard, int money, int x, int y, int gain=1) : base(gameboard, money, x, y)
         {
             this.gain = gain;
             this.image = new Image[] { Properties.Resources.Shop_Damage };
@@ -495,7 +497,7 @@ namespace Mr_MoneyBag
     }
     class MoneyLimit_Shop : Shop
     {
-        public MoneyLimit_Shop(Gameboard gameboard, int money, int x, int y, int gain=2) : base(gameboard, money, x, y)
+        public MoneyLimit_Shop(GameBoard gameboard, int money, int x, int y, int gain=2) : base(gameboard, money, x, y)
         {
             this.gain = gain;
             this.image = new Image[] { Properties.Resources.Shop_Heart};
@@ -512,7 +514,7 @@ namespace Mr_MoneyBag
     }
     class Wall : GameObject
     {
-        public Wall(Gameboard gameboard,int x, int y,int hp=1 ): base(gameboard,x,y)
+        public Wall(GameBoard gameboard,int x, int y,int hp=1 ): base(gameboard,x,y)
         {
             this.hp = hp;
             this.isblocked = true;
@@ -525,22 +527,63 @@ namespace Mr_MoneyBag
     }
     class UnbreakableWall : Wall
     {
-        public UnbreakableWall(Gameboard gameboard, int x, int y, int hp = 1) : base(gameboard,x,y,hp)
+        public UnbreakableWall(GameBoard gameboard, int x, int y, int hp = 1) : base(gameboard,x,y,hp)
         { }
         public override void damaged(int n)
         { }
     }
     class Gate : Space
     {
-        public Gate(Gameboard gameboard,int x,int y) : base(gameboard,x,y)
+        public Gate(GameBoard gameboard,int x,int y) : base(gameboard,x,y)
         { this.image = new Image[] { Properties.Resources.Stair }; }
     }
     class Money : Space
     { 
-        public Money(Gameboard gameboard,int x,int y,int money=1): base(gameboard,x,y)
+        public Money(GameBoard gameboard,int x,int y,int money=1): base(gameboard,x,y)
         {
             this.hp = money;
             this.image = new Image[] { Properties.Resources.Coin };
+        }
+    }
+    class Bullet : MoveableObject 
+    {
+        //攻击力即为hp
+        private double speed;
+        private double range;
+        private int dx, dy;
+        private int start_x, start_y;
+        public Bullet(GameBoard gameboard, int money, int x, int y, int dx, int dy, double speed = 0.7,double range=10.0) : base(gameboard, money, x, y)
+        {
+            this.dx = dx;
+            this.dy = dy;
+            this.speed = speed;
+            this.image = new Image[] { Properties.Resources.Coin_Shoot };
+            this.x_drawposition = x;
+            this.y_drawposition = y;
+            this.start_x = x;
+            this.start_y = y;
+            this.range = range;
+        }
+        public void Move()
+        {
+            x_drawposition += dx * speed;
+            y_drawposition += dy * speed;
+            if (dx > 0)
+            { x = (int)Math.Floor(x_drawposition); }
+            else if (dx < 0)
+            { x = (int)Math.Ceiling(x_drawposition); }
+            if (dy > 0)
+            { y = (int)Math.Floor(y_drawposition); }
+            else if (dy < 0)
+            { y = (int)Math.Ceiling(y_drawposition); }
+
+            if (gameboard.HasEnemy(x, y))
+            { gameboard.GetEnemy(x, y).damaged(hp); gameboard.bullets.Remove(this); Console.WriteLine("deal demage" + hp); }
+            else if (!(gameboard.status[x, y] is Space))
+            { gameboard.status[x, y].damaged(hp); gameboard.bullets.Remove(this); }
+            else if (distance(start_x, start_y) > range)
+            { gameboard.bullets.Remove(this); Console.WriteLine(" out of range"+distance(start_x, start_y)); }
+            Console.WriteLine("B  " + x + " " + y);
         }
     }
 }

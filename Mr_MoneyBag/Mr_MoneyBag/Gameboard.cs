@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace Mr_MoneyBag
 {
-    class Gameboard
+    class GameBoard
     {
         public const int width=39, height=39;
         readonly int default_cof = 24, default_nrg = 20, default_rnd = 20;
@@ -30,8 +30,9 @@ namespace Mr_MoneyBag
         public Player player;
         public int timer = 0;
         public List<Enemy> enemies = new List<Enemy>();
+        public List<Bullet> bullets = new List<Bullet>();
 
-        public Gameboard()
+        public GameBoard()
         {
             level = 3;
             player= new Player(this, InitPlayerMoneyLimit, initial_x, initial_y, InitPlayerMoneyLimit);
@@ -61,6 +62,12 @@ namespace Mr_MoneyBag
             return height;
         }
 
+        public void FreshBullets()
+        {
+            if (bullets.Count > 0)
+                for (int i=0; i< bullets.Count;i++ )
+                    bullets[i].Move();
+        }
         public void IncreaseTimer()
         {
             timer += 1;

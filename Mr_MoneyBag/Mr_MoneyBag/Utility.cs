@@ -31,7 +31,7 @@ namespace Mr_MoneyBag
         static bool[,] vis;
         static Node[,] parent;
         static int[,] dir = new int[,] { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 } };
-        public static Node GetNextStep(MoveableObject player, MoveableObject enemy, Gameboard board)
+        public static Node GetNextStep(MoveableObject player, MoveableObject enemy, GameBoard board)
         {
             int h = board.GetHeight();
             int w = board.GetWidth();
@@ -99,7 +99,7 @@ namespace Mr_MoneyBag
         static Random rnd = new Random();
         static int[,] dir = new int[,] { {1, 0}, {0, 1}, {-1, 0}, {0, -1} };
         static int[,] parameter = new int[,] { { 4, 0}, { 5, 0}, { 255, 1}, { 505, 1} };
-        public static void GenRandomLevel(Gameboard board, int lv)
+        public static void GenRandomLevel(GameBoard board, int lv)
         {
             //Console.WriteLine("-0-");
             GenBasicMap(board);
@@ -112,7 +112,7 @@ namespace Mr_MoneyBag
         }
 
 
-        public static void AddShop(Gameboard board, int lv)
+        public static void AddShop(GameBoard board, int lv)
         {
             for (int i = 0; i < board.shop_amount.Length; i++)
             {
@@ -160,7 +160,7 @@ namespace Mr_MoneyBag
             }
         }
 
-        public static void AddMoney(Gameboard board)
+        public static void AddMoney(GameBoard board)
         {
             for(int i = 0; i < board.coinsonfloor; i++)
             {
@@ -182,7 +182,7 @@ namespace Mr_MoneyBag
         }
 
 
-        public static void GenBasicMap(Gameboard board)
+        public static void GenBasicMap(GameBoard board)
         {
 
             for (int i = 0; i < board.GetHeight(); i++)
@@ -197,12 +197,12 @@ namespace Mr_MoneyBag
             }
 
             bool[,] vis = new bool[board.GetHeight(), board.GetWidth()];
-            GenBasicMapHelper(board, vis, Gameboard.initial_x, Gameboard.initial_y, 0);
+            GenBasicMapHelper(board, vis, GameBoard.initial_x, GameBoard.initial_y, 0);
             //board.status[Gameboard.initial_x, Gameboard.initial_y] = board.player;
         }
 
 
-        private static void GenBasicMapHelper(Gameboard board, bool[,] vis, int x, int y, int step)
+        private static void GenBasicMapHelper(GameBoard board, bool[,] vis, int x, int y, int step)
         {
             
             if (x > board.GetWidth() - 2 || x < 1 || y > board.GetHeight() - 2 || y < 1) return;
@@ -235,7 +235,7 @@ namespace Mr_MoneyBag
             }
         }
 
-        private static bool CheckConnect(Gameboard board)
+        private static bool CheckConnect(GameBoard board)
         {
             
             for (int i = 0; i < board.GetHeight(); i+=2)

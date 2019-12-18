@@ -19,7 +19,7 @@ namespace Mr_MoneyBag
         public PictureBox map = new PictureBox();
         string[,] mapname = new string[x, y];
 
-        Gameboard gameboard = new Gameboard();
+        GameBoard gameboard = new GameBoard();
         private bool is_space_down = false;
         private bool arrow_key_locked = false;
         private double x_position, y_position;//记录动画中盘面位置
@@ -160,12 +160,12 @@ namespace Mr_MoneyBag
             }
             else
                 y_position = y_st;
-
+            gameboard.FreshBullets();
             image = GetFullImage(gameboard, x_position, y_position, Form1.x, Form1.y);
             map.Image = image;
 
         }
-        private Image GetShowImage(Gameboard gameboard, int x, int y)
+        private Image GetShowImage(GameBoard gameboard, int x, int y)
         {
             GameObject gameObject = gameboard.status[x, y];
             double dist = gameObject.distance(gameboard.player.x, gameboard.player.y);
@@ -201,7 +201,7 @@ namespace Mr_MoneyBag
                 return Properties.Resources.Nearlyseen;
             return Properties.Resources.Unseen;
         }
-        private Image GetUnmoveableImage(Gameboard gameboard, int x, int y)
+        private Image GetUnmoveableImage(GameBoard gameboard, int x, int y)
         {
             GameObject gameObject = gameboard.status[x, y];
             double dist = gameObject.distance(gameboard.player.x, gameboard.player.y);
@@ -218,7 +218,7 @@ namespace Mr_MoneyBag
                 return Properties.Resources.Nearlyseen;
             return Properties.Resources.Unseen;
         }
-        private Image GetFullImage(Gameboard gameboard, double x_st, double y_st, int x_len, int y_len)
+        private Image GetFullImage(GameBoard gameboard, double x_st, double y_st, int x_len, int y_len)
         {
             System.Drawing.Image img = new System.Drawing.Bitmap(y_len * blocksize, x_len * blocksize);
             System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(img);
@@ -244,6 +244,10 @@ namespace Mr_MoneyBag
                     whole_g.DrawImage(enemy.GetImage(), (int)(blocksize * (enemy.y_drawposition - y)), (int)(blocksize * (enemy.x_drawposition - x)), blocksize, blocksize);
                 else
                     enemy.FreshDrawPosition();
+
+            foreach (Bullet bullet in gameboard.bullets)
+                if (gameboard.player.distance((int)bullet.x, (int)bullet.y) <= gameboard.sight)
+                    whole_g.DrawImage(bullet.GetImage(), (int)(blocksize * (bullet.y_drawposition - y)), (int)(blocksize * (bullet.x_drawposition - x)), blocksize, blocksize);
             g.DrawImage(whole_img, (int)(-(y_st - y) * blocksize), (int)(-(x_st - x) * blocksize));
             return img;
         }
