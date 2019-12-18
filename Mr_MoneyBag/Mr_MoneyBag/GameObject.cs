@@ -190,7 +190,7 @@ namespace Mr_MoneyBag
         {if (hp > 0) { this.hp--; shoot(0, 1); } }
         public override Image getimage()
         {
-            return Properties.Resources.player; 
+            return Properties.Resources.Player001; 
         }
         public override string GetImageName()
         {
@@ -244,13 +244,13 @@ namespace Mr_MoneyBag
             switch(hp)
             {
                 case 1:
-                    return Properties.Resources.enemy_1;
+                    return Properties.Resources.Enemy1_01;
                 case 2:
-                    return Properties.Resources.enemy_2;
+                    return Properties.Resources.Enemy2_01;
                 case 3:
-                    return Properties.Resources.enemy_3;
+                    return Properties.Resources.Enemy3_01;
             }
-            return Properties.Resources.enemy_1;
+            return Properties.Resources.Enemy1_01;
 
         }
         public override string GetImageName()
@@ -279,10 +279,6 @@ namespace Mr_MoneyBag
             this.isblocked = true;
         }
 
-        public override Image getimage()
-        {
-            return Properties.Resources.shop_heart;
-        }
         public override void damaged(int n)
         {
             //Console.WriteLine("shop get money remain "+hp);
@@ -307,7 +303,7 @@ namespace Mr_MoneyBag
         }
         public override Image getimage()
         {
-            return Properties.Resources.shop_coinonfloor;
+            return Properties.Resources.Shop_CoinOnFloor;
         }
         public override string GetImageName()
         {
@@ -331,7 +327,7 @@ namespace Mr_MoneyBag
         }
         public override Image getimage()
         {
-            return Properties.Resources.shop_newredgen;
+            return Properties.Resources.Shop_Time;
         }
         public override string GetImageName()
         {
@@ -356,7 +352,7 @@ namespace Mr_MoneyBag
         }
         public override Image getimage()
         {
-            return Properties.Resources.shop_rednoticedist;
+            return Properties.Resources.Shop_NoticeDistance;
         }
         public override string GetImageName()
         {
@@ -380,7 +376,7 @@ namespace Mr_MoneyBag
         }
         public override Image getimage()
         {
-            return Properties.Resources.shop_sight;
+            return Properties.Resources.Shop_Sight;
         }
         public override string GetImageName()
         {
@@ -404,7 +400,7 @@ namespace Mr_MoneyBag
         }
         public override Image getimage()
         {
-            return Properties.Resources.shop_damage;
+            return Properties.Resources.Shop_Damage;
         }
         public override string GetImageName()
         {
@@ -428,7 +424,7 @@ namespace Mr_MoneyBag
         }
         public override Image getimage()
         {
-            return Properties.Resources.shop_heart;
+            return Properties.Resources.Shop_Heart;
         }
         public override string GetImageName()
         {
@@ -480,7 +476,7 @@ namespace Mr_MoneyBag
 
         public override Image getimage()
         {
-            return Properties.Resources.money;
+            return Properties.Resources.Coin;
         }
         public override string GetImageName()
         {

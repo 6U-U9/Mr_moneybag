@@ -168,13 +168,14 @@ namespace Mr_MoneyBag
         }
         private Image GetShowImage(Gameboard gameboard, int x, int y)
         {
-            if (gameboard.player.x == x && gameboard.player.y == y)
-                return Properties.Resources.Player001;
+            
 
             GameObject gameObject = gameboard.status[x, y];
             double dist = gameObject.distance(gameboard.player.x, gameboard.player.y);
             if (dist <= gameboard.sight)
             {
+                if (gameboard.player.x == x && gameboard.player.y == y)
+                    return UniteImage(Properties.Resources.Back001, Properties.Resources.Player001);
                 if ((x + y) % 2 == 1)
                 {
                     foreach (Enemy enemy in gameboard.enemies)
@@ -185,6 +186,8 @@ namespace Mr_MoneyBag
                 }
                 else
                 {
+                    if (gameboard.player.x == x && gameboard.player.y == y)
+                        return UniteImage(Properties.Resources.Back002, Properties.Resources.Player001);
                     foreach (Enemy enemy in gameboard.enemies)
                     {
                         if (enemy.x == x && enemy.y == y) return UniteImage(Properties.Resources.Back002, enemy.getimage());
