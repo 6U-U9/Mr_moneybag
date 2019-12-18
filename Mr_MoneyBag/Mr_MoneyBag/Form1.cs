@@ -174,10 +174,11 @@ namespace Mr_MoneyBag
             double dist = gameObject.distance(gameboard.player.x, gameboard.player.y);
             if (dist <= gameboard.sight)
             {
-                if (gameboard.player.x == x && gameboard.player.y == y)
-                    return UniteImage(Properties.Resources.Back001, Properties.Resources.Player001);
+
                 if ((x + y) % 2 == 1)
                 {
+                    if (gameboard.player.x == x && gameboard.player.y == y)
+                        return UniteImage(Properties.Resources.Back001, Properties.Resources.Player001);
                     foreach (Enemy enemy in gameboard.enemies)
                     {
                         if (enemy.x == x && enemy.y == y) return UniteImage(Properties.Resources.Back001, enemy.getimage());
