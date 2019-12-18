@@ -39,7 +39,7 @@ namespace Mr_MoneyBag
             DoubleBuffered = true;
             InitNumbers();
             RefreshBoard();
-            timerFresh.Interval = 10;
+            timerFresh.Interval = 30;
             timerFresh.Start();
         }
         private ValueTuple<double, double> GetXYst()
@@ -236,8 +236,14 @@ namespace Mr_MoneyBag
                 for (int j = y; j < y + y_len; j++)
                 {
                     whole_g.DrawImage(GetUnmoveableImage(gameboard, i, j), blocksize * (j - y), blocksize * (i - x), blocksize, blocksize);
-                    whole_g.DrawImage(gameboard.player.GetImage(), (int)(blocksize * (gameboard.player.y_position - y_st)), (int)(blocksize * (gameboard.player.x_position - x_st)), blocksize, blocksize);
+                    
                 }
+            whole_g.DrawImage(gameboard.player.GetImage(), (int)(blocksize * (gameboard.player.y_drawposition - y)), (int)(blocksize * (gameboard.player.x_drawposition - x)), blocksize, blocksize);
+            foreach (Enemy enemy in gameboard.enemies)
+                if (enemy.distance(gameboard.player.x, gameboard.player.y) <= gameboard.sight)
+                    whole_g.DrawImage(enemy.GetImage(), (int)(blocksize * (enemy.y_drawposition - y)), (int)(blocksize * (enemy.x_drawposition - x)), blocksize, blocksize);
+                else
+                    enemy.FreshDrawPosition();
             g.DrawImage(whole_img, (int)(-(y_st - y) * blocksize), (int)(-(x_st - x) * blocksize));
             return img;
         }

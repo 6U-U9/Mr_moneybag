@@ -20,7 +20,7 @@ namespace Mr_MoneyBag
         public int level;
         public double shopnoticedist = 2.1;
         public int turn = 0;
-        public int coinsonfloor = 24, newredgen = 100, rednoticedist = 20,  InitPlayerMoneyLimit = 5000;
+        public int coinsonfloor = 24, newredgen = 3, rednoticedist = 20,  InitPlayerMoneyLimit = 5000;
         public int shootrange = 3;
         public double sight = 5.9;
         public int[] shop_amount = new int[] { 2, 2, 2, 2, 2, 2 }; // coinonfloor, newredgen, rednoticedist, sight, damage, moneylimit, 
@@ -68,11 +68,14 @@ namespace Mr_MoneyBag
             {
                 SpawnEnemy();
             }
-            if(timer % 2 == 0)
+            
             foreach (Enemy enemy in enemies)
-            {
-                enemy.move();
+            {if (timer % 2 == 0)
+                    enemy.Move();
+                else
+                    enemy.ReadytoAction();
             }
+
             Console.WriteLine("Money: " + player.hp + " Limit " + player.moneylimit + " CoinsOnFloor " + coinsonfloor + " NewRedGen " + newredgen + " RedNoticeDist " + rednoticedist + " sight " + sight + " damage " + player.attack);
 
             // check shops and notice

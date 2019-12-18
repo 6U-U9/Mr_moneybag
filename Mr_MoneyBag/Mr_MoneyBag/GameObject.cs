@@ -57,16 +57,16 @@ namespace Mr_MoneyBag
     class MoveableObject : GameObject
     {
         public Image[] movingimage;
-        public bool is_moveing=false;
-        public double x_position, y_position;
+        public bool is_moving=false;
+        public double x_drawposition, y_drawposition;
         public int attack;
         public MoveableObject(Gameboard gameboard, int money, int x, int y) : base(gameboard,x,y)
         {
             this.hp = money;
             this.image = new Image[] { Properties.Resources.Space };
             this.movingimage = new Image[] { Properties.Resources.Space };
-            this.x_position = x;
-            this.y_position = y;
+            this.x_drawposition = x;
+            this.y_drawposition = y;
         }
         virtual public void moveto(int x, int y)
         {
@@ -78,7 +78,7 @@ namespace Mr_MoneyBag
             this.y = y;
             freshboard(pastx, pasty, new Space(gameboard,pastx,pasty));
             freshboard(x, y, this);
-            is_moveing = true;
+            is_moving = true;
         }
         virtual public void shoot(int dx, int dy)
         {
@@ -102,7 +102,7 @@ namespace Mr_MoneyBag
                 doDamage = false;
             if (doDamage)
                 Console.WriteLine(x + "," + y + "damaged");
-            is_moveing = true;
+            is_moving = true;
         }
         virtual public int moveable(int x, int y)
         {
@@ -117,34 +117,34 @@ namespace Mr_MoneyBag
         override public Image GetImage()
         {
             
-            if (is_moveing)
+            if (is_moving)
             {   double animespeed = Form1.animespeed;
                 imageindex++;
-                if (Math.Abs(x - x_position) > animespeed)
+                if (Math.Abs(x - x_drawposition) > animespeed)
                 {
-                    if (x - x_position > 0)
-                        x_position = Math.Min(x_position + animespeed, x);
-                    if (x - x_position < 0)
-                        x_position = Math.Max(x_position - animespeed, x);
+                    if (x - x_drawposition > 0)
+                        x_drawposition = Math.Min(x_drawposition + animespeed, x);
+                    if (x - x_drawposition < 0)
+                        x_drawposition = Math.Max(x_drawposition - animespeed, x);
                 }
                 else
-                    x_position = x;
+                    x_drawposition = x;
 
-                if (Math.Abs(y - y_position) > animespeed)
+                if (Math.Abs(y - y_drawposition) > animespeed)
                 {
-                    if (y - y_position > 0)
-                        y_position = Math.Min(y_position + animespeed, y);
-                    if (y - y_position < 0)
-                        y_position = Math.Max(y_position - animespeed, y);
+                    if (y - y_drawposition > 0)
+                        y_drawposition = Math.Min(y_drawposition + animespeed, y);
+                    if (y - y_drawposition < 0)
+                        y_drawposition = Math.Max(y_drawposition - animespeed, y);
                 }
                 else
-                    y_position = y;
+                    y_drawposition = y;
 
-                if (imageindex >= movingimage.Length && x == x_position && y == y_position)
-                { imageindex = 0; is_moveing = false; }
+                if (imageindex >= movingimage.Length && x == x_drawposition && y == y_drawposition)
+                { imageindex = 0; is_moving = false; }
                 else if (imageindex >= movingimage.Length)
                 { imageindex = 0; }
-                //Console.WriteLine("ismoving");
+                //Console.WriteLine(is_moving+" "+imageindex+"  "+x_position + "  " + y_position);
                 return movingimage[imageindex];
             }
             else
@@ -177,7 +177,7 @@ namespace Mr_MoneyBag
         {
             int canmove = moveable(x, y);
             if (canmove == 0) return;
-            if (canmove == -1) { gameboard.IncreaseTimer(); return; }
+            if (canmove == -1) { Console.WriteLine("bump into enemy"); gameboard.IncreaseTimer(); return; }
             
             Console.WriteLine("Player: " + x + ", " + y);
 
@@ -196,7 +196,7 @@ namespace Mr_MoneyBag
                 getmoney(((Money)gameboard.status[this.x, this.y]).hp);
                 freshboard(this.x,this.y, new Space(gameboard, this.x, this.y,true));
             }
-            gameboard.IncreaseTimer();
+            
 
             foreach (GameObject gameObject in gameboard.status)
             {
@@ -205,7 +205,8 @@ namespace Mr_MoneyBag
                 else if (gameObject.distance(this.x, this.y) < gameboard.sight + 1)
                     gameObject.NearlySeen = true;
             }
-            is_moveing = true;
+            gameboard.IncreaseTimer();
+            is_moving = true;
         }
         public override void damaged(int n)
         {
@@ -243,27 +244,32 @@ namespace Mr_MoneyBag
     }
     class Enemy : MoveableObject
     {
-        private string status = "walk";
+        private bool is_attacking = false;
         static int[,] dir = new int[,] { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 } };
         public Enemy(Gameboard gameboard,int money, int x, int y,int attack=1): base(gameboard,money,x,y)
         {
             this.hp = money;
             this.attack = attack;
             this.isblocked = true;
+            this.x_drawposition = x;
+            this.y_drawposition = y;
+            GetImageList();
         }
-        public void move()
+        public void Move()
         {
             if (this.distance(gameboard.player.x, gameboard.player.y) > gameboard.rednoticedist) return;
-            TryAttack();
+            Attack();
 
             Node go = DistanceUtility.GetNextStep(gameboard.player, this, gameboard);
             Console.WriteLine("Enemy at [" + x + "," + y + "] to " + go.x + "," + go.y);
             this.x = go.x;
             this.y = go.y;
+            is_moving = true;
 
         }
-
-        public void TryAttack()
+        public void ReadytoAction()
+        { is_attacking = true;}
+        public void Attack()
         {
             for(int i = 0; i < 4; i++)
             {
@@ -275,28 +281,104 @@ namespace Mr_MoneyBag
                     gameboard.player.damaged(attack);
                     Console.WriteLine("Enemy at [" + x + "," + y + "] Attacked Player");
                 }
+            }            
+            is_attacking = false;
+        }
+        public void GetImageList()
+        {
+            switch (hp)
+            {
+                case 1:
+                    {
+                        this.image = new Image[] { Properties.Resources.Enemy1_01 };
+                        this.movingimage = new Image[] { Properties.Resources.Enemy1_01, Properties.Resources.Enemy1_02, Properties.Resources.Enemy1_03 };
+                        break;
+                    }
+                case 2:
+                    {
+                        this.image = new Image[] { Properties.Resources.Enemy2_01 };
+                        this.movingimage = new Image[] { Properties.Resources.Enemy2_01, Properties.Resources.Enemy2_02, Properties.Resources.Enemy2_03 };
+                        break;
+                    }
+                case 3:
+                    {
+                        this.image = new Image[] { Properties.Resources.Enemy3_01 };
+                        this.movingimage = new Image[] { Properties.Resources.Enemy3_01, Properties.Resources.Enemy3_02, Properties.Resources.Enemy3_03 };
+                        break;
+                    }
+                case 4:
+                    {
+                        this.image = new Image[] { Properties.Resources.Enemy4_01 };
+                        this.movingimage = new Image[] { Properties.Resources.Enemy4_01, Properties.Resources.Enemy4_02, Properties.Resources.Enemy4_03 };
+                        break;
+                    }
+                case 5:
+                    {
+                        this.image = new Image[] { Properties.Resources.Enemy5_01 };
+                        this.movingimage = new Image[] { Properties.Resources.Enemy1_01, Properties.Resources.Enemy5_02, Properties.Resources.Enemy5_03 };
+                        break;
+                    }
+                case 6:
+                    {
+                        this.image = new Image[] { Properties.Resources.Enemy6_01 };
+                        this.movingimage = new Image[] { Properties.Resources.Enemy6_01, Properties.Resources.Enemy6_02, Properties.Resources.Enemy6_03 };
+                        break;
+                    }
+                case 7:
+                    {
+                        this.image = new Image[] { Properties.Resources.Enemy7_01 };
+                        this.movingimage = new Image[] { Properties.Resources.Enemy7_01, Properties.Resources.Enemy7_02, Properties.Resources.Enemy7_03 };
+                        break;
+                    }
+                case 8:
+                    {
+                        this.image = new Image[] { Properties.Resources.Enemy8_01 };
+                        this.movingimage = new Image[] { Properties.Resources.Enemy8_01, Properties.Resources.Enemy8_02, Properties.Resources.Enemy8_03 };
+                        break;
+                    }
+                case 9:
+                    {
+                        this.image = new Image[] { Properties.Resources.Enemy9_01 };
+                        this.movingimage = new Image[] { Properties.Resources.Enemy9_01, Properties.Resources.Enemy9_02, Properties.Resources.Enemy9_03 };
+                        break;
+                    }
+                default:
+                    {
+                        this.image = new Image[] { Properties.Resources.Enemy1_01 };
+                        this.movingimage = new Image[] { Properties.Resources.Enemy1_01, Properties.Resources.Enemy1_02, Properties.Resources.Enemy1_03 };
+                        break;
+                    }
             }
         }
-
+        public override Image GetImage()
+        {
+            if (!is_moving&&is_attacking)
+            {
+                imageindex++;
+                if (imageindex >= movingimage.Length)
+                    imageindex = 0;
+                //Console.WriteLine("Attack");
+                return movingimage[imageindex];
+            }
+            else
+                return base.GetImage();
+        }
+        public void FreshDrawPosition()
+        {
+            x_drawposition = x;
+            y_drawposition = y;
+        }
+        public override void damaged(int n)
+        {
+            hp -= n;
+            if (hp < 0) dead();
+            else GetImageList();
+        }
         public override void dead()
         {
             gameboard.enemies.Remove(this);
         }
 
-        public override Image GetImage()
-        {
-            switch(hp)
-            {
-                case 1:
-                    return Properties.Resources.Enemy1_01;
-                case 2:
-                    return Properties.Resources.Enemy2_01;
-                case 3:
-                    return Properties.Resources.Enemy3_01;
-            }
-            return Properties.Resources.Enemy1_01;
-
-        }
     }
     class Shop : GameObject
     {
