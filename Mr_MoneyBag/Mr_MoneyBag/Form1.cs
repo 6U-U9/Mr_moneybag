@@ -160,7 +160,6 @@ namespace Mr_MoneyBag
             }
             else
                 y_position = y_st;
-            
 
             image = GetFullImage(gameboard, x_position, y_position, Form1.x, Form1.y);
             map.Image = image;
@@ -168,8 +167,6 @@ namespace Mr_MoneyBag
         }
         private Image GetShowImage(Gameboard gameboard, int x, int y)
         {
-            
-
             GameObject gameObject = gameboard.status[x, y];
             double dist = gameObject.distance(gameboard.player.x, gameboard.player.y);
             if (dist <= gameboard.sight)
