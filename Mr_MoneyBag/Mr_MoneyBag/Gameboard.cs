@@ -58,8 +58,8 @@ namespace Mr_MoneyBag
             enemies = new List<Enemy>();
             timer = 0;
             status = new GameObject[height, width];
-            player.x = initial_x;
-            player.y = initial_y;
+            int money = player.hp;
+            player = new Player(this, money, initial_x, initial_y, InitPlayerMoneyLimit);
             GenRandomLevel(level);
 
         }
