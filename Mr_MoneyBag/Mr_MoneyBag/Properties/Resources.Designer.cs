@@ -63,9 +63,9 @@ namespace Mr_MoneyBag.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        public static System.Drawing.Bitmap back0 {
+        public static System.Drawing.Bitmap Back001 {
             get {
-                object obj = ResourceManager.GetObject("back0", resourceCulture);
+                object obj = ResourceManager.GetObject("Back001", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace Mr_MoneyBag.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        public static System.Drawing.Bitmap back1 {
+        public static System.Drawing.Bitmap Back002 {
             get {
-                object obj = ResourceManager.GetObject("back1", resourceCulture);
+                object obj = ResourceManager.GetObject("Back002", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -83,9 +83,9 @@ namespace Mr_MoneyBag.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        public static System.Drawing.Bitmap enemy_1 {
+        public static System.Drawing.Bitmap Coin {
             get {
-                object obj = ResourceManager.GetObject("enemy_1", resourceCulture);
+                object obj = ResourceManager.GetObject("Coin", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -93,9 +93,9 @@ namespace Mr_MoneyBag.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        public static System.Drawing.Bitmap enemy_2 {
+        public static System.Drawing.Bitmap Coin_Shoot {
             get {
-                object obj = ResourceManager.GetObject("enemy_2", resourceCulture);
+                object obj = ResourceManager.GetObject("Coin_Shoot", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -103,9 +103,9 @@ namespace Mr_MoneyBag.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        public static System.Drawing.Bitmap enemy_3 {
+        public static System.Drawing.Bitmap Enemy1_01 {
             get {
-                object obj = ResourceManager.GetObject("enemy_3", resourceCulture);
+                object obj = ResourceManager.GetObject("Enemy1_01", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -113,9 +113,9 @@ namespace Mr_MoneyBag.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        public static System.Drawing.Bitmap money {
+        public static System.Drawing.Bitmap Enemy1_02 {
             get {
-                object obj = ResourceManager.GetObject("money", resourceCulture);
+                object obj = ResourceManager.GetObject("Enemy1_02", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -123,9 +123,9 @@ namespace Mr_MoneyBag.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        public static System.Drawing.Bitmap NearlySeen {
+        public static System.Drawing.Bitmap Enemy1_03 {
             get {
-                object obj = ResourceManager.GetObject("NearlySeen", resourceCulture);
+                object obj = ResourceManager.GetObject("Enemy1_03", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -133,9 +133,289 @@ namespace Mr_MoneyBag.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        public static System.Drawing.Bitmap player {
+        public static System.Drawing.Bitmap Enemy2_01 {
             get {
-                object obj = ResourceManager.GetObject("player", resourceCulture);
+                object obj = ResourceManager.GetObject("Enemy2_01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap Enemy2_02 {
+            get {
+                object obj = ResourceManager.GetObject("Enemy2_02", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap Enemy2_03 {
+            get {
+                object obj = ResourceManager.GetObject("Enemy2_03", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap Enemy3_01 {
+            get {
+                object obj = ResourceManager.GetObject("Enemy3_01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap Enemy3_02 {
+            get {
+                object obj = ResourceManager.GetObject("Enemy3_02", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap Enemy3_03 {
+            get {
+                object obj = ResourceManager.GetObject("Enemy3_03", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap Enemy4_01 {
+            get {
+                object obj = ResourceManager.GetObject("Enemy4_01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap Enemy4_02 {
+            get {
+                object obj = ResourceManager.GetObject("Enemy4_02", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap Enemy4_03 {
+            get {
+                object obj = ResourceManager.GetObject("Enemy4_03", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap Enemy5_01 {
+            get {
+                object obj = ResourceManager.GetObject("Enemy5_01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap Enemy5_02 {
+            get {
+                object obj = ResourceManager.GetObject("Enemy5_02", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap Enemy5_03 {
+            get {
+                object obj = ResourceManager.GetObject("Enemy5_03", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap Enemy6_01 {
+            get {
+                object obj = ResourceManager.GetObject("Enemy6_01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap Enemy6_02 {
+            get {
+                object obj = ResourceManager.GetObject("Enemy6_02", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap Enemy6_03 {
+            get {
+                object obj = ResourceManager.GetObject("Enemy6_03", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap Enemy7_01 {
+            get {
+                object obj = ResourceManager.GetObject("Enemy7_01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap Enemy7_02 {
+            get {
+                object obj = ResourceManager.GetObject("Enemy7_02", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap Enemy7_03 {
+            get {
+                object obj = ResourceManager.GetObject("Enemy7_03", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap Enemy8_01 {
+            get {
+                object obj = ResourceManager.GetObject("Enemy8_01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap Enemy8_02 {
+            get {
+                object obj = ResourceManager.GetObject("Enemy8_02", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap Enemy8_03 {
+            get {
+                object obj = ResourceManager.GetObject("Enemy8_03", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap Enemy9_01 {
+            get {
+                object obj = ResourceManager.GetObject("Enemy9_01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap Enemy9_02 {
+            get {
+                object obj = ResourceManager.GetObject("Enemy9_02", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap Enemy9_03 {
+            get {
+                object obj = ResourceManager.GetObject("Enemy9_03", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap Nearlyseen {
+            get {
+                object obj = ResourceManager.GetObject("Nearlyseen", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap Player001 {
+            get {
+                object obj = ResourceManager.GetObject("Player001", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap Player002 {
+            get {
+                object obj = ResourceManager.GetObject("Player002", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap Player003 {
+            get {
+                object obj = ResourceManager.GetObject("Player003", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap PlayerDead {
+            get {
+                object obj = ResourceManager.GetObject("PlayerDead", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -153,9 +433,9 @@ namespace Mr_MoneyBag.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        public static System.Drawing.Bitmap shop_coinonfloor {
+        public static System.Drawing.Bitmap Shop_CoinOnFloor {
             get {
-                object obj = ResourceManager.GetObject("shop_coinonfloor", resourceCulture);
+                object obj = ResourceManager.GetObject("Shop_CoinOnFloor", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -163,9 +443,9 @@ namespace Mr_MoneyBag.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        public static System.Drawing.Bitmap shop_damage {
+        public static System.Drawing.Bitmap Shop_Damage {
             get {
-                object obj = ResourceManager.GetObject("shop_damage", resourceCulture);
+                object obj = ResourceManager.GetObject("Shop_Damage", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -173,9 +453,9 @@ namespace Mr_MoneyBag.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        public static System.Drawing.Bitmap shop_heart {
+        public static System.Drawing.Bitmap Shop_Diamond {
             get {
-                object obj = ResourceManager.GetObject("shop_heart", resourceCulture);
+                object obj = ResourceManager.GetObject("Shop_Diamond", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -183,9 +463,9 @@ namespace Mr_MoneyBag.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        public static System.Drawing.Bitmap shop_newredgen {
+        public static System.Drawing.Bitmap Shop_Heart {
             get {
-                object obj = ResourceManager.GetObject("shop_newredgen", resourceCulture);
+                object obj = ResourceManager.GetObject("Shop_Heart", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -193,9 +473,9 @@ namespace Mr_MoneyBag.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        public static System.Drawing.Bitmap shop_rednoticedist {
+        public static System.Drawing.Bitmap Shop_NoticeDistance {
             get {
-                object obj = ResourceManager.GetObject("shop_rednoticedist", resourceCulture);
+                object obj = ResourceManager.GetObject("Shop_NoticeDistance", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -203,9 +483,9 @@ namespace Mr_MoneyBag.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        public static System.Drawing.Bitmap shop_sight {
+        public static System.Drawing.Bitmap Shop_Sight {
             get {
-                object obj = ResourceManager.GetObject("shop_sight", resourceCulture);
+                object obj = ResourceManager.GetObject("Shop_Sight", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -213,9 +493,19 @@ namespace Mr_MoneyBag.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        public static System.Drawing.Bitmap Space {
+        public static System.Drawing.Bitmap Shop_Time {
             get {
-                object obj = ResourceManager.GetObject("Space", resourceCulture);
+                object obj = ResourceManager.GetObject("Shop_Time", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap Stair {
+            get {
+                object obj = ResourceManager.GetObject("Stair", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

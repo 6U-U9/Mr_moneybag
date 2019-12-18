@@ -22,7 +22,7 @@ namespace Mr_MoneyBag
         Gameboard gameboard = new Gameboard();
         private bool is_space_down = false;
         private bool arrow_key_locked = false;
-        private double x_lastposition, y_lastposition;//记录动画中盘面位置
+        private double x_position, y_position;//记录动画中盘面位置
 
 
         public Form1()
@@ -58,7 +58,7 @@ namespace Mr_MoneyBag
         }
         private void InitNumbers()
         {
-            (x_lastposition, y_lastposition) = GetXYst();
+            (x_position, y_position) = GetXYst();
         }
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
@@ -141,35 +141,35 @@ namespace Mr_MoneyBag
             (x_st, y_st) = GetXYst();
             //Console.WriteLine(x_st+" "+y_st);
             Image image;
-            if (Math.Abs(x_st - x_lastposition) > animespeed / 2)
+            if (Math.Abs(x_st - x_position) > animespeed / 2)
             {
-                if (x_st - x_lastposition > 0)
-                    x_lastposition = Math.Min(x_lastposition + animespeed, x_st);
-                if (x_st - x_lastposition < 0)
-                    x_lastposition = Math.Max(x_lastposition - animespeed, x_st);
+                if (x_st - x_position > 0)
+                    x_position = Math.Min(x_position + animespeed, x_st);
+                if (x_st - x_position < 0)
+                    x_position = Math.Max(x_position - animespeed, x_st);
             }
             else
-                x_lastposition = x_st;
+                x_position = x_st;
 
-            if (Math.Abs(y_st - y_lastposition) > animespeed / 2)
+            if (Math.Abs(y_st - y_position) > animespeed / 2)
             {
-                if (y_st - y_lastposition > 0)
-                    y_lastposition = Math.Min(y_lastposition + animespeed, y_st);
-                if (y_st - y_lastposition < 0)
-                    y_lastposition = Math.Max(y_lastposition - animespeed, y_st);
+                if (y_st - y_position > 0)
+                    y_position = Math.Min(y_position + animespeed, y_st);
+                if (y_st - y_position < 0)
+                    y_position = Math.Max(y_position - animespeed, y_st);
             }
             else
-                y_lastposition = y_st;
+                y_position = y_st;
             
 
-            image = GetFullImage(gameboard, x_lastposition, y_lastposition, Form1.x, Form1.y);
+            image = GetFullImage(gameboard, x_position, y_position, Form1.x, Form1.y);
             map.Image = image;
 
         }
         private Image GetShowImage(Gameboard gameboard, int x, int y)
         {
             if (gameboard.player.x == x && gameboard.player.y == y)
-                return Properties.Resources.player;
+                return Properties.Resources.Player001;
 
             GameObject gameObject = gameboard.status[x, y];
             double dist = gameObject.distance(gameboard.player.x, gameboard.player.y);
@@ -179,17 +179,17 @@ namespace Mr_MoneyBag
                 {
                     foreach (Enemy enemy in gameboard.enemies)
                     {
-                        if (enemy.x == x && enemy.y == y) return UniteImage(Properties.Resources.back1, enemy.getimage());
+                        if (enemy.x == x && enemy.y == y) return UniteImage(Properties.Resources.Back001, enemy.getimage());
                     }
-                    return UniteImage(Properties.Resources.back1, gameboard.status[x, y].getimage());
+                    return UniteImage(Properties.Resources.Back001, gameboard.status[x, y].getimage());
                 }
                 else
                 {
                     foreach (Enemy enemy in gameboard.enemies)
                     {
-                        if (enemy.x == x && enemy.y == y) return UniteImage(Properties.Resources.back0, enemy.getimage());
+                        if (enemy.x == x && enemy.y == y) return UniteImage(Properties.Resources.Back002, enemy.getimage());
                     }
-                    return UniteImage(Properties.Resources.back0, gameboard.status[x, y].getimage());
+                    return UniteImage(Properties.Resources.Back002, gameboard.status[x, y].getimage());
                 }
             }
             /*if (gameObject is Space)
@@ -197,7 +197,7 @@ namespace Mr_MoneyBag
             if (gameObject.seen == true)
                 return UniteImage(Properties.Resources.Seen, gameboard.status[x, y].getimage());
             if (gameObject.NearlySeen == true)
-                return Properties.Resources.NearlySeen;
+                return Properties.Resources.Nearlyseen;
             return Properties.Resources.Unseen;
         }
         private Image GetUnmoveableImage(Gameboard gameboard, int x, int y)
@@ -208,17 +208,17 @@ namespace Mr_MoneyBag
             {
                 if ((x + y) % 2 == 1)
                 {
-                    return UniteImage(Properties.Resources.back1, gameboard.status[x, y].getimage());
+                    return UniteImage(Properties.Resources.Back001, gameboard.status[x, y].getimage());
                 }
                 else
                 {
-                    return UniteImage(Properties.Resources.back0, gameboard.status[x, y].getimage());
+                    return UniteImage(Properties.Resources.Back002, gameboard.status[x, y].getimage());
                 }
             }
             if (gameObject.seen == true)
                 return UniteImage(Properties.Resources.Seen, gameboard.status[x, y].getimage());
             if (gameObject.NearlySeen == true)
-                return Properties.Resources.NearlySeen;
+                return Properties.Resources.Nearlyseen;
             return Properties.Resources.Unseen;
         }
         private Image GetFullImage(Gameboard gameboard, double x_st, double y_st, int x_len, int y_len)
