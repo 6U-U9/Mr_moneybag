@@ -175,28 +175,28 @@ namespace Mr_MoneyBag
                 if ((x + y) % 2 == 1)
                 {
                     if (gameboard.player.x == x && gameboard.player.y == y)
-                        return UniteImage(Properties.Resources.Back001, Properties.Resources.Player001);
+                        return UniteImage(Properties.Resources.Back001, gameboard.player.GetImage()); 
                     foreach (Enemy enemy in gameboard.enemies)
                     {
-                        if (enemy.x == x && enemy.y == y) return UniteImage(Properties.Resources.Back001, enemy.getimage());
+                        if (enemy.x == x && enemy.y == y) return UniteImage(Properties.Resources.Back001, enemy.GetImage());
                     }
-                    return UniteImage(Properties.Resources.Back001, gameboard.status[x, y].getimage());
+                    return UniteImage(Properties.Resources.Back001, gameboard.status[x, y].GetImage());
                 }
                 else
                 {
                     if (gameboard.player.x == x && gameboard.player.y == y)
-                        return UniteImage(Properties.Resources.Back002, Properties.Resources.Player001);
+                        return UniteImage(Properties.Resources.Back002, gameboard.player.GetImage());
                     foreach (Enemy enemy in gameboard.enemies)
                     {
-                        if (enemy.x == x && enemy.y == y) return UniteImage(Properties.Resources.Back002, enemy.getimage());
+                        if (enemy.x == x && enemy.y == y) return UniteImage(Properties.Resources.Back002, enemy.GetImage());
                     }
-                    return UniteImage(Properties.Resources.Back002, gameboard.status[x, y].getimage());
+                    return UniteImage(Properties.Resources.Back002, gameboard.status[x, y].GetImage());
                 }
             }
             /*if (gameObject is Space)
                 Console.WriteLine(gameObject.seen);*/
             if (gameObject.seen == true)
-                return UniteImage(Properties.Resources.Seen, gameboard.status[x, y].getimage());
+                return UniteImage(Properties.Resources.Seen, gameboard.status[x, y].GetImage());
             if (gameObject.NearlySeen == true)
                 return Properties.Resources.Nearlyseen;
             return Properties.Resources.Unseen;
@@ -209,15 +209,15 @@ namespace Mr_MoneyBag
             {
                 if ((x + y) % 2 == 1)
                 {
-                    return UniteImage(Properties.Resources.Back001, gameboard.status[x, y].getimage());
+                    return UniteImage(Properties.Resources.Back001, gameboard.status[x, y].GetImage());
                 }
                 else
                 {
-                    return UniteImage(Properties.Resources.Back002, gameboard.status[x, y].getimage());
+                    return UniteImage(Properties.Resources.Back002, gameboard.status[x, y].GetImage());
                 }
             }
             if (gameObject.seen == true)
-                return UniteImage(Properties.Resources.Seen, gameboard.status[x, y].getimage());
+                return UniteImage(Properties.Resources.Seen, gameboard.status[x, y].GetImage());
             if (gameObject.NearlySeen == true)
                 return Properties.Resources.Nearlyseen;
             return Properties.Resources.Unseen;
