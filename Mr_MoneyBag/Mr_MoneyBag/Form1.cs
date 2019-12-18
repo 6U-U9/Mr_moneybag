@@ -236,7 +236,7 @@ namespace Mr_MoneyBag
                 x_len++;
             if (y_st > y)
                 y_len++;
-            Console.WriteLine(x_st + "  " + x + "  " + y_st + "  " + y);
+            //Console.WriteLine(x_st + "  " + x + "  " + y_st + "  " + y);
             System.Drawing.Image whole_img = new System.Drawing.Bitmap(y_len * blocksize, x_len * blocksize);
             System.Drawing.Graphics whole_g = System.Drawing.Graphics.FromImage(whole_img);
             for (int i = x; i < x + x_len; i++)
