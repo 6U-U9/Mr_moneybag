@@ -184,7 +184,7 @@ namespace Mr_MoneyBag
 
             this.x = x;
             this.y = y;
-            
+            is_moving = true;
             //判断是否到达Gate
             if (gameboard.status[this.x, this.y] is Gate)
             {
@@ -206,7 +206,7 @@ namespace Mr_MoneyBag
                     gameObject.NearlySeen = true;
             }
             gameboard.IncreaseTimer();
-            is_moving = true;
+            
         }
         public override void damaged(int n)
         {
