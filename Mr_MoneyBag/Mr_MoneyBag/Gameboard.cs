@@ -20,7 +20,7 @@ namespace Mr_MoneyBag
         public int level;
         public double shopnoticedist = 2.1;
         public int turn = 0;
-        public int coinsonfloor = 24, newredgen = 3, rednoticedist = 20,  InitPlayerMoneyLimit = 5000;
+        public int coinsonfloor = 24, newredgen = 30, rednoticedist = 20,  InitPlayerMoneyLimit = 5000;
         public int shootrange = 3;
         public double sight = 5.9;
         public int[] shop_amount = new int[] { 2, 2, 2, 2, 2, 2 }; // coinonfloor, newredgen, rednoticedist, sight, damage, moneylimit, 
@@ -53,8 +53,13 @@ namespace Mr_MoneyBag
             GenRandomLevel(level);
         }
 
-        public void NextLevel()
+        public void IfNextLevel()
         {
+            //判断是否到达Gate
+            if (!(status[player.x, player.y] is Gate))
+                return;
+            if (player.is_moving)
+                return;
             level = level + 1;
             enemies = new List<Enemy>();
             timer = 0;
@@ -62,7 +67,7 @@ namespace Mr_MoneyBag
             int money = player.hp;
             player = new Player(this, money, initial_x, initial_y, InitPlayerMoneyLimit);
             GenRandomLevel(level);
-            is_newlevel=true;
+            is_newlevel = true;
 
         }
 
@@ -251,7 +256,7 @@ namespace Mr_MoneyBag
                         int x = rnd.Next(1, height - 1);
                         int y = rnd.Next(1, width - 1);
 
-                        if (status[x, y] is Space && player.x != x && player.y != y &&
+                        if (status[x, y].GetType() == typeof(Space) && player.x != x && player.y != y &&
                             !(status[x - 1, y].isblocked && status[x + 1, y].isblocked) &&
                             !(status[x, y - 1].isblocked && status[x, y + 1].isblocked)
                             )

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Drawing;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Mr_MoneyBag
 {
@@ -59,6 +61,7 @@ namespace Mr_MoneyBag
         public Image[] movingimage;
         public bool is_moving=false;
         public double x_drawposition, y_drawposition;
+        public double animespeed = 0.4;
         public int attack;
         public MoveableObject(GameBoard gameboard, int money, int x, int y) : base(gameboard,x,y)
         {
@@ -119,7 +122,7 @@ namespace Mr_MoneyBag
         {
             
             if (is_moving)
-            {   double animespeed = Form1.animespeed;
+            {   
                 imageindex++;
                 if (Math.Abs(x - x_drawposition) > animespeed)
                 {
@@ -185,11 +188,7 @@ namespace Mr_MoneyBag
             this.x = x;
             this.y = y;
             is_moving = true;
-            //判断是否到达Gate
-            if (gameboard.status[this.x, this.y] is Gate)
-            {
-                gameboard.NextLevel();
-            }
+            
             //判断是否获得Money
             if (gameboard.status[this.x, this.y] is Money&&this.hp<this.moneylimit)
             {
@@ -582,7 +581,7 @@ namespace Mr_MoneyBag
             { gameboard.status[x, y].damaged(hp); gameboard.bullets.Remove(this); }
             else if (distance(start_x, start_y) > range)
             { gameboard.bullets.Remove(this); Console.WriteLine(" out of range"+distance(start_x, start_y)); }
-            Console.WriteLine("B  " + x + " " + y);
+            //Console.WriteLine("B  " + x + " " + y);
         }
     }
 }

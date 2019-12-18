@@ -27,6 +27,7 @@ namespace Mr_MoneyBag
 
         public Form1()
         {
+            
             ((System.ComponentModel.ISupportInitialize)(map)).BeginInit();
             map.Location = new System.Drawing.Point(0, 0);
             map.Size = new System.Drawing.Size(blocksize * y, blocksize * x);
@@ -36,6 +37,7 @@ namespace Mr_MoneyBag
             //map.Image= GetFullImage(gameboard, 0, 0, Form1.x, Form1.y);
             //map.Image = GetShowImage(gameboard, 0, 0);
             InitializeComponent();
+            this.ClientSize = new System.Drawing.Size(blocksize * y, blocksize * x);
             DoubleBuffered = true;
             InitNumbers();
             RefreshBoard();
@@ -162,6 +164,7 @@ namespace Mr_MoneyBag
             }
             else
                 y_position = y_st;
+            gameboard.IfNextLevel();
             gameboard.FreshBullets();
             image = GetFullImage(gameboard, x_position, y_position, Form1.x, Form1.y);
             map.Image = image;
@@ -177,7 +180,7 @@ namespace Mr_MoneyBag
                 if ((x + y) % 2 == 1)
                 {
                     if (gameboard.player.x == x && gameboard.player.y == y)
-                        return UniteImage(Properties.Resources.Back001, gameboard.player.GetImage()); 
+                        return UniteImage(Properties.Resources.Back001, gameboard.player.GetImage());
                     foreach (Enemy enemy in gameboard.enemies)
                     {
                         if (enemy.x == x && enemy.y == y) return UniteImage(Properties.Resources.Back001, enemy.GetImage());
@@ -206,6 +209,7 @@ namespace Mr_MoneyBag
         private Image GetUnmoveableImage(GameBoard gameboard, int x, int y)
         {
             GameObject gameObject = gameboard.status[x, y];
+            if (gameObject is Gate) Console.WriteLine("G" + x + " " + y);
             double dist = gameObject.distance(gameboard.player.x, gameboard.player.y);
             if (dist <= gameboard.sight)
             {
@@ -225,8 +229,8 @@ namespace Mr_MoneyBag
             System.Drawing.Image img = new System.Drawing.Bitmap(y_len * blocksize, x_len * blocksize);
             System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(img);
             int x, y;
-            x = Math.Max((int)Math.Floor(x_st),0);
-            y = Math.Max((int)Math.Floor(y_st),0);
+            x = Math.Max((int)Math.Floor(x_st), 0);
+            y = Math.Max((int)Math.Floor(y_st), 0);
             if (x_st > x)
                 x_len++;
             if (y_st > y)
@@ -238,7 +242,7 @@ namespace Mr_MoneyBag
                 for (int j = y; j < y + y_len; j++)
                 {
                     whole_g.DrawImage(GetUnmoveableImage(gameboard, i, j), blocksize * (j - y), blocksize * (i - x), blocksize, blocksize);
-                    
+
                 }
             whole_g.DrawImage(gameboard.player.GetImage(), (int)(blocksize * (gameboard.player.y_drawposition - y)), (int)(blocksize * (gameboard.player.x_drawposition - x)), blocksize, blocksize);
             foreach (Enemy enemy in gameboard.enemies)
