@@ -90,11 +90,15 @@ namespace Mr_MoneyBag
                 y = y + dy;
                 cnt += 1;
             }
+            bool doDamage = true;
             if (gameboard.HasEnemy(x, y))
                 gameboard.GetEnemy(x, y).damaged(attack);
-            else
+            else if (!(gameboard.status[x, y] is Space))
                 gameboard.status[x, y].damaged(attack);
-            Console.WriteLine(x + "," + y + "damaged");
+            else
+                doDamage = false;
+            if (doDamage)
+                Console.WriteLine(x + "," + y + "damaged");
         }
         virtual public int moveable(int x, int y)
         {
