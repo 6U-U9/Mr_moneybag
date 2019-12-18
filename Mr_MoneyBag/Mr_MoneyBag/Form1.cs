@@ -56,7 +56,7 @@ namespace Mr_MoneyBag
             if (y_ed > (gameboard.GetWidth())) { y_ed = gameboard.GetWidth(); y_st = y_ed - Form1.y; }
             return (x_st, y_st);
         }
-        private void InitNumbers()
+        public void InitNumbers()
         {
             (x_position, y_position) = GetXYst();
         }
@@ -137,6 +137,8 @@ namespace Mr_MoneyBag
         }
         public void RefreshBoard()
         {
+            if (gameboard.is_newlevel)
+                InitNumbers();
             double x_st, y_st;
             (x_st, y_st) = GetXYst();
             //Console.WriteLine(x_st+" "+y_st);

@@ -31,6 +31,7 @@ namespace Mr_MoneyBag
         public int timer = 0;
         public List<Enemy> enemies = new List<Enemy>();
         public List<Bullet> bullets = new List<Bullet>();
+        public bool is_newlevel = false;
 
         public GameBoard()
         {
@@ -61,6 +62,7 @@ namespace Mr_MoneyBag
             player.x = initial_x;
             player.y = initial_y;
             GenRandomLevel(level);
+            is_newlevel=true;
 
         }
 
