@@ -257,6 +257,7 @@ namespace Mr_MoneyBag
             RefreshBoard();
             //Console.WriteLine("Tick");
         }
+
         protected override bool ProcessDialogKey(Keys keycode)
         {
             switch (keycode)

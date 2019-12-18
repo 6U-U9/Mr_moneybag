@@ -14,7 +14,7 @@ namespace Mr_MoneyBag
         readonly int default_sr = 3;
         readonly double default_st = 5.9;
         readonly int[] default_sa = { 2, 2, 2, 2, 2, 2 }; // coinonfloor, newredgen, rednoticedist, sight, damage, moneylimit, 
-
+        readonly int init_level = 2;
 
         static Random rnd = new Random();
         public int level;
@@ -34,14 +34,14 @@ namespace Mr_MoneyBag
 
         public GameBoard()
         {
-            level = 3;
+            level = init_level;
             player= new Player(this, InitPlayerMoneyLimit, initial_x, initial_y, InitPlayerMoneyLimit);
             
-            Level.GenRandomLevel(this, level);
+            GenRandomLevel(level);
         }
         public void restart()
         {
-            level = 3;
+            level = init_level;
             player = new Player(this, InitPlayerMoneyLimit, initial_x, initial_y, InitPlayerMoneyLimit);
             coinsonfloor = default_cof; newredgen = default_nrg; rednoticedist = default_rnd; shootrange = default_sr;
             sight = default_st;
@@ -49,7 +49,19 @@ namespace Mr_MoneyBag
             enemies = new List<Enemy>();
             timer = 0;
             status = new GameObject[height, width];
-            Level.GenRandomLevel(this, level);
+            GenRandomLevel(level);
+        }
+
+        public void NextLevel()
+        {
+            level = level + 1;
+            enemies = new List<Enemy>();
+            timer = 0;
+            status = new GameObject[height, width];
+            player.x = initial_x;
+            player.y = initial_y;
+            GenRandomLevel(level);
+
         }
 
         public int GetWidth()
@@ -198,5 +210,158 @@ namespace Mr_MoneyBag
             }
             Console.WriteLine();
         }
+
+        public void GenRandomLevel(int lv)
+        {
+            GenBasicMap();
+            AddStair();
+            AddShop(lv);
+            AddMoney();
+            
+        }
+
+        public void AddStair()
+        {
+            bool success = false;
+            while (!success)
+            {
+                int x = rnd.Next(0, height);
+                int y = rnd.Next(0, width);
+
+                if (status[x, y] is Space && player.x != x && player.y != y)
+                {
+                    status[x, y] = new Gate(this, x, y);
+                    success = true;
+                }
+
+            }
+        }
+
+        public void AddShop(int lv)
+        {
+            for (int i = 0; i < shop_amount.Length; i++)
+            {
+                for (int j = 0; j < shop_amount[i]; j++)
+                {
+                    bool success = false;
+                    while (!success)
+                    {
+                        int x = rnd.Next(1, height - 1);
+                        int y = rnd.Next(1, width - 1);
+
+                        if (status[x, y] is Space && player.x != x && player.y != y &&
+                            !(status[x - 1, y].isblocked && status[x + 1, y].isblocked) &&
+                            !(status[x, y - 1].isblocked && status[x, y + 1].isblocked)
+                            )
+                        {
+                            switch (i)
+                            {
+                                case 0:
+                                    status[x, y] = new CoinOnFloor_Shop(this, rnd.Next(1, 6), x, y);
+                                    break;
+                                case 1:
+                                    status[x, y] = new NewRedGen_Shop(this, rnd.Next(1, 6), x, y);
+                                    break;
+                                case 2:
+                                    status[x, y] = new RedNoticeDist_Shop(this, rnd.Next(1, 6), x, y);
+                                    break;
+                                case 3:
+                                    status[x, y] = new Sight_Shop(this, rnd.Next(1, 6), x, y);
+                                    break;
+                                case 4:
+                                    status[x, y] = new Damage_Shop(this, rnd.Next(1, 6), x, y);
+                                    break;
+                                case 5:
+                                    status[x, y] = new MoneyLimit_Shop(this, rnd.Next(1, 6), x, y);
+                                    break;
+
+                            }
+                            success = true;
+                        }
+
+                    }
+                }
+
+            }
+        }
+
+        public void AddMoney()
+        {
+            for (int i = 0; i < coinsonfloor; i++)
+            {
+                bool success = false;
+                while (!success)
+                {
+                    int x = rnd.Next(0, height);
+                    int y = rnd.Next(0, width);
+
+                    if (status[x, y].GetType() == typeof(Space) && player.x != x && player.y != y)
+                    {
+                        status[x, y] = new Money(this, x, y);
+                        success = true;
+                    }
+
+                }
+
+            }
+        }
+
+
+        public void GenBasicMap()
+        {
+
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    if (i == 0 || j == 0 || i == height - 1 || j == width - 1)
+                        status[i, j] = new UnbreakableWall(this, i, j);
+                    else
+                        status[i, j] = new Wall(this, i, j);
+                }
+            }
+
+            bool[,] vis = new bool[height, width];
+            GenBasicMapHelper(vis, initial_x, initial_y, 0);
+            //status[initial_x, initial_y] = board.player;
+        }
+
+
+        private void GenBasicMapHelper(bool[,] vis, int x, int y, int step)
+        {
+
+            if (x > width - 2 || x < 1 || y > height - 2 || y < 1) return;
+            
+            if (vis[y, x]) return;
+            if (status[y, x].GetType() == typeof(Space)) return;
+
+            vis[y, x] = true;
+            //Console.WriteLine(x + " -xy- " + y);
+            status[y, x] = new Space(this, y, x);
+
+            //int[] rndorder = order.OrderBy(t => rnd.Next()).ToArray();
+            //int next = rnd.Next(0, 4);
+            //GenBasicMapHelper(board, vis, x + dir[next, 0], y + dir[next, 1], step + 1);
+            int[,] dir = new int[,] { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 } };
+            int[,] parameter = new int[,] { { 4, 0 }, { 5, 0 }, { 255, 1 }, { 505, 1 } };
+
+            int prev = -1;
+            for (int i = 0; i < 4; i++)
+            {
+
+                if (rnd.Next(0, (step / parameter[i, 0]) + parameter[i, 1]) == 0)
+                {
+                    int next = rnd.Next(0, 4);
+                    if (i == 0) prev = next;
+                    else if (next == prev)
+                    {
+                        while (next == prev)
+                            next = rnd.Next(0, 4);
+                    }
+                    GenBasicMapHelper(vis, x + dir[next, 0], y + dir[next, 1], step + 1);
+                }
+            }
+        }
+
     }
 }

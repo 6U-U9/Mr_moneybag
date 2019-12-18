@@ -188,8 +188,7 @@ namespace Mr_MoneyBag
             //判断是否到达Gate
             if (gameboard.status[this.x, this.y] is Gate)
             {
-                gameboard.level += 1;
-                Level.GenRandomLevel(gameboard, gameboard.level);
+                gameboard.NextLevel();
             }
             //判断是否获得Money
             if (gameboard.status[this.x, this.y] is Money&&this.hp<this.moneylimit)
