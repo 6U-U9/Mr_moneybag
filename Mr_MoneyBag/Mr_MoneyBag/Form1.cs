@@ -141,7 +141,7 @@ namespace Mr_MoneyBag
             (x_st, y_st) = GetXYst();
             //Console.WriteLine(x_st+" "+y_st);
             Image image;
-            if (Math.Abs(x_st - x_position) > animespeed / 2)
+            if (Math.Abs(x_st - x_position) > animespeed)
             {
                 if (x_st - x_position > 0)
                     x_position = Math.Min(x_position + animespeed, x_st);
@@ -151,7 +151,7 @@ namespace Mr_MoneyBag
             else
                 x_position = x_st;
 
-            if (Math.Abs(y_st - y_position) > animespeed / 2)
+            if (Math.Abs(y_st - y_position) > animespeed)
             {
                 if (y_st - y_position > 0)
                     y_position = Math.Min(y_position + animespeed, y_st);
@@ -208,13 +208,9 @@ namespace Mr_MoneyBag
             if (dist <= gameboard.sight)
             {
                 if ((x + y) % 2 == 1)
-                {
                     return UniteImage(Properties.Resources.Back001, gameboard.status[x, y].GetImage());
-                }
                 else
-                {
                     return UniteImage(Properties.Resources.Back002, gameboard.status[x, y].GetImage());
-                }
             }
             if (gameObject.seen == true)
                 return UniteImage(Properties.Resources.Seen, gameboard.status[x, y].GetImage());
@@ -239,7 +235,8 @@ namespace Mr_MoneyBag
             for (int i = x; i < x + x_len; i++)
                 for (int j = y; j < y + y_len; j++)
                 {
-                    whole_g.DrawImage(GetShowImage(gameboard, i, j), blocksize * (j - y), blocksize * (i - x), blocksize, blocksize);
+                    whole_g.DrawImage(GetUnmoveableImage(gameboard, i, j), blocksize * (j - y), blocksize * (i - x), blocksize, blocksize);
+                    whole_g.DrawImage(gameboard.player.GetImage(), (int)(blocksize * (gameboard.player.y_position - y_st)), (int)(blocksize * (gameboard.player.x_position - x_st)), blocksize, blocksize);
                 }
             g.DrawImage(whole_img, (int)(-(y_st - y) * blocksize), (int)(-(x_st - x) * blocksize));
             return img;

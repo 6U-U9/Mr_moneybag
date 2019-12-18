@@ -42,8 +42,6 @@ namespace Mr_MoneyBag
                 imageindex = 0;
             return image[imageindex];
         }
-        virtual public String GetImageName()
-        { return null; }
         virtual public double distance(int x, int y)
         { return Math.Sqrt((this.x - x)*(this.x - x) + (this.y - y)*(this.y - y)); }
     }
@@ -54,10 +52,6 @@ namespace Mr_MoneyBag
             this.seen = seen;
             this.NearlySeen = NearlySeen;
             this.image =new Image[] { Properties.Resources.Space };
-        }
-        public override string GetImageName()
-        {
-            return "space";
         }
     }
     class MoveableObject : GameObject
@@ -122,12 +116,35 @@ namespace Mr_MoneyBag
         }
         override public Image GetImage()
         {
+            
             if (is_moveing)
-            {
+            {   double animespeed = Form1.animespeed;
                 imageindex++;
-                if (imageindex >= movingimage.Length)
+                if (Math.Abs(x - x_position) > animespeed)
+                {
+                    if (x - x_position > 0)
+                        x_position = Math.Min(x_position + animespeed, x);
+                    if (x - x_position < 0)
+                        x_position = Math.Max(x_position - animespeed, x);
+                }
+                else
+                    x_position = x;
+
+                if (Math.Abs(y - y_position) > animespeed)
+                {
+                    if (y - y_position > 0)
+                        y_position = Math.Min(y_position + animespeed, y);
+                    if (y - y_position < 0)
+                        y_position = Math.Max(y_position - animespeed, y);
+                }
+                else
+                    y_position = y;
+
+                if (imageindex >= movingimage.Length && x == x_position && y == y_position)
                 { imageindex = 0; is_moveing = false; }
-                Console.WriteLine("ismoving");
+                else if (imageindex >= movingimage.Length)
+                { imageindex = 0; }
+                //Console.WriteLine("ismoving");
                 return movingimage[imageindex];
             }
             else
@@ -222,14 +239,7 @@ namespace Mr_MoneyBag
         {if (hp > 0) { this.hp--; shoot(0, -1); } }
         public void shootright()
         {if (hp > 0) { this.hp--; shoot(0, 1); } }
-        /*public override Image GetImage()
-        {
-            return Properties.Resources.Player001; 
-        }*/
-        public override string GetImageName()
-        {
-            return "player";
-        }
+
     }
     class Enemy : MoveableObject
     {
@@ -287,19 +297,6 @@ namespace Mr_MoneyBag
             return Properties.Resources.Enemy1_01;
 
         }
-        public override string GetImageName()
-        {
-            switch (hp)
-            {
-                case 1:
-                    return "enemy_1";
-                case 2:
-                    return "enemy_2";
-                case 3:
-                    return "enemy_3";
-            }
-            return "enemy_1";
-        }
     }
     class Shop : GameObject
     {
@@ -329,19 +326,12 @@ namespace Mr_MoneyBag
         public CoinOnFloor_Shop(Gameboard gameboard, int money, int x, int y,int gain=6) : base(gameboard,money,x,y)
         {
             this.gain = gain;
+            this.image = new Image[] { Properties.Resources.Shop_CoinOnFloor};
         }
         public override void dead()
         {
             gameboard.coinsonfloor += gain;
             base.dead();
-        }
-        public override Image GetImage()
-        {
-            return Properties.Resources.Shop_CoinOnFloor;
-        }
-        public override string GetImageName()
-        {
-            return "CoinOnFloor_Shop";
         }
         public override void notice()
         {
@@ -353,19 +343,12 @@ namespace Mr_MoneyBag
         public NewRedGen_Shop(Gameboard gameboard, int money, int x, int y,int gain=10) : base(gameboard, money, x, y)
         {
             this.gain = gain;
+            this.image = new Image[] { Properties.Resources.Shop_Time };
         }
         public override void dead()
         {
             gameboard.newredgen += gain;
             base.dead();
-        }
-        public override Image GetImage()
-        {
-            return Properties.Resources.Shop_Time;
-        }
-        public override string GetImageName()
-        {
-            return "NewRedGen_Shop";
         }
 
         public override void notice()
@@ -378,20 +361,14 @@ namespace Mr_MoneyBag
         public RedNoticeDist_Shop(Gameboard gameboard, int money, int x, int y,int gain=1) : base(gameboard, money, x, y)
         {
             this.gain = gain;
+            this.image = new Image[] { Properties.Resources.Shop_NoticeDistance };
         }
         public override void dead()
         {
             gameboard.rednoticedist -= gain;
             base.dead();
         }
-        public override Image GetImage()
-        {
-            return Properties.Resources.Shop_NoticeDistance;
-        }
-        public override string GetImageName()
-        {
-            return "RedNoticeDist_Shop";
-        }
+
         public override void notice()
         {
             Console.WriteLine("Give me " + hp + " money to reduce enemy notice distance by " + gain + " block");
@@ -402,20 +379,14 @@ namespace Mr_MoneyBag
         public Sight_Shop(Gameboard gameboard, int money, int x, int y,int gain=1) : base(gameboard, money, x, y)
         {
             this.gain = gain;
+            this.image = new Image[] { Properties.Resources.Shop_Sight };
         }
         public override void dead()
         {
             gameboard.sight += gain;
             base.dead();
         }
-        public override Image GetImage()
-        {
-            return Properties.Resources.Shop_Sight;
-        }
-        public override string GetImageName()
-        {
-            return "Sight_Shop";
-        }
+
         public override void notice()
         {
             Console.WriteLine("Give me " + hp + " money to increase your sight by " + gain + " block");
@@ -426,20 +397,15 @@ namespace Mr_MoneyBag
         public Damage_Shop(Gameboard gameboard, int money, int x, int y, int gain=1) : base(gameboard, money, x, y)
         {
             this.gain = gain;
+            this.image = new Image[] { Properties.Resources.Shop_Damage };
         }
         public override void dead()
         {
             gameboard.player.attack+= gain;
             base.dead();
         }
-        public override Image GetImage()
-        {
-            return Properties.Resources.Shop_Damage;
-        }
-        public override string GetImageName()
-        {
-            return "Damage_Shop";
-        }
+
+
         public override void notice()
         {
             Console.WriteLine("Give me " + hp + " money to increase your damage by " + gain + "");
@@ -450,19 +416,12 @@ namespace Mr_MoneyBag
         public MoneyLimit_Shop(Gameboard gameboard, int money, int x, int y, int gain=2) : base(gameboard, money, x, y)
         {
             this.gain = gain;
+            this.image = new Image[] { Properties.Resources.Shop_Heart};
         }
         public override void dead()
         {
             gameboard.player.moneylimit += gain;
             base.dead();
-        }
-        public override Image GetImage()
-        {
-            return Properties.Resources.Shop_Heart;
-        }
-        public override string GetImageName()
-        {
-            return "MoneyLimit_Shop";
         }
         public override void notice()
         {
@@ -475,18 +434,11 @@ namespace Mr_MoneyBag
         {
             this.hp = hp;
             this.isblocked = true;
+            this.image = new Image[] { Properties.Resources.Wall};
         }
         public override void damaged(int n)
         {
             base.damaged(1);
-        }
-        public override Image GetImage()
-        {
-            return Properties.Resources.Wall;
-        }
-        public override string GetImageName()
-        {
-            return "wall";
         }
     }
     class UnbreakableWall : Wall
@@ -499,22 +451,14 @@ namespace Mr_MoneyBag
     class Gate : Space
     {
         public Gate(Gameboard gameboard,int x,int y) : base(gameboard,x,y)
-        { }
+        { this.image = new Image[] { Properties.Resources.Stair }; }
     }
     class Money : Space
     { 
         public Money(Gameboard gameboard,int x,int y,int money=1): base(gameboard,x,y)
         {
             this.hp = money;
-        }
-
-        public override Image GetImage()
-        {
-            return Properties.Resources.Coin;
-        }
-        public override string GetImageName()
-        {
-            return "money";
+            this.image = new Image[] { Properties.Resources.Coin };
         }
     }
 }
