@@ -261,7 +261,7 @@ namespace Mr_MoneyBag
                     {
                         int x = rnd.Next(1, height - 1);
                         int y = rnd.Next(1, width - 1);
-                        int max_health = Math.Min(level * 2, 6) + 1;
+                        int max_health = Math.Min(level * 2, 8) + 2;
                         int min_health = Math.Min(level, 3);
 
                         if (status[x, y].GetType() == typeof(Space) && player.x != x && player.y != y &&
