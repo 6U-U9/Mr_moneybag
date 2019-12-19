@@ -254,8 +254,8 @@ namespace Mr_MoneyBag
             System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(img);
             var (notice, type) = gameboard.noticelist[0];
             int notice_stopframe = notice_enemystopframe;
-            if (type == typeof(Shop))
-                notice_stopframe = notice_shopstopframe;
+            if (type.IsSubclassOf(typeof(Shop)))
+            { notice_stopframe = notice_shopstopframe;}
             Brush brush = Brushes.Red;
             if (type == typeof(MoneyLimit_Shop))
                 brush = moneylimit;
