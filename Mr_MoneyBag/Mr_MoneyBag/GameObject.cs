@@ -202,9 +202,8 @@ namespace Mr_MoneyBag
         }
         public override void Dead()
         {
-            
-            base.Dead();
-            gameboard.Restart();
+            gameboard.is_playerdead=true;
+            image = new Image[] { Properties.Resources.PlayerDead };
             Console.WriteLine("Player Dead! New Game!");
 
         }

@@ -17,7 +17,7 @@ namespace Mr_MoneyBag
         static Random rnd = new Random();
         public int level=1; //当前关卡
         public double shopnoticedist = 1.1;
-        public int coinsonfloor = 24, newredgen = 20, rednoticedist = 20,  initplayermoneylimit = 30;
+        public int coinsonfloor = 24, newredgen = 20, rednoticedist = 20,  initplayermoneylimit = 1;
         public double sight = 5.9; //视野
         public int[,] shop_amount = new int[,] { { 1, 3 }, { 1, 3 }, { 1, 3 }, { 1, 3 }, { 1, 3 }, { 1, 3 } }; // coinonfloor, newredgen, rednoticedist, sight, damage, moneylimit, 
 
