@@ -9,7 +9,7 @@ namespace Mr_MoneyBag
 {
     class GameBoard
     {
-        public const int init_width = 30, init_height = 30, initplayermoney = 3, initplayermoneylimit = 5;
+        public const int init_width = 50, init_height = 50, initplayermoney = 3, initplayermoneylimit = 5;
         public int width = 50, height = 50;
         public int maxdiamond = 5;//胜利条件
         static int default_cof = 24, default_nrg = 20, default_rnd = 20;
@@ -19,8 +19,8 @@ namespace Mr_MoneyBag
         static Random rnd = new Random();
         public int level=1; //当前关卡
         public double shopnoticedist = 1.1;
-        public int coinsonfloor = 24, newredgen = 200, rednoticedist = 20;
-        public double sight = 6.6; //视野
+        public int coinsonfloor = 24, newredgen = 20, rednoticedist = 15;
+        public double sight = 2.6; //视野
         public int[,] shop_amount = new int[,] { { 1, 3 }, { 1, 3 }, { 1, 3 }, { 1, 3 }, { 1, 3 }, { 1, 3 }, {1, 1} }; // coinonfloor, newredgen, rednoticedist, sight, damage, moneylimit, 
 
         public GameObject[,] status;
@@ -69,6 +69,7 @@ namespace Mr_MoneyBag
             bullets = new List<Bullet>();
             noticelist = new List<ValueTuple<string, Type>>();
             is_playerdead = false;
+            is_win = false;
             GenLevel(level);
         }
 
@@ -169,7 +170,7 @@ namespace Mr_MoneyBag
 
         }
 
-        public void SpawnEnemy()
+        public void SpawnEnemy(bool tonotice=true)
         {
             //if (enemies.Count >= 3) return;
             
@@ -202,7 +203,8 @@ namespace Mr_MoneyBag
                 
             }
             DisplayEnemy();
-            AddNotice("New Enemy Spawn!", typeof(Enemy));
+            if(tonotice)
+                AddNotice("New Enemy Spawn!", typeof(Enemy));
         }
 
         public bool HasEnemy(int x, int y)
@@ -246,6 +248,10 @@ namespace Mr_MoneyBag
             AddStair();
             AddShop(lv);
             AddMoney();
+            for(int i = 0; i < lv; i++)
+            {
+                SpawnEnemy(false);
+            }
         }
 
         public void AddStair()
