@@ -244,13 +244,15 @@ namespace Mr_MoneyBag
         {
             System.Drawing.Image img = new System.Drawing.Bitmap(y_len * blocksize, x_len * blocksize);
             int stringheight = 40;
-            int nums_x = 15, nums_y = x_len * blocksize - 45;
+            int nums_x = 15, nums_y = x_len * blocksize - 45,tab_x=45;
             int money_width = 26, money_height = 4;
             System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(img);
             //Font font = new Font("Bauhaus 93", 24);
             
             g.DrawString(gameboard.level.ToString("00"), font, level, y_len * blocksize - 60, x_len * blocksize - 45);
+            if (is_tab_down) g.DrawString("Floor - ", font, level, y_len * blocksize - 180, x_len * blocksize - 45);
             g.DrawString(gameboard.player.hp.ToString("00"), font, money, nums_x, nums_y);
+            if (is_tab_down) g.DrawString(" - How Many Coins You Have", font, money, nums_x + tab_x, nums_y);
             nums_y += -3;
             for (int i = 0; i < gameboard.player.hp; i++)
             {
@@ -265,16 +267,22 @@ namespace Mr_MoneyBag
             g.FillRectangle(moneylimit, nums_x+10, nums_y, 34, 2);
             nums_y -= 35;
             g.DrawString(gameboard.player.moneylimit.ToString("00"), font, moneylimit, nums_x, nums_y);
+            if (is_tab_down) g.DrawString(" - How Many Coins You Can Carry", font, moneylimit, nums_x + tab_x, nums_y);
             nums_y -= stringheight;
             g.DrawString(gameboard.player.attack.ToString("00"), font, damage, nums_x, nums_y);
+            if (is_tab_down) g.DrawString(" - How Much Damage Each Coin Does", font, damage, nums_x + tab_x, nums_y);
             nums_y -= stringheight;
             g.DrawString(((int)(Math.Ceiling(gameboard.sight))).ToString("00"), font, sight, nums_x, nums_y);
+            if (is_tab_down) g.DrawString(" - How Far Away You Can See", font, sight, nums_x + tab_x, nums_y);
             nums_y -= stringheight;
             g.DrawString(gameboard.rednoticedist.ToString("00"), font, rednoticedist, nums_x, nums_y);
+            if (is_tab_down) g.DrawString(" - How Far Away Red Notice You", font, rednoticedist, nums_x + tab_x, nums_y);
             nums_y -= stringheight;
             g.DrawString(gameboard.newredgen.ToString("00"), font, newredgen, nums_x, nums_y);
+            if (is_tab_down) g.DrawString(" - How Often New Red Arrives", font, newredgen, nums_x + tab_x, nums_y);
             nums_y -= stringheight;
             g.DrawString(gameboard.coinsonfloor.ToString("00"), font, coinsonfloor, nums_x, nums_y);
+            if (is_tab_down) g.DrawString(" - How Much Coins On Each Floor", font, coinsonfloor, nums_x + tab_x, nums_y);
             //g.DrawString(gameboard.diamonds.ToString("00"), font, brush, nums_x, nums_y);
             //Console.WriteLine("diaoy");
             return img;
