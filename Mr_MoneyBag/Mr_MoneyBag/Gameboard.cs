@@ -9,7 +9,7 @@ namespace Mr_MoneyBag
 {
     class GameBoard
     {
-        public const int width=39, height=39;
+        public const int width=100, height=100;
         static int default_cof = 24, default_nrg = 20, default_rnd = 20;
         static double default_st = 5.9;
         static int[,] default_sa = { { 1, 3 }, { 1, 3 }, { 1, 3 }, { 1, 3 }, { 1, 3 }, { 1, 3 } }; // coinonfloor, newredgen, rednoticedist, sight, damage, moneylimit, 

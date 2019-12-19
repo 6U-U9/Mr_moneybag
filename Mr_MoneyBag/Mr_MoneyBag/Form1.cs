@@ -326,14 +326,14 @@ namespace Mr_MoneyBag
             for (int i = 0; i < gameboard.player.hp; i++)
             {
                 nums_y -= money_height+1;
-                g.FillRectangle(money, nums_x + (g.MeasureString(gameboard.player.hp.ToString("00"), font).Width-money_width)/2, nums_y, money_width, money_height); 
+                g.FillRectangle(money, nums_x + 14, nums_y, money_width, money_height); 
             }
             for (int i = 0; i < gameboard.player.moneylimit-gameboard.player.hp; i++)
             {
                 nums_y -= money_height + 1;
             }
             nums_y -= 6;
-            g.FillRectangle(moneylimit, nums_x + (g.MeasureString(gameboard.player.hp.ToString("00"), font).Width - 34) / 2, nums_y, 34, 2);
+            g.FillRectangle(moneylimit, nums_x + 10, nums_y, 34, 2);
             nums_y -= stringheight;
             g.DrawString(gameboard.player.moneylimit.ToString("00"), font, moneylimit, nums_x, nums_y);
             if (is_tab_down) g.DrawString(" - How Many Coins You Can Carry", font, moneylimit, nums_x + tab_x, nums_y);
