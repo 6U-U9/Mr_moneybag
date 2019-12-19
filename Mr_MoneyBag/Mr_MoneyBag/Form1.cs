@@ -22,14 +22,14 @@ namespace Mr_MoneyBag
         private bool is_tab_down = false;//Tab状态
         private bool is_showing_topnotice = false;//顶部提示信息状态
         private const int notice_starty=-40, notice_endy=10;
-        private const int notice_shopstopframe = 10,notice_enemystopframe = 5;
+        private const int notice_shopstopframe = 5,notice_enemystopframe = 2;
         private float noticespeed = 10.0F;
         private float notice_frame = 0;
         private float notice_x,notice_y;
         private bool arrow_key_locked = false;//方向键状态
         private double x_position, y_position;//记录动画中盘面位置
 
-        Font font = new Font("UD Digi Kyokasho NK-B", 24);
+        Font font = new Font("Jokerman", 24);
         Brush money = new SolidBrush(Color.FromArgb(251, 242, 54));
         Brush level = new SolidBrush(Color.FromArgb(255, 40, 40));
         Brush moneylimit = new SolidBrush(Color.FromArgb(209, 163, 164));

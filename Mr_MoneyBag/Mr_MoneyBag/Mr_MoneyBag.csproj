@@ -84,6 +84,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\UDDigiKyokashoN-B.ttc" />
     <None Include="Resources\wall.JPG" />
   </ItemGroup>
   <ItemGroup>
@@ -93,6 +94,7 @@
     <None Include="Resources\player.JPG" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\UDDigiKyokashoN_B.bmp" />
     <None Include="Resources\Stair.png" />
     <None Include="Resources\Shop_Time.png" />
     <None Include="Resources\Shop_Sight.png" />
