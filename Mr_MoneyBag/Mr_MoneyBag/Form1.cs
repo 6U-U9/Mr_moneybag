@@ -19,8 +19,20 @@ namespace Mr_MoneyBag
         public PictureBox map = new PictureBox();
         GameBoard gameboard = new GameBoard();
         private bool is_space_down = false;//¿Õ¸ñ¼ü×´Ì¬
+        private bool is_tab_down = false;//Tab×´Ì¬
         private bool arrow_key_locked = false;//·½Ïò¼ü×´Ì¬
         private double x_position, y_position;//¼ÇÂ¼¶¯»­ÖÐÅÌÃæÎ»ÖÃ
+
+        Font font = new Font("UD Digi Kyokasho NK-B", 24);
+        Brush money = new SolidBrush(Color.FromArgb(251, 242, 54));
+        Brush level = new SolidBrush(Color.FromArgb(255, 40, 40));
+        Brush moneylimit = new SolidBrush(Color.FromArgb(209, 163, 164));
+        Brush damage = new SolidBrush(Color.FromArgb(63, 138, 110));
+        Brush sight = new SolidBrush(Color.FromArgb(251, 192, 100));
+        Brush rednoticedist = new SolidBrush(Color.FromArgb(158, 123, 103));
+        Brush newredgen = new SolidBrush(Color.FromArgb(118, 184, 186));
+        Brush coinsonfloor = new SolidBrush(Color.FromArgb(151, 161, 173));
+        Brush diamond = new SolidBrush(Color.FromArgb(94, 182, 95));
 
 
         public Form1()
@@ -65,6 +77,8 @@ namespace Mr_MoneyBag
 
             if (e.KeyCode == Keys.Space)
                 is_space_down = true;
+            if (e.KeyCode == Keys.Tab)
+                is_tab_down = true;
             if (!arrow_key_locked)
             {
                 if (is_space_down == true)
@@ -91,7 +105,7 @@ namespace Mr_MoneyBag
                             arrow_key_locked = true;
                             break;
                     }
-                else if (is_space_down == false)
+                else if (is_space_down == false&&is_tab_down==false)
                     switch (e.KeyCode)
                     {
                         case Keys.W:
@@ -123,6 +137,8 @@ namespace Mr_MoneyBag
         {
             if (e.KeyCode == Keys.Space)
                 is_space_down = false;
+            if (e.KeyCode == Keys.Tab)
+                is_tab_down = false;
             switch (e.KeyCode)
             {
                 case Keys.Up:
@@ -232,17 +248,7 @@ namespace Mr_MoneyBag
             int money_width = 26, money_height = 4;
             System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(img);
             //Font font = new Font("Bauhaus 93", 24);
-            Font font = new Font("UD Digi Kyokasho NK-B", 24);
-
-            Brush money = new SolidBrush(Color.FromArgb(251, 242, 54));
-            Brush level = new SolidBrush(Color.FromArgb(255, 40, 40));
-            Brush moneylimit = new SolidBrush(Color.FromArgb(209, 163, 164));
-            Brush damage = new SolidBrush(Color.FromArgb(63, 138, 110));
-            Brush sight = new SolidBrush(Color.FromArgb(251, 192, 100));
-            Brush rednoticedist = new SolidBrush(Color.FromArgb(158, 123, 103));
-            Brush newredgen = new SolidBrush(Color.FromArgb(118, 184, 186));
-            Brush coinsonfloor = new SolidBrush(Color.FromArgb(151, 161, 173));
-            Brush diamond = new SolidBrush(Color.FromArgb(94, 182, 95));
+            
             g.DrawString(gameboard.level.ToString("00"), font, level, y_len * blocksize - 60, x_len * blocksize - 45);
             g.DrawString(gameboard.player.hp.ToString("00"), font, money, nums_x, nums_y);
             nums_y += -3;
@@ -329,6 +335,7 @@ namespace Mr_MoneyBag
                 case Keys.Left:
                 case Keys.Right:
                 case Keys.Space:
+                case Keys.Tab:
                     return false;
                 default:
                     return base.ProcessDialogKey(keycode);
