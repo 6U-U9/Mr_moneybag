@@ -53,6 +53,7 @@ namespace Mr_MoneyBag
             enemies = new List<Enemy>();
             bullets = new List<Bullet>();
             noticelist = new List<ValueTuple<string, Type>>();
+            gameboard.is_playerdead = false;
             GenLevel(level);
         }
 
