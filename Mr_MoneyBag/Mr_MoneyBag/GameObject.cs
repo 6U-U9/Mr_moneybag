@@ -159,13 +159,13 @@ namespace Mr_MoneyBag
             this.moneylimit = moneylimit;
             this.attack = attack;
         }
-        /*public override int moveable(int x, int y)
+        public void InitPosition(int x, int y)
         {
-            if (x > gameboard.GetHeight() - 1 || x < 0 || y > gameboard.GetWidth() - 1 || y < 0)
-                return false;
-            if (gameboard.status[x, y] is Enemy) this.damaged(((Enemy)gameboard.status[x, y]).attack);
-            return base.moveable(x, y);
-        }*/
+            this.x = x;
+            this.y = y;
+            this.x_drawposition = x;
+            this.y_drawposition = y;
+        }
         override public void Move(int x, int y)
         {
             int canmove = Moveable(x, y);

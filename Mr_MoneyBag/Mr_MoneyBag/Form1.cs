@@ -224,6 +224,7 @@ namespace Mr_MoneyBag
                 return Properties.Resources.Nearlyseen;
             return Properties.Resources.Unseen;//视野外
         }
+        //private Image GetNotice(GameBoard gameboard,)
         private Image GetFullImage(GameBoard gameboard, double x_st, double y_st, int x_len, int y_len)//获取显示的画面
         {
             System.Drawing.Image img = new System.Drawing.Bitmap(y_len * blocksize, x_len * blocksize);

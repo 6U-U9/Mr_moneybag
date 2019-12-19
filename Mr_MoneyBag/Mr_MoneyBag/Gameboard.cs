@@ -10,46 +10,46 @@ namespace Mr_MoneyBag
     class GameBoard
     {
         public const int width=39, height=39;
-        readonly int default_cof = 24, default_nrg = 20, default_rnd = 20;
-        readonly int default_sr = 3;
-        readonly double default_st = 5.9;
-        readonly int[] default_sa = { 2, 2, 2, 2, 2, 2 }; // coinonfloor, newredgen, rednoticedist, sight, damage, moneylimit, 
-        readonly int init_level = 2;
+        static int default_cof = 24, default_nrg = 20, default_rnd = 20;
+        static double default_st = 5.9;
+        static int[] default_sa = { 2, 2, 2, 2, 2, 2 }; // coinonfloor, newredgen, rednoticedist, sight, damage, moneylimit, 
 
         static Random rnd = new Random();
-        public int level;
+        public int level=1; //当前关卡
         public double shopnoticedist = 2.1;
-        public int coinsonfloor = 24, newredgen = 30, rednoticedist = 20,  InitPlayerMoneyLimit = 5000;
-        public int shootrange = 3;
-        public double sight = 5.9;
+        public int coinsonfloor = 24, newredgen = 30, rednoticedist = 20,  initplayermoneylimit = 5000;
+        public double sight = 5.9; //视野
         public int[] shop_amount = new int[] { 2, 2, 2, 2, 2, 2 }; // coinonfloor, newredgen, rednoticedist, sight, damage, moneylimit, 
+
         public GameObject[,] status = new GameObject[height, width];
+
         public const int initial_x = 20;
         public const int initial_y = 20;
         public Player player;
-        public int turn = 0;
+        
         public List<Enemy> enemies = new List<Enemy>();
         public List<Bullet> bullets = new List<Bullet>();
+        public int turn = 0;
         public bool is_newlevel = false;
 
         public GameBoard()
         {
-            level = init_level;
-            player= new Player(this, InitPlayerMoneyLimit, initial_x, initial_y, InitPlayerMoneyLimit);
-            
-            GenRandomLevel(level);
+            level = 1;
+            player= new Player(this, initplayermoneylimit, initial_x, initial_y, initplayermoneylimit);
+            GenLevel(level);
         }
         public void Restart()
         {
-            level = init_level;
-            player = new Player(this, InitPlayerMoneyLimit, initial_x, initial_y, InitPlayerMoneyLimit);
-            coinsonfloor = default_cof; newredgen = default_nrg; rednoticedist = default_rnd; shootrange = default_sr;
+            level = 1;
+            turn = 0;
+            player = new Player(this, initplayermoneylimit, initial_x, initial_y, initplayermoneylimit);
+            coinsonfloor = default_cof; newredgen = default_nrg; rednoticedist = default_rnd;
             sight = default_st;
             default_sa.CopyTo(shop_amount, 0);
-            enemies = new List<Enemy>();
-            turn = 0;
             status = new GameObject[height, width];
-            GenRandomLevel(level);
+            enemies = new List<Enemy>();
+            bullets = new List<Bullet>();
+            GenLevel(level);
         }
 
         public void IfNextLevel()
@@ -60,12 +60,12 @@ namespace Mr_MoneyBag
             if (player.is_moving)
                 return;
             level = level + 1;
-            enemies = new List<Enemy>();
             turn = 0;
             status = new GameObject[height, width];
-            int money = player.hp;
-            player = new Player(this, money, initial_x, initial_y, InitPlayerMoneyLimit);
-            GenRandomLevel(level);
+            enemies = new List<Enemy>();
+            bullets = new List<Bullet>();
+            player.InitPosition(initial_x,initial_y);
+            GenLevel(level);
             is_newlevel = true;
         }
 
@@ -216,13 +216,12 @@ namespace Mr_MoneyBag
             Console.WriteLine();
         }
 
-        public void GenRandomLevel(int lv)
+        public void GenLevel(int lv)
         {
             GenBasicMap();
             AddStair();
             AddShop(lv);
             AddMoney();
-            
         }
 
         public void AddStair()
@@ -307,7 +306,6 @@ namespace Mr_MoneyBag
                     }
 
                 }
-
             }
         }
 
