@@ -224,11 +224,60 @@ namespace Mr_MoneyBag
                 return Properties.Resources.Nearlyseen;
             return Properties.Resources.Unseen;//视野外
         }
-        //private Image GetNotice(GameBoard gameboard,)
+        private Image GetNotice(GameBoard gameboard, int x_len, int y_len)
+        {
+            System.Drawing.Image img = new System.Drawing.Bitmap(y_len * blocksize, x_len * blocksize);
+            int stringheight = 40;
+            int nums_x = 15, nums_y = x_len * blocksize - 45;
+            int money_width = 26, money_height = 4;
+            System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(img);
+            //Font font = new Font("Bauhaus 93", 24);
+            Font font = new Font("UD Digi Kyokasho NK-B", 24);
+
+            Brush money = new SolidBrush(Color.FromArgb(251, 242, 54));
+            Brush level = new SolidBrush(Color.FromArgb(255, 40, 40));
+            Brush moneylimit = new SolidBrush(Color.FromArgb(209, 163, 164));
+            Brush damage = new SolidBrush(Color.FromArgb(63, 138, 110));
+            Brush sight = new SolidBrush(Color.FromArgb(251, 192, 100));
+            Brush rednoticedist = new SolidBrush(Color.FromArgb(158, 123, 103));
+            Brush newredgen = new SolidBrush(Color.FromArgb(118, 184, 186));
+            Brush coinsonfloor = new SolidBrush(Color.FromArgb(151, 161, 173));
+            Brush diamond = new SolidBrush(Color.FromArgb(94, 182, 95));
+            g.DrawString(gameboard.level.ToString("00"), font, level, y_len * blocksize - 60, x_len * blocksize - 45);
+            g.DrawString(gameboard.player.hp.ToString("00"), font, money, nums_x, nums_y);
+            nums_y += -3;
+            for (int i = 0; i < gameboard.player.hp; i++)
+            {
+                nums_y -= money_height+1;
+                g.FillRectangle(money, nums_x+14, nums_y, money_width, money_height); 
+            }
+            for (int i = 0; i < gameboard.player.moneylimit-gameboard.player.hp; i++)
+            {
+                nums_y -= money_height + 1;
+            }
+            nums_y -= 6;
+            g.FillRectangle(moneylimit, nums_x+10, nums_y, 34, 2);
+            nums_y -= 35;
+            g.DrawString(gameboard.player.moneylimit.ToString("00"), font, moneylimit, nums_x, nums_y);
+            nums_y -= stringheight;
+            g.DrawString(gameboard.player.attack.ToString("00"), font, damage, nums_x, nums_y);
+            nums_y -= stringheight;
+            g.DrawString(((int)(Math.Ceiling(gameboard.sight))).ToString("00"), font, sight, nums_x, nums_y);
+            nums_y -= stringheight;
+            g.DrawString(gameboard.rednoticedist.ToString("00"), font, rednoticedist, nums_x, nums_y);
+            nums_y -= stringheight;
+            g.DrawString(gameboard.newredgen.ToString("00"), font, newredgen, nums_x, nums_y);
+            nums_y -= stringheight;
+            g.DrawString(gameboard.coinsonfloor.ToString("00"), font, coinsonfloor, nums_x, nums_y);
+            //g.DrawString(gameboard.diamonds.ToString("00"), font, brush, nums_x, nums_y);
+            //Console.WriteLine("diaoy");
+            return img;
+        }
         private Image GetFullImage(GameBoard gameboard, double x_st, double y_st, int x_len, int y_len)//获取显示的画面
         {
             System.Drawing.Image img = new System.Drawing.Bitmap(y_len * blocksize, x_len * blocksize);
             System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(img);
+            System.Drawing.Image notice = GetNotice(gameboard, x_len, y_len);
             //获得绘制开始的格子和绘制大小
             //如果在运动中，则先绘制大一圈的图像，然后显示其一部分
             int x, y;
@@ -261,6 +310,7 @@ namespace Mr_MoneyBag
                 if (gameboard.player.Distance((int)bullet.x, (int)bullet.y) <= gameboard.sight)
                     whole_g.DrawImage(bullet.GetImage(), (int)(blocksize * (bullet.y_drawposition - y)), (int)(blocksize * (bullet.x_drawposition - x)), blocksize, blocksize);
             g.DrawImage(whole_img, (int)(-(y_st - y) * blocksize), (int)(-(x_st - x) * blocksize));
+            g.DrawImage(notice,0,0);
             return img;
         }
 
