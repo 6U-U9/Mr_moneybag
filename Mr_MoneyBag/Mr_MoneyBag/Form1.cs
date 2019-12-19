@@ -80,7 +80,8 @@ namespace Mr_MoneyBag
         }
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-
+            if (gameboard.is_playerdead)
+            { gameboard.Restart(); InitNumbers(); return; }
             if (e.KeyCode == Keys.Space)
                 is_space_down = true;
             if (e.KeyCode == Keys.Tab)
