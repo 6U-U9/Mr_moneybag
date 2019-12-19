@@ -152,6 +152,8 @@ namespace Mr_MoneyBag
     class Player : MoveableObject
     {
         public int moneylimit;
+        public int diamond=0;
+        public bool is_hurt=false;
         public Player(GameBoard gameboard,int money,int x,int y,int moneylimit,int attack=1): base(gameboard,money,x,y)
         {
             this.image = new Image[] { Properties.Resources.Player001 };
@@ -199,6 +201,7 @@ namespace Mr_MoneyBag
         {
             hp -= n;
             if (hp < 0) { hp = 0; Dead(); }
+            is_hurt = true;
         }
         public override void Dead()
         {
@@ -206,6 +209,14 @@ namespace Mr_MoneyBag
             image = new Image[] { Properties.Resources.PlayerDead };
             Console.WriteLine("Player Dead! New Game!");
 
+        }
+        public void GetDiamond(int gain)
+        {
+            diamond += gain;
+            if (diamond == gameboard.maxdiamond)
+            {
+                gameboard.is_win = true;
+    }
         }
         public void GetMoney(int money)
         { this.hp += money; }
@@ -384,7 +395,7 @@ namespace Mr_MoneyBag
             base.Damaged(1);
         }
 
-        virtual public void notice() // notice the player if they are in range
+        virtual public void Notice() // notice the player if they are in range
         {
             Console.WriteLine("Shop here at" + x + ", " + y);
         }
@@ -401,7 +412,7 @@ namespace Mr_MoneyBag
             gameboard.coinsonfloor += gain;
             base.Dead();
         }
-        public override void notice()
+        public override void Notice()
         {
             string msg = "Give me " + hp + " money to gain " + gain + " more coins on each floor";
             Console.WriteLine(msg);
@@ -421,7 +432,7 @@ namespace Mr_MoneyBag
             base.Dead();
         }
 
-        public override void notice()
+        public override void Notice()
         {
             string msg = "Give me " + hp + " money to delay enemy spawn time by " + gain + " steps";
             Console.WriteLine(msg);
@@ -441,7 +452,7 @@ namespace Mr_MoneyBag
             base.Dead();
         }
 
-        public override void notice()
+        public override void Notice()
         {
             string msg = "Give me " + hp + " money to reduce enemy notice distance by " + gain + " block";
             Console.WriteLine(msg);
@@ -461,7 +472,7 @@ namespace Mr_MoneyBag
             base.Dead();
         }
 
-        public override void notice()
+        public override void Notice()
         {
             string msg = "Give me " + hp + " money to increase your sight by " + gain + " block";
             Console.WriteLine(msg);
@@ -482,7 +493,7 @@ namespace Mr_MoneyBag
         }
 
 
-        public override void notice()
+        public override void Notice()
         {
             string msg = "Give me " + hp + " money to increase your damage by " + gain + "";
             Console.WriteLine(msg);
@@ -501,9 +512,28 @@ namespace Mr_MoneyBag
             gameboard.player.moneylimit += gain;
             base.Dead();
         }
-        public override void notice()
+        public override void Notice()
         {
             string msg = "Give me " + hp + " money to increase money limit by " + gain + "";
+            Console.WriteLine(msg);
+            gameboard.AddNotice(msg, GetType());
+        }
+    }
+    class Diamond_Shop : Shop //获得钻石
+    {
+        public Diamond_Shop(GameBoard gameboard, int money, int x, int y, int gain = 1) : base(gameboard, money, x, y)
+        {
+            this.gain = gain;
+            this.image = new Image[] { Properties.Resources.Shop_Diamond };
+        }
+        public override void Dead()
+        {
+            gameboard.player.GetDiamond(gain);
+            base.Dead();
+        }
+        public override void Notice()
+        {
+            string msg = "Give me " + hp + " money to get a diamond";
             Console.WriteLine(msg);
             gameboard.AddNotice(msg, GetType());
         }

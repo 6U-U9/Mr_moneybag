@@ -16,14 +16,14 @@ namespace Mr_MoneyBag
         public const int blocksize = 32;//单个格子像素大小
         public static int y = 30, x = 17;//窗口显示大小
         public const double animespeed = 0.4; //动画运动速度
-        public const int framespeed = 30;//帧频
+        public const int framespeed = 50;//帧频
         public PictureBox map = new PictureBox();
         GameBoard gameboard = new GameBoard();
         private bool is_space_down = false;//空格键状态
         private bool is_tab_down = false;//Tab状态
         private bool is_showing_topnotice = false;//顶部提示信息状态
         private const int notice_starty=-40, notice_endy=10;
-        private const int notice_shopstopframe = 5,notice_enemystopframe = 2;
+        private const int notice_shopstopframe = 7,notice_enemystopframe = 4;
         private float noticespeed = 20.0F;
         private float notice_frame = 0;
         private float notice_x,notice_y;
@@ -33,6 +33,8 @@ namespace Mr_MoneyBag
 
         Font font = new Font("Jokerman", 24);
         Brush money = new SolidBrush(Color.FromArgb(251, 242, 54));
+        Brush hurt = new SolidBrush(Color.FromArgb(100, 40, 40));
+        Brush win = new SolidBrush(Color.FromArgb(251, 242, 54));
         Brush level = new SolidBrush(Color.FromArgb(255, 40, 40));
         Brush moneylimit = new SolidBrush(Color.FromArgb(209, 163, 164));
         Brush damage = new SolidBrush(Color.FromArgb(63, 138, 110));
@@ -256,10 +258,13 @@ namespace Mr_MoneyBag
         {
             string notice;
             Type type;
-            if (gameboard.noticelist.Count == 0&&gameboard.is_playerdead == false)
+            Brush brush = Brushes.Red;
+            if (gameboard.noticelist.Count == 0&&gameboard.is_playerdead == false&& gameboard.is_win==false)
                 return new System.Drawing.Bitmap(y_len * blocksize, x_len * blocksize);
             if (gameboard.is_playerdead == true)
             { notice = "You Died ! Press Any Key To Restart"; notice_frame = 0; type = typeof(Space); }
+            else if (gameboard.is_win == true)
+            { notice = "You Win ! Press Any Key To Restart"; notice_frame = 0; type = typeof(Space); brush = win; }
             else
             { (notice, type) = gameboard.noticelist[0];}
             System.Drawing.Image img = new System.Drawing.Bitmap(y_len * blocksize, x_len * blocksize);
@@ -267,7 +272,6 @@ namespace Mr_MoneyBag
             int notice_stopframe = notice_enemystopframe;
             if (type.IsSubclassOf(typeof(Shop)))
             { notice_stopframe = notice_shopstopframe;}
-            Brush brush = Brushes.Red;
             if (type == typeof(MoneyLimit_Shop))
                 brush = moneylimit;
             else if (type == typeof(Damage_Shop))
@@ -280,6 +284,8 @@ namespace Mr_MoneyBag
                 brush = newredgen;
             else if (type == typeof(CoinOnFloor_Shop))
                 brush = coinsonfloor;
+            else if (type == typeof(Diamond_Shop))
+                brush = diamond;
             if (is_showing_topnotice)
             {
                 if (notice_y == notice_endy && notice_frame < notice_stopframe)
@@ -365,6 +371,8 @@ namespace Mr_MoneyBag
         {
             System.Drawing.Image img = new System.Drawing.Bitmap(y_len * blocksize, x_len * blocksize);
             System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(img);
+            if (gameboard.player.is_hurt)
+            { g.FillRectangle(hurt, 0, 0, y_len * blocksize, x_len * blocksize); gameboard.player.is_hurt = false; return img; }
             System.Drawing.Image notice = GetNotice(gameboard, x_len, y_len);
             //获得绘制开始的格子和绘制大小
             //如果在运动中，则先绘制大一圈的图像，然后显示其一部分
