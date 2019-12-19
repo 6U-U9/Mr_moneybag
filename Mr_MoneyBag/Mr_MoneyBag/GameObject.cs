@@ -8,12 +8,12 @@ namespace Mr_MoneyBag
     class GameObject
     {
         public GameBoard gameboard;
-        public int x, y,hp;
-        public Image[] image;
-        public bool seen;
-        public bool isblocked=true;
-        public bool nearlyseen;
-        public int imageindex=0;
+        public int x,y,hp;//位置和血量
+        public Image[] image;//图像序列
+        public bool seen;//是否被看到过（只对静止对象有效）
+        public bool isblocked=true;//玩家能否与其重合
+        public bool nearlyseen;//是否在视野边缘（只对静止对象有效）
+        public int imageindex=0;//当前显示的图像序号
 
         public GameObject(GameBoard gameboard,int x,int y)
         {
@@ -22,31 +22,30 @@ namespace Mr_MoneyBag
             this.y = y;
             this.image = new Image[] { Properties.Resources.Space };
         }
-        virtual public void Damaged(int n)
+        virtual public void Damaged(int n)//受伤
         {
             hp -= n;
             if (hp <= 0) Dead();
         }
-        virtual public void Dead()
+        virtual public void Dead()//死亡
         { 
             FreshBoard(x, y, new Space(gameboard,x,y,this.seen,this.nearlyseen));
         }
-        //更新对象地图
-        virtual public void FreshBoard(int x, int y, GameObject gameobject)
+        virtual public void FreshBoard(int x, int y, GameObject gameobject)//更新对象地图
         {
             gameboard.status[x, y] = gameobject;
         }
-        virtual public Image GetImage()
+        virtual public Image GetImage()//获得当前显示图像
         {
             imageindex++;
             if (imageindex >= image.Length)
                 imageindex = 0;
             return image[imageindex];
         }
-        virtual public double Distance(int x, int y)
+        virtual public double Distance(int x, int y)//计算对x,y位置的距离
         { return Math.Sqrt((this.x - x)*(this.x - x) + (this.y - y)*(this.y - y)); }
     }
-    class Space : GameObject
+    class Space : GameObject //空地
     {
         public Space(GameBoard gameboard, int x, int y,bool seen=false, bool NearlySeen=false) : base(gameboard,x,y)
         {   this.isblocked = false;
@@ -55,7 +54,7 @@ namespace Mr_MoneyBag
             this.image =new Image[] { Properties.Resources.Space };
         }
     }
-    class MoveableObject : GameObject
+    class MoveableObject : GameObject //会运动的类
     {
         public Image[] movingimage;
         public bool is_moving=false;

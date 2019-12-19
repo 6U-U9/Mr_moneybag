@@ -170,7 +170,7 @@ namespace Mr_MoneyBag
             map.Image = image;
 
         }
-        private Image GetShowImage(GameBoard gameboard, int x, int y)
+        private Image GetShowImage(GameBoard gameboard, int x, int y)//废弃的方法（没有实现动画之前使用）
         {
             GameObject gameObject = gameboard.status[x, y];
             double dist = gameObject.Distance(gameboard.player.x, gameboard.player.y);
@@ -206,25 +206,25 @@ namespace Mr_MoneyBag
                 return Properties.Resources.Nearlyseen;
             return Properties.Resources.Unseen;
         }
-        private Image GetUnmoveableImage(GameBoard gameboard, int x, int y)
+        private Image GetUnmoveableImage(GameBoard gameboard, int x, int y)//获取x,y位置的格子的图像
         {
             GameObject gameObject = gameboard.status[x, y];
-            if (gameObject is Gate) Console.WriteLine("G" + x + " " + y);
+            //if (gameObject is Gate) Console.WriteLine("G" + x + " " + y);
             double dist = gameObject.Distance(gameboard.player.x, gameboard.player.y);
-            if (dist <= gameboard.sight)
+            if (dist <= gameboard.sight)//视野内
             {
                 if ((x + y) % 2 == 1)
                     return UniteImage(Properties.Resources.Back001, gameboard.status[x, y].GetImage());
                 else
                     return UniteImage(Properties.Resources.Back002, gameboard.status[x, y].GetImage());
             }
-            if (gameObject.seen == true)
+            if (gameObject.seen == true)//看到过的
                 return UniteImage(Properties.Resources.Seen, gameboard.status[x, y].GetImage());
-            if (gameObject.nearlyseen == true)
+            if (gameObject.nearlyseen == true)//视野边缘
                 return Properties.Resources.Nearlyseen;
-            return Properties.Resources.Unseen;
+            return Properties.Resources.Unseen;//视野外
         }
-        private Image GetFullImage(GameBoard gameboard, double x_st, double y_st, int x_len, int y_len)
+        private Image GetFullImage(GameBoard gameboard, double x_st, double y_st, int x_len, int y_len)//获取显示的画面
         {
             System.Drawing.Image img = new System.Drawing.Bitmap(y_len * blocksize, x_len * blocksize);
             System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(img);
