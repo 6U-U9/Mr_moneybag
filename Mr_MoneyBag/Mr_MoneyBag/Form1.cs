@@ -74,22 +74,22 @@ namespace Mr_MoneyBag
                     {
                         case Keys.W:
                         case Keys.Up:
-                            gameboard.player.shootup();
+                            gameboard.player.ShootUp();
                             arrow_key_locked = true;
                             break;
                         case Keys.A:
                         case Keys.Left:
-                            gameboard.player.shootleft();
+                            gameboard.player.ShootLeft();
                             arrow_key_locked = true;
                             break;
                         case Keys.S:
                         case Keys.Down:
-                            gameboard.player.shootdown();
+                            gameboard.player.ShootDown();
                             arrow_key_locked = true;
                             break;
                         case Keys.D:
                         case Keys.Right:
-                            gameboard.player.shootright();
+                            gameboard.player.ShootRight();
                             arrow_key_locked = true;
                             break;
                     }
@@ -98,22 +98,22 @@ namespace Mr_MoneyBag
                     {
                         case Keys.W:
                         case Keys.Up:
-                            gameboard.player.moveup();
+                            gameboard.player.MoveUp();
                             arrow_key_locked = true;
                             break;
                         case Keys.A:
                         case Keys.Left:
-                            gameboard.player.moveleft();
+                            gameboard.player.MoveLeft();
                             arrow_key_locked = true;
                             break;
                         case Keys.S:
                         case Keys.Down:
-                            gameboard.player.movedown();
+                            gameboard.player.MoveDown();
                             arrow_key_locked = true;
                             break;
                         case Keys.D:
                         case Keys.Right:
-                            gameboard.player.moveright();
+                            gameboard.player.MoveRight();
                             arrow_key_locked = true;
                             break;
                     }
@@ -173,7 +173,7 @@ namespace Mr_MoneyBag
         private Image GetShowImage(GameBoard gameboard, int x, int y)
         {
             GameObject gameObject = gameboard.status[x, y];
-            double dist = gameObject.distance(gameboard.player.x, gameboard.player.y);
+            double dist = gameObject.Distance(gameboard.player.x, gameboard.player.y);
             if (dist <= gameboard.sight)
             {
 
@@ -202,7 +202,7 @@ namespace Mr_MoneyBag
                 Console.WriteLine(gameObject.seen);*/
             if (gameObject.seen == true)
                 return UniteImage(Properties.Resources.Seen, gameboard.status[x, y].GetImage());
-            if (gameObject.NearlySeen == true)
+            if (gameObject.nearlyseen == true)
                 return Properties.Resources.Nearlyseen;
             return Properties.Resources.Unseen;
         }
@@ -210,7 +210,7 @@ namespace Mr_MoneyBag
         {
             GameObject gameObject = gameboard.status[x, y];
             if (gameObject is Gate) Console.WriteLine("G" + x + " " + y);
-            double dist = gameObject.distance(gameboard.player.x, gameboard.player.y);
+            double dist = gameObject.Distance(gameboard.player.x, gameboard.player.y);
             if (dist <= gameboard.sight)
             {
                 if ((x + y) % 2 == 1)
@@ -220,7 +220,7 @@ namespace Mr_MoneyBag
             }
             if (gameObject.seen == true)
                 return UniteImage(Properties.Resources.Seen, gameboard.status[x, y].GetImage());
-            if (gameObject.NearlySeen == true)
+            if (gameObject.nearlyseen == true)
                 return Properties.Resources.Nearlyseen;
             return Properties.Resources.Unseen;
         }
@@ -246,13 +246,13 @@ namespace Mr_MoneyBag
                 }
             whole_g.DrawImage(gameboard.player.GetImage(), (int)(blocksize * (gameboard.player.y_drawposition - y)), (int)(blocksize * (gameboard.player.x_drawposition - x)), blocksize, blocksize);
             foreach (Enemy enemy in gameboard.enemies)
-                if (enemy.distance(gameboard.player.x, gameboard.player.y) <= gameboard.sight)
+                if (enemy.Distance(gameboard.player.x, gameboard.player.y) <= gameboard.sight)
                     whole_g.DrawImage(enemy.GetImage(), (int)(blocksize * (enemy.y_drawposition - y)), (int)(blocksize * (enemy.x_drawposition - x)), blocksize, blocksize);
                 else
                     enemy.FreshDrawPosition();
 
             foreach (Bullet bullet in gameboard.bullets)
-                if (gameboard.player.distance((int)bullet.x, (int)bullet.y) <= gameboard.sight)
+                if (gameboard.player.Distance((int)bullet.x, (int)bullet.y) <= gameboard.sight)
                     whole_g.DrawImage(bullet.GetImage(), (int)(blocksize * (bullet.y_drawposition - y)), (int)(blocksize * (bullet.x_drawposition - x)), blocksize, blocksize);
             g.DrawImage(whole_img, (int)(-(y_st - y) * blocksize), (int)(-(x_st - x) * blocksize));
             return img;

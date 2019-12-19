@@ -12,7 +12,7 @@ namespace Mr_MoneyBag
         public Image[] image;
         public bool seen;
         public bool isblocked=true;
-        public bool NearlySeen;
+        public bool nearlyseen;
         public int imageindex=0;
 
         public GameObject(GameBoard gameboard,int x,int y)
@@ -22,21 +22,20 @@ namespace Mr_MoneyBag
             this.y = y;
             this.image = new Image[] { Properties.Resources.Space };
         }
-        virtual public void damaged(int n)
+        virtual public void Damaged(int n)
         {
             hp -= n;
-            if (hp <= 0) dead();
+            if (hp <= 0) Dead();
         }
-        virtual public void dead()
+        virtual public void Dead()
         { 
-            freshboard(x, y, new Space(gameboard,x,y,this.seen,this.NearlySeen));
+            FreshBoard(x, y, new Space(gameboard,x,y,this.seen,this.nearlyseen));
         }
         //更新对象地图
-        virtual public void freshboard(int x, int y, GameObject gameobject)
+        virtual public void FreshBoard(int x, int y, GameObject gameobject)
         {
             gameboard.status[x, y] = gameobject;
         }
-
         virtual public Image GetImage()
         {
             imageindex++;
@@ -44,7 +43,7 @@ namespace Mr_MoneyBag
                 imageindex = 0;
             return image[imageindex];
         }
-        virtual public double distance(int x, int y)
+        virtual public double Distance(int x, int y)
         { return Math.Sqrt((this.x - x)*(this.x - x) + (this.y - y)*(this.y - y)); }
     }
     class Space : GameObject
@@ -52,7 +51,7 @@ namespace Mr_MoneyBag
         public Space(GameBoard gameboard, int x, int y,bool seen=false, bool NearlySeen=false) : base(gameboard,x,y)
         {   this.isblocked = false;
             this.seen = seen;
-            this.NearlySeen = NearlySeen;
+            this.nearlyseen = NearlySeen;
             this.image =new Image[] { Properties.Resources.Space };
         }
     }
@@ -71,19 +70,10 @@ namespace Mr_MoneyBag
             this.x_drawposition = x;
             this.y_drawposition = y;
         }
-        virtual public void moveto(int x, int y)
+        virtual public void Move(int x, int y)
         {
-            if (moveable(x,y) <= 0)
-                return;
-            var pastx = this.x;
-            var pasty = this.y;
-            this.x = x;
-            this.y = y;
-            freshboard(pastx, pasty, new Space(gameboard,pastx,pasty));
-            freshboard(x, y, this);
-            is_moving = true;
         }
-        virtual public void shoot(int dx, int dy)
+        virtual public void Shoot(int dx, int dy)
         {
             gameboard.bullets.Add(new Bullet(gameboard,this.attack,this.x,this.y,dx,dy));
             /*int cnt = 1;
@@ -108,7 +98,7 @@ namespace Mr_MoneyBag
                 Console.WriteLine(x + "," + y + "damaged");*/
             is_moving = true;
         }
-        virtual public int moveable(int x, int y)
+        virtual public int Moveable(int x, int y)
         {
             if (x > gameboard.GetHeight() - 1 || x < 0 || y > gameboard.GetWidth() - 1 || y < 0)
                 return 0;
@@ -177,9 +167,9 @@ namespace Mr_MoneyBag
             if (gameboard.status[x, y] is Enemy) this.damaged(((Enemy)gameboard.status[x, y]).attack);
             return base.moveable(x, y);
         }*/
-        override public void moveto(int x, int y)
+        override public void Move(int x, int y)
         {
-            int canmove = moveable(x, y);
+            int canmove = Moveable(x, y);
             if (canmove == 0) return;
             if (canmove == -1) { Console.WriteLine("bump into enemy"); gameboard.IncreaseTimer(); return; }
             
@@ -192,53 +182,53 @@ namespace Mr_MoneyBag
             //判断是否获得Money
             if (gameboard.status[this.x, this.y] is Money&&this.hp<this.moneylimit)
             {
-                getmoney(((Money)gameboard.status[this.x, this.y]).hp);
-                freshboard(this.x,this.y, new Space(gameboard, this.x, this.y,true));
+                GetMoney(((Money)gameboard.status[this.x, this.y]).hp);
+                FreshBoard(this.x,this.y, new Space(gameboard, this.x, this.y,true));
             }
             
 
             foreach (GameObject gameObject in gameboard.status)
             {
-                if (gameObject.distance(this.x, this.y) < gameboard.sight)
+                if (gameObject.Distance(this.x, this.y) < gameboard.sight)
                     gameObject.seen = true;
-                else if (gameObject.distance(this.x, this.y) < gameboard.sight + 1)
-                    gameObject.NearlySeen = true;
+                else if (gameObject.Distance(this.x, this.y) < gameboard.sight + 1)
+                    gameObject.nearlyseen = true;
             }
             gameboard.IncreaseTimer();
             
         }
-        public override void damaged(int n)
+        public override void Damaged(int n)
         {
             hp -= n;
-            if (hp < 0) dead();
+            if (hp < 0) Dead();
         }
 
-        public override void dead()
+        public override void Dead()
         {
             
-            base.dead();
-            gameboard.restart();
+            base.Dead();
+            gameboard.Restart();
             Console.WriteLine("Player Dead! New Game!");
 
         }
-        public void getmoney(int money)
+        public void GetMoney(int money)
         { this.hp += money; }
-        public void moveup()
-        {moveto(this.x - 1, this.y); }
-        public void movedown()
-        { moveto(this.x+ 1, this.y ); }
-        public void moveleft()
-        { moveto(this.x, this.y-1); }
-        public void moveright()
-        { moveto(this.x, this.y+1); }
-        public void shootup()
-        { if (hp > 0) { this.hp--; shoot(-1, 0); } }
-        public void shootdown()
-        { if (hp > 0) { this.hp--; shoot(1, 0); } }
-        public void shootleft()
-        {if (hp > 0) { this.hp--; shoot(0, -1); } }
-        public void shootright()
-        {if (hp > 0) { this.hp--; shoot(0, 1); } }
+        public void MoveUp()
+        {Move(this.x - 1, this.y); }
+        public void MoveDown()
+        { Move(this.x+ 1, this.y ); }
+        public void MoveLeft()
+        { Move(this.x, this.y-1); }
+        public void MoveRight()
+        { Move(this.x, this.y+1); }
+        public void ShootUp()
+        { if (hp > 0) { this.hp--; Shoot(-1, 0); } }
+        public void ShootDown()
+        { if (hp > 0) { this.hp--; Shoot(1, 0); } }
+        public void ShootLeft()
+        {if (hp > 0) { this.hp--; Shoot(0, -1); } }
+        public void ShootRight()
+        {if (hp > 0) { this.hp--; Shoot(0, 1); } }
 
     }
     class Enemy : MoveableObject
@@ -256,7 +246,7 @@ namespace Mr_MoneyBag
         }
         public void Move()
         {
-            if (this.distance(gameboard.player.x, gameboard.player.y) > gameboard.rednoticedist) return;
+            if (this.Distance(gameboard.player.x, gameboard.player.y) > gameboard.rednoticedist) return;
             Attack();
 
             Node go = DistanceUtility.GetNextStep(gameboard.player, this, gameboard);
@@ -277,7 +267,7 @@ namespace Mr_MoneyBag
                 if ((nx > 0 && nx < gameboard.GetWidth() - 1 && ny > 0 && ny < gameboard.GetHeight() - 1) 
                     && gameboard.player.x == nx && gameboard.player.y == ny)
                 {
-                    gameboard.player.damaged(attack);
+                    gameboard.player.Damaged(attack);
                     Console.WriteLine("Enemy at [" + x + "," + y + "] Attacked Player");
                 }
             }            
@@ -367,14 +357,14 @@ namespace Mr_MoneyBag
             x_drawposition = x;
             y_drawposition = y;
         }
-        public override void damaged(int n)
+        public override void Damaged(int n)
         {
             hp -= n;
-            if (hp <= 0) dead();
+            if (hp <= 0) Dead();
             else GetImageList();
             Console.WriteLine("receive damage");
         }
-        public override void dead()
+        public override void Dead()
         {
             gameboard.enemies.Remove(this);
         }
@@ -392,10 +382,10 @@ namespace Mr_MoneyBag
             this.isblocked = true;
         }
 
-        public override void damaged(int n)
+        public override void Damaged(int n)
         {
             //Console.WriteLine("shop get money remain "+hp);
-            base.damaged(1);
+            base.Damaged(1);
         }
 
         virtual public void notice() // notice the player if they are in range
@@ -410,10 +400,10 @@ namespace Mr_MoneyBag
             this.gain = gain;
             this.image = new Image[] { Properties.Resources.Shop_CoinOnFloor};
         }
-        public override void dead()
+        public override void Dead()
         {
             gameboard.coinsonfloor += gain;
-            base.dead();
+            base.Dead();
         }
         public override void notice()
         {
@@ -427,10 +417,10 @@ namespace Mr_MoneyBag
             this.gain = gain;
             this.image = new Image[] { Properties.Resources.Shop_Time };
         }
-        public override void dead()
+        public override void Dead()
         {
             gameboard.newredgen += gain;
-            base.dead();
+            base.Dead();
         }
 
         public override void notice()
@@ -445,10 +435,10 @@ namespace Mr_MoneyBag
             this.gain = gain;
             this.image = new Image[] { Properties.Resources.Shop_NoticeDistance };
         }
-        public override void dead()
+        public override void Dead()
         {
             gameboard.rednoticedist -= gain;
-            base.dead();
+            base.Dead();
         }
 
         public override void notice()
@@ -463,10 +453,10 @@ namespace Mr_MoneyBag
             this.gain = gain;
             this.image = new Image[] { Properties.Resources.Shop_Sight };
         }
-        public override void dead()
+        public override void Dead()
         {
             gameboard.sight += gain;
-            base.dead();
+            base.Dead();
         }
 
         public override void notice()
@@ -481,10 +471,10 @@ namespace Mr_MoneyBag
             this.gain = gain;
             this.image = new Image[] { Properties.Resources.Shop_Damage };
         }
-        public override void dead()
+        public override void Dead()
         {
             gameboard.player.attack+= gain;
-            base.dead();
+            base.Dead();
         }
 
 
@@ -500,10 +490,10 @@ namespace Mr_MoneyBag
             this.gain = gain;
             this.image = new Image[] { Properties.Resources.Shop_Heart};
         }
-        public override void dead()
+        public override void Dead()
         {
             gameboard.player.moneylimit += gain;
-            base.dead();
+            base.Dead();
         }
         public override void notice()
         {
@@ -518,16 +508,16 @@ namespace Mr_MoneyBag
             this.isblocked = true;
             this.image = new Image[] { Properties.Resources.Wall};
         }
-        public override void damaged(int n)
+        public override void Damaged(int n)
         {
-            base.damaged(1);
+            base.Damaged(1);
         }
     }
     class UnbreakableWall : Wall
     {
         public UnbreakableWall(GameBoard gameboard, int x, int y, int hp = 1) : base(gameboard,x,y,hp)
         { }
-        public override void damaged(int n)
+        public override void Damaged(int n)
         { }
     }
     class Gate : Space
@@ -576,11 +566,11 @@ namespace Mr_MoneyBag
             { y = (int)Math.Ceiling(y_drawposition); }
 
             if (gameboard.HasEnemy(x, y))
-            { gameboard.GetEnemy(x, y).damaged(hp); gameboard.bullets.Remove(this); Console.WriteLine("deal demage" + hp); }
+            { gameboard.GetEnemy(x, y).Damaged(hp); gameboard.bullets.Remove(this); Console.WriteLine("deal demage" + hp); }
             else if (!(gameboard.status[x, y] is Space))
-            { gameboard.status[x, y].damaged(hp); gameboard.bullets.Remove(this); }
-            else if (distance(start_x, start_y) > range)
-            { gameboard.bullets.Remove(this); Console.WriteLine(" out of range"+distance(start_x, start_y)); }
+            { gameboard.status[x, y].Damaged(hp); gameboard.bullets.Remove(this); }
+            else if (Distance(start_x, start_y) > range)
+            { gameboard.bullets.Remove(this); Console.WriteLine(" out of range"+Distance(start_x, start_y)); }
             //Console.WriteLine("B  " + x + " " + y);
         }
     }

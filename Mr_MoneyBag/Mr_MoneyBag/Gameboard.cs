@@ -40,7 +40,7 @@ namespace Mr_MoneyBag
             
             GenRandomLevel(level);
         }
-        public void restart()
+        public void Restart()
         {
             level = init_level;
             player = new Player(this, InitPlayerMoneyLimit, initial_x, initial_y, InitPlayerMoneyLimit);
@@ -68,7 +68,6 @@ namespace Mr_MoneyBag
             player = new Player(this, money, initial_x, initial_y, InitPlayerMoneyLimit);
             GenRandomLevel(level);
             is_newlevel = true;
-
         }
 
         public int GetWidth()
@@ -127,7 +126,7 @@ namespace Mr_MoneyBag
                 for (int j = yst; j <= yed; j++)
                 {
                     if (!(status[i, j] is Shop)) continue;
-                    double temp = status[i, j].distance(x, y);
+                    double temp = status[i, j].Distance(x, y);
                     if (temp < mindist)
                     {
                         Console.WriteLine("d: " + temp + " from " + i + "," + j + " to " + x + "," + y);
