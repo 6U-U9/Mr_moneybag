@@ -21,6 +21,9 @@ namespace Mr_MoneyBag
         private bool is_space_down = false;//空格键状态
         private bool is_tab_down = false;//Tab状态
         private bool is_showing_topnotice = false;//顶部提示信息状态
+        private const int notice_starty=-40, notice_endy=10;
+        private float noticespeed = 10.0F;
+        private float notice_x,notice_y;
         private bool arrow_key_locked = false;//方向键状态
         private double x_position, y_position;//记录动画中盘面位置
 
@@ -243,13 +246,50 @@ namespace Mr_MoneyBag
         }
         private Image GetTopNotice(GameBoard gameboard, int x_len, int y_len)
         {
+            if (gameboard.noticelist.Count == 0)
+                return new System.Drawing.Bitmap(y_len * blocksize, x_len * blocksize); ;
+            System.Drawing.Image img = new System.Drawing.Bitmap(y_len * blocksize, x_len * blocksize);
+            System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(img);
+            var (notice, type) = gameboard.noticelist[0];
+         
+            Brush brush = Brushes.Red;
+            if (type == typeof(MoneyLimit_Shop))
+                brush = moneylimit;
+            else if (type == typeof(Damage_Shop))
+                brush = damage;
+            else if (type == typeof(Sight_Shop))
+                brush = sight;
+            else if (type == typeof(RedNoticeDist_Shop))
+                brush = rednoticedist;
+            else if (type == typeof(NewRedGen_Shop))
+                brush = newredgen;
+            else if (type == typeof(CoinOnFloor_Shop))
+                brush = coinsonfloor;
             if (is_showing_topnotice)
-                return null;
-            if(gameboard.noticelist.Count==0)
-            string notice;
-            Type type;
-            
-            (notice, type) = gameboard.noticelist[0];
+            {
+                notice_y += noticespeed;
+                if (notice_y > notice_endy)
+                {
+                    notice_y = notice_endy;
+                    noticespeed = -noticespeed;
+                }
+                else if (notice_y < notice_starty)
+                {
+                    notice_y = notice_starty;
+                    noticespeed = -noticespeed;
+                    is_showing_topnotice = false;
+                    gameboard.noticelist.RemoveAt(0);
+                }
+            }
+            else
+            {
+                notice_y = notice_starty;
+                is_showing_topnotice = true;
+                SizeF sizeF = g.MeasureString(notice, font);
+                notice_x = (y_len * blocksize - sizeF.Width) / 2;
+            }
+            g.DrawString(notice, font, brush, notice_x, notice_y);
+            return img;
         }
         private Image GetNotice(GameBoard gameboard, int x_len, int y_len)
         {
@@ -336,6 +376,7 @@ namespace Mr_MoneyBag
                     whole_g.DrawImage(bullet.GetImage(), (int)(blocksize * (bullet.y_drawposition - y)), (int)(blocksize * (bullet.x_drawposition - x)), blocksize, blocksize);
             g.DrawImage(whole_img, (int)(-(y_st - y) * blocksize), (int)(-(x_st - x) * blocksize));
             g.DrawImage(notice,0,0);
+            g.DrawImage(GetTopNotice(gameboard,x_len,y_len), 0, 0);
             return img;
         }
 
