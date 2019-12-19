@@ -406,7 +406,7 @@ namespace Mr_MoneyBag
         {
             string msg = "Give me " + hp + " money to gain " + gain + " more coins on each floor";
             Console.WriteLine(msg);
-            gameboard.AddNotice(msg);
+            gameboard.AddNotice(msg, GetType());
         }
     }
     class NewRedGen_Shop : Shop //增加敌人刷新的间隔
@@ -426,7 +426,7 @@ namespace Mr_MoneyBag
         {
             string msg = "Give me " + hp + " money to delay enemy spawn time by " + gain + " steps";
             Console.WriteLine(msg);
-            gameboard.AddNotice(msg);
+            gameboard.AddNotice(msg, GetType());
         }
     }
     class RedNoticeDist_Shop : Shop //增加敌人发现玩家的距离
@@ -446,7 +446,7 @@ namespace Mr_MoneyBag
         {
             string msg = "Give me " + hp + " money to reduce enemy notice distance by " + gain + " block";
             Console.WriteLine(msg);
-            gameboard.AddNotice(msg);
+            gameboard.AddNotice(msg, GetType());
         }
     }
     class Sight_Shop : Shop //增加视野
@@ -466,7 +466,7 @@ namespace Mr_MoneyBag
         {
             string msg = "Give me " + hp + " money to increase your sight by " + gain + " block";
             Console.WriteLine(msg);
-            gameboard.AddNotice(msg);
+            gameboard.AddNotice(msg, GetType());
         }
     }
     class Damage_Shop : Shop //增加子弹伤害
@@ -487,7 +487,7 @@ namespace Mr_MoneyBag
         {
             string msg = "Give me " + hp + " money to increase your damage by " + gain + "";
             Console.WriteLine(msg);
-            gameboard.AddNotice(msg);
+            gameboard.AddNotice(msg, GetType());
         }
     }
     class MoneyLimit_Shop : Shop //增加金币携带上限
@@ -506,7 +506,7 @@ namespace Mr_MoneyBag
         {
             string msg = "Give me " + hp + " money to increase money limit by " + gain + "";
             Console.WriteLine(msg);
-            gameboard.AddNotice(msg);
+            gameboard.AddNotice(msg, GetType());
         }
     }
     class Wall : GameObject //可破坏的墙

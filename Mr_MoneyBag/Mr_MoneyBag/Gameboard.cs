@@ -29,7 +29,7 @@ namespace Mr_MoneyBag
         
         public List<Enemy> enemies = new List<Enemy>();
         public List<Bullet> bullets = new List<Bullet>();
-        public List<string> noticelist = new List<string>();
+        public List<Tuple<string, Type>> noticelist = new List<Tuple<string, Type>>();
         public int turn = 0;
         public bool is_newlevel = false;
 
@@ -50,6 +50,7 @@ namespace Mr_MoneyBag
             status = new GameObject[height, width];
             enemies = new List<Enemy>();
             bullets = new List<Bullet>();
+            noticelist = new List<Tuple<string, Type>>();
             GenLevel(level);
         }
 
@@ -182,6 +183,7 @@ namespace Mr_MoneyBag
                 
             }
             DisplayEnemy();
+            AddNotice("New Enemy Spawn!", typeof(Enemy));
         }
 
         public bool HasEnemy(int x, int y)
@@ -372,9 +374,10 @@ namespace Mr_MoneyBag
             }
         }
 
-        public void AddNotice(string s)
+        public void AddNotice(string s, Type type)
         {
-            noticelist.Add(s);
+            noticelist.Add(new Tuple<string, Type>(s, type));
+            noticelist.ForEach(Console.WriteLine);
         }
 
     }
