@@ -245,7 +245,11 @@ namespace Mr_MoneyBag
         {
             if (is_showing_topnotice)
                 return null;
+            if(gameboard.noticelist.Count==0)
+            string notice;
+            Type type;
             
+            (notice, type) = gameboard.noticelist[0];
         }
         private Image GetNotice(GameBoard gameboard, int x_len, int y_len)
         {

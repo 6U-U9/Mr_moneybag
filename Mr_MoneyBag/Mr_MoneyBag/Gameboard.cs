@@ -29,7 +29,7 @@ namespace Mr_MoneyBag
         
         public List<Enemy> enemies = new List<Enemy>();
         public List<Bullet> bullets = new List<Bullet>();
-        public List<Tuple<string, Type>> noticelist = new List<Tuple<string, Type>>();
+        public List<ValueTuple<string, Type>> noticelist = new List<ValueTuple<string, Type>>();
         public int turn = 0;
         public bool is_newlevel = false;
 
@@ -50,7 +50,7 @@ namespace Mr_MoneyBag
             status = new GameObject[height, width];
             enemies = new List<Enemy>();
             bullets = new List<Bullet>();
-            noticelist = new List<Tuple<string, Type>>();
+            noticelist = new List<ValueTuple<string, Type>>();
             GenLevel(level);
         }
 
@@ -376,8 +376,8 @@ namespace Mr_MoneyBag
 
         public void AddNotice(string s, Type type)
         {
-            noticelist.Add(new Tuple<string, Type>(s, type));
-            noticelist.ForEach(Console.WriteLine);
+            noticelist.Add((s, type));
+            //noticelist.ForEach(Console.WriteLine);
         }
 
     }
