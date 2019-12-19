@@ -29,6 +29,7 @@ namespace Mr_MoneyBag
         
         public List<Enemy> enemies = new List<Enemy>();
         public List<Bullet> bullets = new List<Bullet>();
+        public List<string> noticelist = new List<string>();
         public int turn = 0;
         public bool is_newlevel = false;
 
