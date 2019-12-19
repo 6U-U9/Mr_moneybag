@@ -24,7 +24,7 @@ namespace Mr_MoneyBag
         private bool is_showing_topnotice = false;//顶部提示信息状态
         private const int notice_starty=-40, notice_endy=10;
         private const int notice_shopstopframe = 5,notice_enemystopframe = 2;
-        private float noticespeed = 10.0F;
+        private float noticespeed = 20.0F;
         private float notice_frame = 0;
         private float notice_x,notice_y;
         private bool arrow_key_locked = false;//方向键状态
@@ -254,11 +254,16 @@ namespace Mr_MoneyBag
         }
         private Image GetTopNotice(GameBoard gameboard, int x_len, int y_len)
         {
-            if (gameboard.noticelist.Count == 0)
-                return new System.Drawing.Bitmap(y_len * blocksize, x_len * blocksize); ;
+            string notice;
+            Type type;
+            if (gameboard.noticelist.Count == 0&&gameboard.is_playerdead == false)
+                return new System.Drawing.Bitmap(y_len * blocksize, x_len * blocksize);
+            if (gameboard.is_playerdead == true)
+            { notice = "You Died ! Press Any Key To Restart"; notice_frame = 0; type = typeof(Space); }
+            else
+            { (notice, type) = gameboard.noticelist[0];}
             System.Drawing.Image img = new System.Drawing.Bitmap(y_len * blocksize, x_len * blocksize);
             System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(img);
-            var (notice, type) = gameboard.noticelist[0];
             int notice_stopframe = notice_enemystopframe;
             if (type.IsSubclassOf(typeof(Shop)))
             { notice_stopframe = notice_shopstopframe;}
