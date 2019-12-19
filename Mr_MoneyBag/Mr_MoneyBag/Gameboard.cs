@@ -161,8 +161,8 @@ namespace Mr_MoneyBag
             bool success = false;
             while (!success)
             {
-                int x = rnd.Next(1, height - 1);
-                int y = rnd.Next(1, width - 1);
+                int x = rnd.Next(1, height);
+                int y = rnd.Next(1, width);
 
                 bool duplicate = false;
                 foreach (Enemy enemy in enemies)
@@ -253,7 +253,7 @@ namespace Mr_MoneyBag
         {
             for (int i = 0; i < shop_amount.Length/2; i++)
             {
-                int amount = rnd.Next(shop_amount[i, 0], shop_amount[i, 1]);
+                int amount = rnd.Next(shop_amount[i, 0], shop_amount[i, 1] + 1);
                 for (int j = 0; j < amount; j++)
                 {
                     bool success = false;
@@ -261,7 +261,7 @@ namespace Mr_MoneyBag
                     {
                         int x = rnd.Next(1, height - 1);
                         int y = rnd.Next(1, width - 1);
-                        int max_health = Math.Min(level * 2, 6);
+                        int max_health = Math.Min(level * 2, 6) + 1;
                         int min_health = Math.Min(level, 3);
 
                         if (status[x, y].GetType() == typeof(Space) && player.x != x && player.y != y &&
