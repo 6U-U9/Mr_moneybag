@@ -22,7 +22,7 @@ namespace Mr_MoneyBag
         private bool is_tab_down = false;//Tab状态
         private bool is_showing_topnotice = false;//顶部提示信息状态
         private const int notice_starty=-40, notice_endy=10;
-        private const int notice_stopframe = 10;
+        private const int notice_shopstopframe = 10,notice_enemystopframe = 5;
         private float noticespeed = 10.0F;
         private float notice_frame = 0;
         private float notice_x,notice_y;
@@ -253,7 +253,9 @@ namespace Mr_MoneyBag
             System.Drawing.Image img = new System.Drawing.Bitmap(y_len * blocksize, x_len * blocksize);
             System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(img);
             var (notice, type) = gameboard.noticelist[0];
-
+            int notice_stopframe = notice_enemystopframe;
+            if (type == typeof(Shop))
+                notice_stopframe = notice_shopstopframe;
             Brush brush = Brushes.Red;
             if (type == typeof(MoneyLimit_Shop))
                 brush = moneylimit;

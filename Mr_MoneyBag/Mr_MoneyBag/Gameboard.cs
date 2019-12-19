@@ -17,7 +17,7 @@ namespace Mr_MoneyBag
         static Random rnd = new Random();
         public int level=1; //当前关卡
         public double shopnoticedist = 1.1;
-        public int coinsonfloor = 24, newredgen = 2, rednoticedist = 20,  initplayermoneylimit = 30;
+        public int coinsonfloor = 24, newredgen = 20, rednoticedist = 20,  initplayermoneylimit = 30;
         public double sight = 5.9; //视野
         public int[,] shop_amount = new int[,] { { 1, 3 }, { 1, 3 }, { 1, 3 }, { 1, 3 }, { 1, 3 }, { 1, 3 } }; // coinonfloor, newredgen, rednoticedist, sight, damage, moneylimit, 
 
@@ -32,14 +32,14 @@ namespace Mr_MoneyBag
         public List<ValueTuple<string, Type>> noticelist = new List<ValueTuple<string, Type>>();
         public int turn = 0;
         public bool is_newlevel = false;
-        public bool is_gamegoing = false;
+        public bool is_playerdead = false;
 
         public GameBoard()
         {
             level = 1;
             player= new Player(this, initplayermoneylimit, initial_x, initial_y, initplayermoneylimit);
             GenLevel(level);
-            is_gamegoing = true;
+            is_playerdead = false;
         }
         public void Restart()
         {
