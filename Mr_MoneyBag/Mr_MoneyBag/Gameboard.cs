@@ -46,7 +46,7 @@ namespace Mr_MoneyBag
             player = new Player(this, initplayermoneylimit, initial_x, initial_y, initplayermoneylimit);
             coinsonfloor = default_cof; newredgen = default_nrg; rednoticedist = default_rnd;
             sight = default_st;
-            default_sa.CopyTo(shop_amount, 0);
+            shop_amount = default_sa.Clone() as int[,];
             status = new GameObject[height, width];
             enemies = new List<Enemy>();
             bullets = new List<Bullet>();
