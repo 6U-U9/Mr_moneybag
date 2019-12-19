@@ -372,5 +372,10 @@ namespace Mr_MoneyBag
             }
         }
 
+        public void AddNotice(string s)
+        {
+            noticelist.Add(s);
+        }
+
     }
 }
