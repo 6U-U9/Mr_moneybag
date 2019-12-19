@@ -20,6 +20,7 @@ namespace Mr_MoneyBag
         GameBoard gameboard = new GameBoard();
         private bool is_space_down = false;//空格键状态
         private bool is_tab_down = false;//Tab状态
+        private bool is_showing_topnotice = false;//顶部提示信息状态
         private bool arrow_key_locked = false;//方向键状态
         private double x_position, y_position;//记录动画中盘面位置
 
@@ -239,6 +240,12 @@ namespace Mr_MoneyBag
             if (gameObject.nearlyseen == true)//视野边缘
                 return Properties.Resources.Nearlyseen;
             return Properties.Resources.Unseen;//视野外
+        }
+        private Image GetTopNotice(GameBoard gameboard, int x_len, int y_len)
+        {
+            if (is_showing_topnotice)
+                return null;
+            
         }
         private Image GetNotice(GameBoard gameboard, int x_len, int y_len)
         {
