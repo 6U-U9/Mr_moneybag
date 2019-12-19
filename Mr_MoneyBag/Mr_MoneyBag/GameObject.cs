@@ -152,7 +152,7 @@ namespace Mr_MoneyBag
     class Player : MoveableObject
     {
         public int moneylimit;
-        public int diamond=5;
+        public int diamond=0;
         public bool is_hurt=false;
         public Player(GameBoard gameboard,int money,int x,int y,int moneylimit,int attack=1): base(gameboard,money,x,y)
         {

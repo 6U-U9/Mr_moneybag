@@ -9,19 +9,19 @@ namespace Mr_MoneyBag
 {
     class GameBoard
     {
-        public const int init_width = 50, init_height = 50, initplayermoney = 3, initplayermoneylimit = 5;
+        public const int init_width = 30, init_height = 30, initplayermoney = 3, initplayermoneylimit = 5;
         public int width = 50, height = 50;
         public int maxdiamond = 5;//胜利条件
         static int default_cof = 24, default_nrg = 20, default_rnd = 20;
         static double default_st = 2.6;
-        static int[,] default_sa = { { 1, 3 }, { 1, 3 }, { 1, 3 }, { 1, 3 }, { 1, 3 }, { 1, 3 } }; // coinonfloor, newredgen, rednoticedist, sight, damage, moneylimit, 
+        static int[,] default_sa = { { 1, 3 }, { 1, 3 }, { 1, 3 }, { 1, 3 }, { 1, 3 }, { 1, 3 }, {1, 1} }; // coinonfloor, newredgen, rednoticedist, sight, damage, moneylimit, 
 
         static Random rnd = new Random();
         public int level=1; //当前关卡
         public double shopnoticedist = 1.1;
-        public int coinsonfloor = 24, newredgen = 20, rednoticedist = 20;
-        public double sight = 2.6; //视野
-        public int[,] shop_amount = new int[,] { { 1, 3 }, { 1, 3 }, { 1, 3 }, { 1, 3 }, { 1, 3 }, { 1, 3 } }; // coinonfloor, newredgen, rednoticedist, sight, damage, moneylimit, 
+        public int coinsonfloor = 24, newredgen = 200, rednoticedist = 20;
+        public double sight = 6.6; //视野
+        public int[,] shop_amount = new int[,] { { 1, 3 }, { 1, 3 }, { 1, 3 }, { 1, 3 }, { 1, 3 }, { 1, 3 }, {1, 1} }; // coinonfloor, newredgen, rednoticedist, sight, damage, moneylimit, 
 
         public GameObject[,] status;
 
@@ -304,6 +304,9 @@ namespace Mr_MoneyBag
                                     break;
                                 case 5:
                                     status[x, y] = new MoneyLimit_Shop(this, rnd.Next(min_health, max_health), x, y);
+                                    break;
+                                case 6:
+                                    status[x, y] = new Diamond_Shop(this, rnd.Next(min_health + 2, max_health + level), x, y);
                                     break;
 
                             }
