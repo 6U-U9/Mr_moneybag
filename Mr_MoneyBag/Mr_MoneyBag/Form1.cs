@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Media;
 
 namespace Mr_MoneyBag
 {
@@ -28,6 +29,7 @@ namespace Mr_MoneyBag
         private float notice_x,notice_y;
         private bool arrow_key_locked = false;//方向键状态
         private double x_position, y_position;//记录动画中盘面位置
+        SoundPlayer sndplayr;
 
         Font font = new Font("Jokerman", 24);
         Brush money = new SolidBrush(Color.FromArgb(251, 242, 54));
@@ -58,6 +60,9 @@ namespace Mr_MoneyBag
             RefreshBoard();//刷新画面
             timerFresh.Interval = framespeed; //timerFresh 控制画面更新
             timerFresh.Start();
+            sndplayr = new SoundPlayer(Properties.Resources.CroatianRhapsody);
+            sndplayr.PlayLooping();
+
         }
         private ValueTuple<double, double> GetXYst()
         {
