@@ -152,7 +152,7 @@ namespace Mr_MoneyBag
     class Player : MoveableObject
     {
         public int moneylimit;
-        public int diamond=0;
+        public int diamond=5;
         public bool is_hurt=false;
         public Player(GameBoard gameboard,int money,int x,int y,int moneylimit,int attack=1): base(gameboard,money,x,y)
         {
@@ -213,7 +213,7 @@ namespace Mr_MoneyBag
         public void GetDiamond(int gain)
         {
             diamond += gain;
-            if (diamond == gameboard.maxdiamond)
+            if (diamond >= gameboard.maxdiamond)
             {
                 gameboard.is_win = true;
     }

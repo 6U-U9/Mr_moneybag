@@ -87,7 +87,7 @@ namespace Mr_MoneyBag
         }
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (gameboard.is_playerdead)
+            if (gameboard.is_playerdead||gameboard.is_win)
             { gameboard.Restart(); InitNumbers(); return; }
             if (e.KeyCode == Keys.Space)
                 is_space_down = true;
@@ -363,6 +363,9 @@ namespace Mr_MoneyBag
             nums_y -= stringheight;
             g.DrawString(gameboard.coinsonfloor.ToString("00"), font, coinsonfloor, nums_x, nums_y);
             if (is_tab_down) g.DrawString(" - How Much Coins On Each Floor", font, coinsonfloor, nums_x + tab_x, nums_y);
+            nums_y -= stringheight;
+            g.DrawString(gameboard.player.diamond.ToString("00"), font, diamond, nums_x, nums_y);
+            if (is_tab_down) g.DrawString(" - How Diamonds You Have", font, diamond, nums_x + tab_x, nums_y);
             //g.DrawString(gameboard.diamonds.ToString("00"), font, brush, nums_x, nums_y);
             //Console.WriteLine("diaoy");
             return img;
