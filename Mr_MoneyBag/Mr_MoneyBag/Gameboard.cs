@@ -9,7 +9,8 @@ namespace Mr_MoneyBag
 {
     class GameBoard
     {
-        public const int width=100, height=100;
+        public const int init_width=50, init_height=50;
+        public int width = 50, height = 50;
         static int default_cof = 24, default_nrg = 20, default_rnd = 20;
         static double default_st = 5.9;
         static int[,] default_sa = { { 1, 3 }, { 1, 3 }, { 1, 3 }, { 1, 3 }, { 1, 3 }, { 1, 3 } }; // coinonfloor, newredgen, rednoticedist, sight, damage, moneylimit, 
@@ -18,13 +19,13 @@ namespace Mr_MoneyBag
         public int level=1; //当前关卡
         public double shopnoticedist = 1.1;
         public int coinsonfloor = 24, newredgen = 20, rednoticedist = 20,  initplayermoneylimit = 5;
-        public double sight = 5.9; //视野
+        public double sight = 2.9; //视野
         public int[,] shop_amount = new int[,] { { 1, 3 }, { 1, 3 }, { 1, 3 }, { 1, 3 }, { 1, 3 }, { 1, 3 } }; // coinonfloor, newredgen, rednoticedist, sight, damage, moneylimit, 
 
-        public GameObject[,] status = new GameObject[height, width];
+        public GameObject[,] status;
 
-        public const int initial_x = 20;
-        public const int initial_y = 20;
+        public const int initial_x = 50;
+        public const int initial_y = 50;
         public Player player;
         
         public List<Enemy> enemies = new List<Enemy>();
@@ -37,19 +38,31 @@ namespace Mr_MoneyBag
         public GameBoard()
         {
             level = 1;
-            player= new Player(this, initplayermoneylimit, initial_x, initial_y, initplayermoneylimit);
+            NewStatus();
+            player = new Player(this, initplayermoneylimit, width / 2, height / 2, initplayermoneylimit);
             GenLevel(level);
             is_playerdead = false;
         }
+
+        public void NewStatus()
+        {
+            height = init_height + (level - 1) * 20;
+            height = Math.Min(height, 100);
+            width = init_width + (level - 1) * 20;
+            width = Math.Min(width, 100);
+            status = new GameObject[height, width];
+            Console.WriteLine(width);
+        }
+
         public void Restart()
         {
             level = 1;
             turn = 0;
-            player = new Player(this, initplayermoneylimit, initial_x, initial_y, initplayermoneylimit);
+            NewStatus();
+            player = new Player(this, initplayermoneylimit, width / 2, height / 2, initplayermoneylimit);
             coinsonfloor = default_cof; newredgen = default_nrg; rednoticedist = default_rnd;
             sight = default_st;
             shop_amount = default_sa.Clone() as int[,];
-            status = new GameObject[height, width];
             enemies = new List<Enemy>();
             bullets = new List<Bullet>();
             noticelist = new List<ValueTuple<string, Type>>();
@@ -66,10 +79,10 @@ namespace Mr_MoneyBag
                 return;
             level = level + 1;
             turn = 0;
-            status = new GameObject[height, width];
+            NewStatus();
             enemies = new List<Enemy>();
             bullets = new List<Bullet>();
-            player.InitPosition(initial_x,initial_y);
+            player.InitPosition(width / 2, height / 2);
             GenLevel(level);
             is_newlevel = true;
         }
@@ -179,7 +192,8 @@ namespace Mr_MoneyBag
 
                 if (status[x, y] is Space && player.Distance(x, y) > sight)
                 {
-                    enemies.Add(new Enemy(this, rnd.Next(0, level + 1), x, y));
+                    int enemy_lv = rnd.Next(1, Math.Min(level, 8) + 2);
+                    enemies.Add(new Enemy(this, enemy_lv, x, y));
                     success = true;
                     Console.WriteLine("Enemy Spawn at " + x + ", " + y);
                 }
@@ -336,7 +350,7 @@ namespace Mr_MoneyBag
             }
 
             bool[,] vis = new bool[height, width];
-            GenBasicMapHelper(vis, initial_x, initial_y, 0);
+            GenBasicMapHelper(vis, player.x, player.y, 0);
             //status[initial_x, initial_y] = board.player;
         }
 
@@ -357,7 +371,7 @@ namespace Mr_MoneyBag
             //int next = rnd.Next(0, 4);
             //GenBasicMapHelper(board, vis, x + dir[next, 0], y + dir[next, 1], step + 1);
             int[,] dir = new int[,] { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 } };
-            int[,] parameter = new int[,] { { 4, 0 }, { 5, 0 }, { 255, 1 }, { 505, 1 } };
+            int[,] parameter = new int[,] { { 4, 0 }, { 8, 0 }, { 355, 1 }, { 805, 1 } };
 
             int prev = -1;
             for (int i = 0; i < 4; i++)

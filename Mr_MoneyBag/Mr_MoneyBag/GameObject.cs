@@ -428,7 +428,7 @@ namespace Mr_MoneyBag
             gameboard.AddNotice(msg, GetType());
         }
     }
-    class RedNoticeDist_Shop : Shop //增加敌人发现玩家的距离
+    class RedNoticeDist_Shop : Shop //减少敌人发现玩家的距离
     {
         public RedNoticeDist_Shop(GameBoard gameboard, int money, int x, int y,int gain=1) : base(gameboard, money, x, y)
         {
@@ -491,7 +491,7 @@ namespace Mr_MoneyBag
     }
     class MoneyLimit_Shop : Shop //增加金币携带上限
     {
-        public MoneyLimit_Shop(GameBoard gameboard, int money, int x, int y, int gain=2) : base(gameboard, money, x, y)
+        public MoneyLimit_Shop(GameBoard gameboard, int money, int x, int y, int gain=1) : base(gameboard, money, x, y)
         {
             this.gain = gain;
             this.image = new Image[] { Properties.Resources.Shop_Heart};
