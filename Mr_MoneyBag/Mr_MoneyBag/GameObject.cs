@@ -56,11 +56,11 @@ namespace Mr_MoneyBag
     }
     class MoveableObject : GameObject //会运动的类
     {
-        public Image[] movingimage;
-        public bool is_moving=false;
-        public double x_drawposition, y_drawposition;
-        public double animespeed = 0.4;
-        public int attack;
+        public Image[] movingimage;//运动中的图像序列
+        public bool is_moving=false;//是否显示movingimage
+        public double x_drawposition, y_drawposition;//绘制位置
+        public double animespeed = 0.4;//动画速度
+        public int attack;//攻击力
         public MoveableObject(GameBoard gameboard, int money, int x, int y) : base(gameboard,x,y)
         {
             this.hp = money;
@@ -72,7 +72,7 @@ namespace Mr_MoneyBag
         virtual public void Move(int x, int y)
         {
         }
-        virtual public void Shoot(int dx, int dy)
+        virtual public void Shoot(int dx, int dy)//射击
         {
             gameboard.bullets.Add(new Bullet(gameboard,this.attack,this.x,this.y,dx,dy));
             /*int cnt = 1;
@@ -97,7 +97,7 @@ namespace Mr_MoneyBag
                 Console.WriteLine(x + "," + y + "damaged");*/
             is_moving = true;
         }
-        virtual public int Moveable(int x, int y)
+        virtual public int Moveable(int x, int y)//判断是否能移动到x,y
         {
             if (x > gameboard.GetHeight() - 1 || x < 0 || y > gameboard.GetWidth() - 1 || y < 0)
                 return 0;
@@ -109,10 +109,10 @@ namespace Mr_MoneyBag
         }
         override public Image GetImage()
         {
-            
             if (is_moving)
             {   
                 imageindex++;
+                //更新绘图位置
                 if (Math.Abs(x - x_drawposition) > animespeed)
                 {
                     if (x - x_drawposition > 0)
@@ -133,7 +133,7 @@ namespace Mr_MoneyBag
                 else
                     y_drawposition = y;
 
-                if (imageindex >= movingimage.Length && x == x_drawposition && y == y_drawposition)
+                if (imageindex >= movingimage.Length && x == x_drawposition && y == y_drawposition)//动画位置与当前位置重合且动画播放完毕则动画停止显示
                 { imageindex = 0; is_moving = false; }
                 else if (imageindex >= movingimage.Length)
                 { imageindex = 0; }
@@ -170,13 +170,13 @@ namespace Mr_MoneyBag
         {
             int canmove = Moveable(x, y);
             if (canmove == 0) return;
-            if (canmove == -1) { Console.WriteLine("bump into enemy"); gameboard.IncreaseTimer(); return; }
+            if (canmove == -1) { Console.WriteLine("bump into enemy"); gameboard.NextTurn(); return; }//撞到敌人会进行下一回合
             
             Console.WriteLine("Player: " + x + ", " + y);
 
             this.x = x;
             this.y = y;
-            is_moving = true;
+            is_moving = true;//开始动画
             
             //判断是否获得Money
             if (gameboard.status[this.x, this.y] is Money&&this.hp<this.moneylimit)
@@ -185,7 +185,7 @@ namespace Mr_MoneyBag
                 FreshBoard(this.x,this.y, new Space(gameboard, this.x, this.y,true));
             }
             
-
+            //更新视野
             foreach (GameObject gameObject in gameboard.status)
             {
                 if (gameObject.Distance(this.x, this.y) < gameboard.sight)
@@ -193,15 +193,13 @@ namespace Mr_MoneyBag
                 else if (gameObject.Distance(this.x, this.y) < gameboard.sight + 1)
                     gameObject.nearlyseen = true;
             }
-            gameboard.IncreaseTimer();
-            
+            gameboard.NextTurn();//刷新回合
         }
         public override void Damaged(int n)
         {
             hp -= n;
             if (hp < 0) Dead();
         }
-
         public override void Dead()
         {
             
@@ -232,7 +230,7 @@ namespace Mr_MoneyBag
     }
     class Enemy : MoveableObject
     {
-        private bool is_attacking = false;
+        private bool is_attacking = false;//是否即将发起攻击
         static int[,] dir = new int[,] { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 } };
         public Enemy(GameBoard gameboard,int money, int x, int y,int attack=1): base(gameboard,money,x,y)
         {
@@ -243,7 +241,7 @@ namespace Mr_MoneyBag
             this.y_drawposition = y;
             GetImageList();
         }
-        public void Move()
+        public void Move()//敌人移动
         {
             if (this.Distance(gameboard.player.x, gameboard.player.y) > gameboard.rednoticedist) return;
             Attack();
@@ -255,9 +253,9 @@ namespace Mr_MoneyBag
             is_moving = true;
 
         }
-        public void ReadytoAction()
+        public void ReadytoAction()//攻击前提示
         { is_attacking = true;}
-        public void Attack()
+        public void Attack()//向四周一格攻击
         {
             for(int i = 0; i < 4; i++)
             {
@@ -272,7 +270,7 @@ namespace Mr_MoneyBag
             }            
             is_attacking = false;
         }
-        public void GetImageList()
+        public void GetImageList()//依据当前hp获取图片序列
         {
             switch (hp)
             {
@@ -351,7 +349,7 @@ namespace Mr_MoneyBag
             else
                 return base.GetImage();
         }
-        public void FreshDrawPosition()
+        public void FreshDrawPosition()//在玩家视野外的时候刷新显示位置
         {
             x_drawposition = x;
             y_drawposition = y;
@@ -360,7 +358,7 @@ namespace Mr_MoneyBag
         {
             hp -= n;
             if (hp <= 0) Dead();
-            else GetImageList();
+            else GetImageList();//刷新图像序列
             Console.WriteLine("receive damage");
         }
         public override void Dead()
@@ -369,9 +367,9 @@ namespace Mr_MoneyBag
         }
 
     }
-    class Shop : GameObject
+    class Shop : GameObject //商店基类
     {
-        public int gain;
+        public int gain; //购买收益
         
         public Shop(GameBoard gameboard,int money, int x, int y): base(gameboard,x,y)
         {
@@ -392,7 +390,7 @@ namespace Mr_MoneyBag
             Console.WriteLine("Shop here at" + x + ", " + y);
         }
     }
-    class CoinOnFloor_Shop : Shop
+    class CoinOnFloor_Shop : Shop //增加每关生成的金币数量
     {
         public CoinOnFloor_Shop(GameBoard gameboard, int money, int x, int y,int gain=6) : base(gameboard,money,x,y)
         {
@@ -409,7 +407,7 @@ namespace Mr_MoneyBag
             Console.WriteLine("Give me " + hp + " money to gain " + gain + " more coins on each floor");
         }
     }
-    class NewRedGen_Shop : Shop
+    class NewRedGen_Shop : Shop //增加敌人刷新的间隔
     {
         public NewRedGen_Shop(GameBoard gameboard, int money, int x, int y,int gain=10) : base(gameboard, money, x, y)
         {
@@ -427,7 +425,7 @@ namespace Mr_MoneyBag
             Console.WriteLine("Give me " + hp + " money to delay enemy spawn time by " + gain + " steps");
         }
     }
-    class RedNoticeDist_Shop : Shop
+    class RedNoticeDist_Shop : Shop //增加敌人发现玩家的距离
     {
         public RedNoticeDist_Shop(GameBoard gameboard, int money, int x, int y,int gain=1) : base(gameboard, money, x, y)
         {
@@ -445,7 +443,7 @@ namespace Mr_MoneyBag
             Console.WriteLine("Give me " + hp + " money to reduce enemy notice distance by " + gain + " block");
         }
     }
-    class Sight_Shop : Shop
+    class Sight_Shop : Shop //增加视野
     {
         public Sight_Shop(GameBoard gameboard, int money, int x, int y,int gain=1) : base(gameboard, money, x, y)
         {
@@ -463,7 +461,7 @@ namespace Mr_MoneyBag
             Console.WriteLine("Give me " + hp + " money to increase your sight by " + gain + " block");
         }
     }
-    class Damage_Shop : Shop
+    class Damage_Shop : Shop //增加子弹伤害
     {
         public Damage_Shop(GameBoard gameboard, int money, int x, int y, int gain=1) : base(gameboard, money, x, y)
         {
@@ -482,7 +480,7 @@ namespace Mr_MoneyBag
             Console.WriteLine("Give me " + hp + " money to increase your damage by " + gain + "");
         }
     }
-    class MoneyLimit_Shop : Shop
+    class MoneyLimit_Shop : Shop //增加金币携带上限
     {
         public MoneyLimit_Shop(GameBoard gameboard, int money, int x, int y, int gain=2) : base(gameboard, money, x, y)
         {
@@ -499,7 +497,7 @@ namespace Mr_MoneyBag
             Console.WriteLine("Give me " + hp + " money to increase money limit by " + gain + "");
         }
     }
-    class Wall : GameObject
+    class Wall : GameObject //可破坏的墙
     {
         public Wall(GameBoard gameboard,int x, int y,int hp=1 ): base(gameboard,x,y)
         {
@@ -512,19 +510,19 @@ namespace Mr_MoneyBag
             base.Damaged(1);
         }
     }
-    class UnbreakableWall : Wall
+    class UnbreakableWall : Wall //不可破坏的墙
     {
         public UnbreakableWall(GameBoard gameboard, int x, int y, int hp = 1) : base(gameboard,x,y,hp)
         { }
         public override void Damaged(int n)
         { }
     }
-    class Gate : Space
+    class Gate : Space //门(楼梯) 下一关的入口
     {
         public Gate(GameBoard gameboard,int x,int y) : base(gameboard,x,y)
         { this.image = new Image[] { Properties.Resources.Stair }; }
     }
-    class Money : Space
+    class Money : Space //钱
     { 
         public Money(GameBoard gameboard,int x,int y,int money=1): base(gameboard,x,y)
         {
@@ -532,13 +530,13 @@ namespace Mr_MoneyBag
             this.image = new Image[] { Properties.Resources.Coin };
         }
     }
-    class Bullet : MoveableObject 
+    class Bullet : MoveableObject //子弹 
     {
         //攻击力即为hp
-        private double speed;
-        private double range;
-        private int dx, dy;
-        private int start_x, start_y;
+        private double speed;//动画速度（运动速度）
+        private double range;//最大距离
+        private int dx, dy;//方向
+        private int start_x, start_y;//起始位置
         public Bullet(GameBoard gameboard, int money, int x, int y, int dx, int dy, double speed = 0.7,double range=10.0) : base(gameboard, money, x, y)
         {
             this.dx = dx;

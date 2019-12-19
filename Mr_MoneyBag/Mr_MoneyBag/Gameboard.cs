@@ -19,7 +19,6 @@ namespace Mr_MoneyBag
         static Random rnd = new Random();
         public int level;
         public double shopnoticedist = 2.1;
-        public int turn = 0;
         public int coinsonfloor = 24, newredgen = 30, rednoticedist = 20,  InitPlayerMoneyLimit = 5000;
         public int shootrange = 3;
         public double sight = 5.9;
@@ -28,7 +27,7 @@ namespace Mr_MoneyBag
         public const int initial_x = 20;
         public const int initial_y = 20;
         public Player player;
-        public int timer = 0;
+        public int turn = 0;
         public List<Enemy> enemies = new List<Enemy>();
         public List<Bullet> bullets = new List<Bullet>();
         public bool is_newlevel = false;
@@ -48,7 +47,7 @@ namespace Mr_MoneyBag
             sight = default_st;
             default_sa.CopyTo(shop_amount, 0);
             enemies = new List<Enemy>();
-            timer = 0;
+            turn = 0;
             status = new GameObject[height, width];
             GenRandomLevel(level);
         }
@@ -62,7 +61,7 @@ namespace Mr_MoneyBag
                 return;
             level = level + 1;
             enemies = new List<Enemy>();
-            timer = 0;
+            turn = 0;
             status = new GameObject[height, width];
             int money = player.hp;
             player = new Player(this, money, initial_x, initial_y, InitPlayerMoneyLimit);
@@ -86,16 +85,16 @@ namespace Mr_MoneyBag
                 for (int i=0; i< bullets.Count;i++ )
                     bullets[i].Move();
         }
-        public void IncreaseTimer()
+        public void NextTurn()
         {
-            timer += 1;
-            if (timer % newredgen==0)
+            turn += 1;
+            if (turn % newredgen==0)
             {
                 SpawnEnemy();
             }
             
             foreach (Enemy enemy in enemies)
-            {if (timer % 2 == 0)
+            {if (turn % 2 == 0)
                     enemy.Move();
                 else
                     enemy.ReadytoAction();
