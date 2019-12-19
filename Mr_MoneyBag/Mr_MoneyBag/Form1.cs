@@ -313,28 +313,28 @@ namespace Mr_MoneyBag
         {
             System.Drawing.Image img = new System.Drawing.Bitmap(y_len * blocksize, x_len * blocksize);
             int stringheight = 40;
-            int nums_x = 15, nums_y = x_len * blocksize - 45,tab_x=45;
+            int nums_x = 15, nums_y = x_len * blocksize - 50,tab_x=45;
             int money_width = 26, money_height = 4;
             System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(img);
             //Font font = new Font("Bauhaus 93", 24);
             
-            g.DrawString(gameboard.level.ToString("00"), font, level, y_len * blocksize - 60, x_len * blocksize - 45);
-            if (is_tab_down) g.DrawString("Floor - ", font, level, y_len * blocksize - 180, x_len * blocksize - 45);
+            g.DrawString(gameboard.level.ToString("00"), font, level, y_len * blocksize - 60, x_len * blocksize - 50);
+            if (is_tab_down) g.DrawString("Floor - ", font, level, y_len * blocksize - 180, x_len * blocksize - 50);
             g.DrawString(gameboard.player.hp.ToString("00"), font, money, nums_x, nums_y);
             if (is_tab_down) g.DrawString(" - How Many Coins You Have", font, money, nums_x + tab_x, nums_y);
-            nums_y += -3;
+            nums_y += 3;
             for (int i = 0; i < gameboard.player.hp; i++)
             {
                 nums_y -= money_height+1;
-                g.FillRectangle(money, nums_x+14, nums_y, money_width, money_height); 
+                g.FillRectangle(money, nums_x + (g.MeasureString(gameboard.player.hp.ToString("00"), font).Width-money_width)/2, nums_y, money_width, money_height); 
             }
             for (int i = 0; i < gameboard.player.moneylimit-gameboard.player.hp; i++)
             {
                 nums_y -= money_height + 1;
             }
             nums_y -= 6;
-            g.FillRectangle(moneylimit, nums_x+10, nums_y, 34, 2);
-            nums_y -= 35;
+            g.FillRectangle(moneylimit, nums_x + (g.MeasureString(gameboard.player.hp.ToString("00"), font).Width - 34) / 2, nums_y, 34, 2);
+            nums_y -= stringheight;
             g.DrawString(gameboard.player.moneylimit.ToString("00"), font, moneylimit, nums_x, nums_y);
             if (is_tab_down) g.DrawString(" - How Many Coins You Can Carry", font, moneylimit, nums_x + tab_x, nums_y);
             nums_y -= stringheight;
