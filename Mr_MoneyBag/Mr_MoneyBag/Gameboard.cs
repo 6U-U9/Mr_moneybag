@@ -12,14 +12,14 @@ namespace Mr_MoneyBag
         public const int width=39, height=39;
         static int default_cof = 24, default_nrg = 20, default_rnd = 20;
         static double default_st = 5.9;
-        static int[] default_sa = { 2, 2, 2, 2, 2, 2 }; // coinonfloor, newredgen, rednoticedist, sight, damage, moneylimit, 
+        static int[,] default_sa = { { 1, 3 }, { 1, 3 }, { 1, 3 }, { 1, 3 }, { 1, 3 }, { 1, 3 } }; // coinonfloor, newredgen, rednoticedist, sight, damage, moneylimit, 
 
         static Random rnd = new Random();
         public int level=1; //当前关卡
         public double shopnoticedist = 2.1;
-        public int coinsonfloor = 24, newredgen = 30, rednoticedist = 20,  initplayermoneylimit = 5;
+        public int coinsonfloor = 24, newredgen = 3, rednoticedist = 20,  initplayermoneylimit = 5000;
         public double sight = 5.9; //视野
-        public int[] shop_amount = new int[] { 2, 2, 2, 2, 2, 2 }; // coinonfloor, newredgen, rednoticedist, sight, damage, moneylimit, 
+        public int[,] shop_amount = new int[,] { { 1, 3 }, { 1, 3 }, { 1, 3 }, { 1, 3 }, { 1, 3 }, { 1, 3 } }; // coinonfloor, newredgen, rednoticedist, sight, damage, moneylimit, 
 
         public GameObject[,] status = new GameObject[height, width];
 
@@ -29,7 +29,6 @@ namespace Mr_MoneyBag
         
         public List<Enemy> enemies = new List<Enemy>();
         public List<Bullet> bullets = new List<Bullet>();
-        public List<string> notices = new List<string>();
         public int turn = 0;
         public bool is_newlevel = false;
 
@@ -169,9 +168,11 @@ namespace Mr_MoneyBag
                         break;
                     }
                 }
-
                 if (duplicate) continue;
-                if (status[x, y] is Space && player.x != x && player.y != y)
+
+
+
+                if (status[x, y] is Space && player.Distance(x, y) > sight)
                 {
                     enemies.Add(new Enemy(this, rnd.Next(0, level + 1), x, y));
                     success = true;
@@ -244,15 +245,18 @@ namespace Mr_MoneyBag
 
         public void AddShop(int lv)
         {
-            for (int i = 0; i < shop_amount.Length; i++)
+            for (int i = 0; i < shop_amount.Length/2; i++)
             {
-                for (int j = 0; j < shop_amount[i]; j++)
+                int amount = rnd.Next(shop_amount[i, 0], shop_amount[i, 1]);
+                for (int j = 0; j < amount; j++)
                 {
                     bool success = false;
                     while (!success)
                     {
                         int x = rnd.Next(1, height - 1);
                         int y = rnd.Next(1, width - 1);
+                        int max_health = Math.Min(level * 2, 6);
+                        int min_health = Math.Min(level, 3);
 
                         if (status[x, y].GetType() == typeof(Space) && player.x != x && player.y != y &&
                             !(status[x - 1, y].isblocked && status[x + 1, y].isblocked) &&
@@ -262,22 +266,22 @@ namespace Mr_MoneyBag
                             switch (i)
                             {
                                 case 0:
-                                    status[x, y] = new CoinOnFloor_Shop(this, rnd.Next(1, 6), x, y);
+                                    status[x, y] = new CoinOnFloor_Shop(this, rnd.Next(min_health, max_health), x, y);
                                     break;
                                 case 1:
-                                    status[x, y] = new NewRedGen_Shop(this, rnd.Next(1, 6), x, y);
+                                    status[x, y] = new NewRedGen_Shop(this, rnd.Next(min_health, max_health), x, y);
                                     break;
                                 case 2:
-                                    status[x, y] = new RedNoticeDist_Shop(this, rnd.Next(1, 6), x, y);
+                                    status[x, y] = new RedNoticeDist_Shop(this, rnd.Next(min_health, max_health), x, y);
                                     break;
                                 case 3:
-                                    status[x, y] = new Sight_Shop(this, rnd.Next(1, 6), x, y);
+                                    status[x, y] = new Sight_Shop(this, rnd.Next(min_health, max_health), x, y);
                                     break;
                                 case 4:
-                                    status[x, y] = new Damage_Shop(this, rnd.Next(1, 6), x, y);
+                                    status[x, y] = new Damage_Shop(this, rnd.Next(min_health, max_health), x, y);
                                     break;
                                 case 5:
-                                    status[x, y] = new MoneyLimit_Shop(this, rnd.Next(1, 6), x, y);
+                                    status[x, y] = new MoneyLimit_Shop(this, rnd.Next(min_health, max_health), x, y);
                                     break;
 
                             }
