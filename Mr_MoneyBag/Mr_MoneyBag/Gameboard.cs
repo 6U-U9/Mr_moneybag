@@ -32,12 +32,14 @@ namespace Mr_MoneyBag
         public List<ValueTuple<string, Type>> noticelist = new List<ValueTuple<string, Type>>();
         public int turn = 0;
         public bool is_newlevel = false;
+        public bool is_gamegoing = false;
 
         public GameBoard()
         {
             level = 1;
             player= new Player(this, initplayermoneylimit, initial_x, initial_y, initplayermoneylimit);
             GenLevel(level);
+            is_gamegoing = true;
         }
         public void Restart()
         {
