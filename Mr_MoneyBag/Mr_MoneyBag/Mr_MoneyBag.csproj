@@ -137,6 +137,7 @@
     <None Include="Resources\Coin_Shoot.png" />
     <None Include="Resources\Enemy1_01.png" />
     <None Include="Resources\Enemy1_02.png" />
+    <None Include="Resources\CroatianRhapsody.wav" />
     <Content Include="Resources\money.jpg" />
     <None Include="Resources\shop_newredgen.JPG" />
     <None Include="Resources\shop_coinonfloor.JPG" />
