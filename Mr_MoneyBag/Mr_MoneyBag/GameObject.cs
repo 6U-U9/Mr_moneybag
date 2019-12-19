@@ -198,7 +198,7 @@ namespace Mr_MoneyBag
         public override void Damaged(int n)
         {
             hp -= n;
-            if (hp < 0) Dead();
+            if (hp < 0) { hp = 0; Dead(); }
         }
         public override void Dead()
         {
