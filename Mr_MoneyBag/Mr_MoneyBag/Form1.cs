@@ -12,16 +12,14 @@ namespace Mr_MoneyBag
 {
     public partial class Form1 : Form
     {
-        public const int blocksize = 32;
-        public static int y = 30, x = 17;
+        public const int blocksize = 32;//单个格子像素大小
+        public static int y = 30, x = 17;//窗口显示大小
         public const double animespeed = 0.4; //动画运动速度
-        //public PictureBox[,] background = new PictureBox[x, y];
+        public const int framespeed = 30;//帧频
         public PictureBox map = new PictureBox();
-        string[,] mapname = new string[x, y];
-
         GameBoard gameboard = new GameBoard();
-        private bool is_space_down = false;
-        private bool arrow_key_locked = false;
+        private bool is_space_down = false;//空格键状态
+        private bool arrow_key_locked = false;//方向键状态
         private double x_position, y_position;//记录动画中盘面位置
 
 
@@ -34,14 +32,13 @@ namespace Mr_MoneyBag
             this.Controls.Add(map);
             ((System.ComponentModel.ISupportInitialize)(map)).EndInit();
             map.BringToFront();
-            //map.Image= GetFullImage(gameboard, 0, 0, Form1.x, Form1.y);
-            //map.Image = GetShowImage(gameboard, 0, 0);
+
             InitializeComponent();
             this.ClientSize = new System.Drawing.Size(blocksize * y, blocksize * x);
             DoubleBuffered = true;
             InitNumbers();
-            RefreshBoard();
-            timerFresh.Interval = 30;
+            RefreshBoard();//刷新画面
+            timerFresh.Interval = framespeed; //timerFresh 控制画面更新
             timerFresh.Start();
         }
         private ValueTuple<double, double> GetXYst()
@@ -57,9 +54,10 @@ namespace Mr_MoneyBag
             int y_ed = y_st + Form1.y;
             if (y_ed > (gameboard.GetWidth())) { y_ed = gameboard.GetWidth(); y_st = y_ed - Form1.y; }
             return (x_st, y_st);
-        }
-        public void InitNumbers()
-        {
+        }//计算动画结束位置的盘面位置
+
+        public void InitNumbers() //初始化显示盘面位置
+        {   
             (x_position, y_position) = GetXYst();
         }
         private void Form1_KeyDown(object sender, KeyEventArgs e)
@@ -137,13 +135,15 @@ namespace Mr_MoneyBag
                     return;
             }
         }
-        public void RefreshBoard()
+        public void RefreshBoard()//每帧的刷新
         {
-            if (gameboard.is_newlevel)
+            if (gameboard.is_newlevel)//新的一关刷新初始盘面位置
                 InitNumbers();
             double x_st, y_st;
             (x_st, y_st) = GetXYst();
             //Console.WriteLine(x_st+" "+y_st);
+
+            //更新动画位置
             Image image;
             if (Math.Abs(x_st - x_position) > animespeed)
             {
@@ -154,7 +154,6 @@ namespace Mr_MoneyBag
             }
             else
                 x_position = x_st;
-
             if (Math.Abs(y_st - y_position) > animespeed)
             {
                 if (y_st - y_position > 0)
@@ -164,8 +163,9 @@ namespace Mr_MoneyBag
             }
             else
                 y_position = y_st;
-            gameboard.IfNextLevel();
-            gameboard.FreshBullets();
+
+            gameboard.IfNextLevel();//判断是否达到下一关（为了玩家到达楼梯的动画效果在此判断）
+            gameboard.FreshBullets();//子弹是实时的所以在此更新
             image = GetFullImage(gameboard, x_position, y_position, Form1.x, Form1.y);
             map.Image = image;
 
@@ -228,6 +228,8 @@ namespace Mr_MoneyBag
         {
             System.Drawing.Image img = new System.Drawing.Bitmap(y_len * blocksize, x_len * blocksize);
             System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(img);
+            //获得绘制开始的格子和绘制大小
+            //如果在运动中，则先绘制大一圈的图像，然后显示其一部分
             int x, y;
             x = Math.Max((int)Math.Floor(x_st), 0);
             y = Math.Max((int)Math.Floor(y_st), 0);
@@ -236,6 +238,7 @@ namespace Mr_MoneyBag
             if (y_st > y)
                 y_len++;
             //Console.WriteLine(x_st + "  " + x + "  " + y_st + "  " + y);
+            //绘制静止对象
             System.Drawing.Image whole_img = new System.Drawing.Bitmap(y_len * blocksize, x_len * blocksize);
             System.Drawing.Graphics whole_g = System.Drawing.Graphics.FromImage(whole_img);
             for (int i = x; i < x + x_len; i++)
@@ -244,13 +247,15 @@ namespace Mr_MoneyBag
                     whole_g.DrawImage(GetUnmoveableImage(gameboard, i, j), blocksize * (j - y), blocksize * (i - x), blocksize, blocksize);
 
                 }
+            //绘制画面（运动中则取其一部分）
             whole_g.DrawImage(gameboard.player.GetImage(), (int)(blocksize * (gameboard.player.y_drawposition - y)), (int)(blocksize * (gameboard.player.x_drawposition - x)), blocksize, blocksize);
+            //绘制敌人
             foreach (Enemy enemy in gameboard.enemies)
                 if (enemy.Distance(gameboard.player.x, gameboard.player.y) <= gameboard.sight)
                     whole_g.DrawImage(enemy.GetImage(), (int)(blocksize * (enemy.y_drawposition - y)), (int)(blocksize * (enemy.x_drawposition - x)), blocksize, blocksize);
                 else
                     enemy.FreshDrawPosition();
-
+            //绘制子弹
             foreach (Bullet bullet in gameboard.bullets)
                 if (gameboard.player.Distance((int)bullet.x, (int)bullet.y) <= gameboard.sight)
                     whole_g.DrawImage(bullet.GetImage(), (int)(blocksize * (bullet.y_drawposition - y)), (int)(blocksize * (bullet.x_drawposition - x)), blocksize, blocksize);
@@ -264,7 +269,7 @@ namespace Mr_MoneyBag
             //Console.WriteLine("Tick");
         }
 
-        protected override bool ProcessDialogKey(Keys keycode)
+        protected override bool ProcessDialogKey(Keys keycode)//获得方向键和空格监视
         {
             switch (keycode)
             {
@@ -279,9 +284,7 @@ namespace Mr_MoneyBag
             }
         }
 
-
-
-        public Image UniteImage(Image img1, Image img2, int width = blocksize, int height = blocksize)
+        public Image UniteImage(Image img1, Image img2, int width = blocksize, int height = blocksize)//获得叠加的图片
         {
             System.Drawing.Image img = new System.Drawing.Bitmap(width, height);
             System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(img);
